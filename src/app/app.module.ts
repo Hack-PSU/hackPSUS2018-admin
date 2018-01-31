@@ -9,11 +9,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
