@@ -1,0 +1,11 @@
+/* Login form styles */
+
+:host {
+    width: 50%;
+    margin: 25px auto;
+}
+.text-center {
+    align-self: center;
+    margin: 0 auto;
+    width: 50%;
+}

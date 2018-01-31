@@ -1,0 +1,112 @@
+@import "https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700";
+
+/* Application-wide Styles */
+h1 {
+    color: #fff;
+}
+h2, h3 {
+    color: #444;
+    font-family: Lato, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+body {
+    margin: 2em;
+
+}
+body, input[text], button {
+    color: #888;
+    font-family: Lato, Georgia, sans-serif;
+}
+/* everywhere else */
+* {
+    font-family: Lato, Helvetica, sans-serif;
+}
+
+/*********************** SIDE NAVBAR *********************************/
+.wrapper {
+    align-items: stretch;
+    padding: 0px;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background-color: #24577C;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings', serif;
+    font-size: 0.6em;
+}
+
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #D0EAF1;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    color: #333333;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: rgba(0,0,0,0.5);
+}
+ul ul a {
+    font-size: 0.9em;
+    padding-left: 30px;
+    background: #AACACC;
+}
+
+.header {
+    width: 100%;
+    max-height: 10%;
+}
