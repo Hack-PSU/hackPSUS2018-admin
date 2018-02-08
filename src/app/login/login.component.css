@@ -11,5 +11,15 @@
 }
 
 .btn {
-    background-color: #24577C;
+    background-color: #aacacc;
+    color: #333333;
+    margin: 10px;
+}
+
+.btn span {
+    color: #C94331;
+}
+
+.btn:hover {
+    background-color: #D0EAF1;
 }

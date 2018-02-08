@@ -10,12 +10,14 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { UserViewComponent } from './user-view/user-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SidebarComponent,
+    UserViewComponent,
   ],
   imports: [
     BrowserModule,

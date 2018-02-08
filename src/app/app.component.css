@@ -18,6 +18,10 @@ p {
     font-family: Lato, Georgia, sans-serif;
 }
 
+.header {
+    border-bottom: #333333 solid 1px;
+}
+
 .wrapper {
     align-items: stretch;
     display: flex;
@@ -38,17 +42,16 @@ p {
 }
 
 #sidebarCollapse {
-    width: 40px;
     height: 40px;
-    background: #f5f5f5;
+    background: #fcfcfc;
 }
 
 #sidebarCollapse span {
-    width: 80%;
+    width: 32px;
     height: 2px;
     margin: 0 auto;
     display: block;
-    background: #555;
+    background: #333;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
 }
 #sidebarCollapse span:first-of-type {

@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="login-group">
                         <div class="input-field s6">
-                            <label for="lg_username">Username</label>
+                            <label for="lg_username" class="sr-only">Username</label>
                             <input type="text" class="validate" id="lg_username" name="lg_username"
                                    placeholder="username">
                         </div>
@@ -31,18 +31,20 @@
         </div>
         <!-- end:Main Form -->
         <div class="row">
-            <a class="btn btn-block btn-social btn-google" (click)="login()">
-                <span class="fa fa-google"></span> Sign in with Google
-            </a>
-            <a class="btn btn-block btn-social btn-facebook" (click)="loginFacebook()">
-                <span class="fa fa-facebook"></span> Continue with Facebook
-            </a>
-            <a class="btn btn-block btn-social btn-github" (click)="loginGithub()">
-                <span class="fa fa-github"></span> Sign in with Github
-            </a>
-            <a class="btn btn-block" (click)="signup()">
-                Sign up with email
-            </a>
+            <div class="col-sm-offset-4">
+                <a class="btn btn-block btn-social btn-google" (click)="login()">
+                    <span class="fa fa-google"></span> Sign in with Google
+                </a>
+                <a class="btn btn-block btn-social btn-facebook" (click)="loginFacebook()">
+                    <span class="fa fa-facebook"></span> Continue with Facebook
+                </a>
+                <a class="btn btn-block btn-social btn-github" (click)="loginGithub()">
+                    <span class="fa fa-github"></span> Sign in with Github
+                </a>
+                <a class="btn btn-block btn-social btn-email" (click)="signup()">
+                    <span class="fa fa-envelope"></span> Sign up with email
+                </a>
+            </div>
         </div>
     </div>
 </ng-template>
