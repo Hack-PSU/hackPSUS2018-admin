@@ -3,6 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { HttpAdminService } from '../http-admin.service';
+import { LoginModel } from '../login-model';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ import { HttpAdminService } from '../http-admin.service';
 })
 export class LoginComponent {
 
+  public errors: Error = null;
+  public model: LoginModel;
+
   constructor(public afAuth: AngularFireAuth, private router: Router, private adminService: HttpAdminService) {
+    this.model = new LoginModel();
   }
 
   login() {
@@ -20,8 +25,9 @@ export class LoginComponent {
       .then((response) => {
         this.onLogin();
       }).catch((error) => {
+        this.errors = error;
         console.error(error);
-    });
+      });
   }
 
   loginFacebook() {
@@ -29,23 +35,39 @@ export class LoginComponent {
       .then((response) => {
         this.onLogin();
       }).catch((error) => {
+      this.errors = error;
       console.error(error);
-    });
+      });
   }
 
   loginGithub() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider())
-      .then((response) => {
+      .then(() => {
         this.onLogin();
       }).catch((error) => {
-      console.error(error);
-    });
+        this.errors = error;
+        console.error(error);
+      });
+  }
+
+  loginEmail() {
+    if (this.model.email && this.model.password) {
+      this.afAuth.auth.signInWithEmailAndPassword(this.model.email, this.model.password)
+        .then(() => {
+          this.onLogin();
+        }).catch((error) => {
+          this.errors = error;
+          console.error(error);
+        });
+    }
   }
 
   onLogin() {
     this.adminService.getAdminStatus().subscribe((response) => {
+      console.log(response);
       this.router.navigate(['/']);
     },                                           (error) => {
+      this.errors = error;
       console.error(error);
       this.afAuth.auth.signOut();
       this.router.navigate(['/login']);
