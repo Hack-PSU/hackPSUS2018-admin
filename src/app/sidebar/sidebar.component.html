@@ -10,9 +10,9 @@
   </div>
 
   <!-- Sidebar Links -->
+  <div *ngIf="afAuth.authState | async as user; else home">
   <ul class="row">
-    <li class="col-sm-12"><a routerLink="">Home</a></li>
-    <li class="col-sm-12"><a routerLink="login">Login</a></li>
+    <li class="col-sm-12"><a routerLinkActive="">Home</a></li>
   </ul>
   <!--<div class="item">-->
   <!--Dashboard-->
@@ -64,4 +64,10 @@
   <!--</div>-->
   <!--<span class="close" [hidden]="showSidebar"></span>-->
   <!--</div>-->
+  </div>
 </nav>
+<ng-template #home>
+    <ul class="row">
+        <li class="col-sm-12"><a routerLinkActive="">Home</a></li>
+    </ul>
+</ng-template>

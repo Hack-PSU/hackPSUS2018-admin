@@ -1,6 +1,5 @@
 <div *ngIf="afAuth.authState | async as user; else showLogin">
-    <h1>Hello {{ user.displayName }}!</h1>
-    <button (click)="logout()">Logout</button>
+
 </div>
 <ng-template #showLogin>
     <!-- LOGIN FORM -->
@@ -13,12 +12,12 @@
                     <div class="login-group">
                         <div class="input-field s6">
                             <label for="lg_username" class="sr-only">Username</label>
-                            <input type="text" class="validate" id="lg_username" name="lg_username"
+                            <input type="text" class="validate" id="lg_username" autocomplete="username" name="lg_username"
                                    placeholder="username">
                         </div>
                         <div class="form-group">
                             <label for="lg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="lg_password" name="lg_password"
+                            <input type="password" class="form-control" id="lg_password" autocomplete="current-password" name="lg_password"
                                    placeholder="password">
                         </div>
                     </div>
@@ -31,7 +30,7 @@
         </div>
         <!-- end:Main Form -->
         <div class="row">
-            <div class="col-sm-offset-4">
+            <div class="col-sm-offset-2 col-sm-8">
                 <a class="btn btn-block btn-social btn-google" (click)="login()">
                     <span class="fa fa-google"></span> Sign in with Google
                 </a>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import * as firebase from 'firebase/app';
 })
 export class LoginComponent {
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private router: Router) {
   }
 
   login() {
@@ -17,7 +18,7 @@ export class LoginComponent {
       .then((response) => {
         console.log(response);
       }).catch((error) => {
-      console.error(error);
+        console.error(error);
     });
   }
 
@@ -39,9 +40,7 @@ export class LoginComponent {
     });
   }
 
-
-  logout() {
-    this.afAuth.auth.signOut();
+  onLogin() {
+    this.router.navigate(['/']);
   }
-
 }
