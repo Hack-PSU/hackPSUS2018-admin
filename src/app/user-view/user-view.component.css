@@ -1,6 +1,4 @@
-.profile-view {
-    float: right;
-}
+
 
 .profile-image-holder {
     display: inline-block;
@@ -9,6 +7,11 @@
     height: 50px;
     overflow: hidden;
     border-radius: 50%;
+}
+
+.profile-image-holder img {
+    height: 100%;
+    width: 100%;
 }
 
 .btn {

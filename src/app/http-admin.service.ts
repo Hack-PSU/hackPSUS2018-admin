@@ -18,10 +18,7 @@ export class HttpAdminService {
         console.log(idToken);
         let headers = new HttpHeaders();
         headers = headers.set('idtoken', idToken);
-        return this.http.get(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers })
-          .switchMap((val: string) => {
-            return val;
-          });
+        return this.http.get(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers });
       });
   }
 
