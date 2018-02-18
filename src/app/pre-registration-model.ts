@@ -1,4 +1,4 @@
 export class PreRegistrationModel {
 	email: string;
-	uid: string;
+	id: string;
 }

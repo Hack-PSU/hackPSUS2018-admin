@@ -9,18 +9,18 @@ import { HttpAdminService } from '../http-admin.service';
   styleUrls: ['./registration-table.component.css']
 })
 export class RegistrationTableComponent implements OnInit {
-  public userArray: PreRegistrationModel[] = [{uid: "27349827349", email: "afjasldfkjalskdfj"}];
+  public userArray:any = [{uid: "27349827349", email: "afjasldfkjalskdfj"}];
 
   constructor(public adminService: HttpAdminService) {}
 
   ngOnInit() {
-  	this.adminService.getPreRegistrations().subscribe();
-  	// this.adminService.getPreRegistration().subscribe((users) => {
-  	// 	console.log(users);
-  	// 	this.userArray = users;
-  	// }, (error) => {
-  	// 	console.error(error);
-  	// });
+  	// this.adminService.getPreRegistrations().subscribe();
+  	this.adminService.getPreRegistrations().subscribe((data) => {
+  		console.log(data);
+  		this.userArray = data;
+  	}, (error) => {
+  		console.error(error);
+  	});
   }
 
 }
