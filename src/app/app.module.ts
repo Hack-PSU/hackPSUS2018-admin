@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserViewComponent } from './user-view/user-view.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RegistrationTableComponent } from './registration-table/registration-table.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     SidebarComponent,
     UserViewComponent,
+    RegistrationTableComponent,
   ],
   imports: [
     BrowserModule,
