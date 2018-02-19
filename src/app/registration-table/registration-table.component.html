@@ -3,7 +3,7 @@
 <div class="col s12">
   <ul class="tabs">
     <li class="tab col s3"><a class="active" href="#test1">Pre-Registrations</a></li>
-    <li class="tab col s disabled"><a href="#test2">Registrations</a></li>
+    <li class="tab col s3"><a href="#test2" (click) = "onRegistrationClick()">Registrations</a></li>
   </ul>
 </div>
 <div id="test1" class="col s12">
@@ -12,13 +12,25 @@
 			<th>UID</th>
 			<th>Email</th>
 		</tr>
-			<template let-user ngFor [ngForOf]="userArray">
-				<tr  *ngFor="let user of userArray">
+			<ng-template let-user ngFor [ngForOf]="userArray">
+				<tr  ngFor="let user of userArray">
 					<td>{{user.id}}</td>
 					<td>{{user.email}}</td>
 				</tr>
-			</template>
+			</ng-template>
 	</table>
 </div>
 <div id="test2" class="col s12">Test 2</div>
+	<table>
+		<tr>
+			<th>UID</th>
+			<th>Email</th>
+		</tr>
+			<ng-template let-user ngFor [ngForOf]="userArray">
+				<tr  ngFor="let user of userArray">
+					<td>{{user.id}}</td>
+					<td>{{user.email}}</td>
+				</tr>
+			</ng-template>
+	</table>
 </div>

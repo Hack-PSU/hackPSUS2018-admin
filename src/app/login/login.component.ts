@@ -65,7 +65,7 @@ export class LoginComponent {
   onLogin() {
     this.adminService.getAdminStatus().subscribe((response) => {
       console.log(response);
-      this.router.navigate(['/']);
+      this.router.navigate(['/users']);
     },                                           (error) => {
       this.errors = error;
       console.error(error);
