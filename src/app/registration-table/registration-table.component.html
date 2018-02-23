@@ -1,38 +1,36 @@
-
-<div class="row">
 <div class="col s12">
-<!--<input ng-model="searchText" placeholder="Search emails"> -->
-<input type="text" id="inputEmail" class="form-control" placeholder="Search Email" [(ngModel)]="searchText">
-  <ul class="tabs">
-    <li class="tab col s3" (click)="onPreRegistrationClick()"><a class="active" href="/users/#Pre-Registered">Pre-Registrations</a></li>
-    <li class="tab col s3" (click)="onRegistrationClick()"><a href="/users/#Registered">Registrations</a></li>
-  </ul>
+	<mat-form-field>
+		<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Email">
+	</mat-form-field>
+	<ul class="tabs">
+		<li class="tab col s3" (click)="onPreRegistrationClick()"><a class="active" href="/users/#Pre-Registered">Pre-Registrations</a></li>
+		<li class="tab col s3" (click)="onRegistrationClick()"><a href="/users/#Registered">Registrations</a></li>
+	</ul>
 </div>
-<div id="Pre-Registered" class="col s12">
-	<table>
-		<tr>
-			<th>UID</th>
-			<th>Email</th>
-		</tr>
-			<ng-template let-user ngFor [ngForOf]="userArray">
-				<tr ngFor="let user of userArray | searchFilterPipe: searchText">
-					<td>{{user.id}}</td>
-					<td>{{user.email}}</td>
-				</tr>
-			</ng-template>
-	</table>
+
+<div class="example-container mat-elevation-z8">
+	<div class="example-header">
+	    
+  	</div>
 </div>
-<div id="Registered" class="col s12">
-	<table>
-		<tr>
-			<th>UID</th>
-			<th>Email</th>
-		</tr>
-			<ng-template let-user ngFor [ngForOf]="userArray">
-				<tr ngFor="let user of userArray">
-					<td>{{user.id}}</td>
-					<td>{{user.email}}</td>
-				</tr>
-			</ng-template>
-	</table>
-</div>
+<mat-table #table [dataSource]="dataSource">
+		<!-- UID Column -->
+		<ng-container matColumnDef="uid">
+			<mat-header-cell *matHeaderCellDef> UID. </mat-header-cell>
+			<mat-cell *matCellDef="let user"> {{user.uid}} </mat-cell>
+		</ng-container>
+
+		<!-- Email Column -->
+		<ng-container matColumnDef="email">
+			<mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+			<mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator #paginator
+             [pageSize]="10"
+             [pageSizeOptions]="[5, 10, 20]"
+             [showFirstLastButtons]="true">
+</mat-paginator>

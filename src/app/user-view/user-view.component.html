@@ -1,5 +1,6 @@
 <div *ngIf="afAuth.authState | async as user; else showLogin">
     <div class="profile-view valign-wrapper">
+    	<h6> {{user.displayName}} </h6>
         <div class="profile-image-holder">
             <img class="profile-image circle" src={{user.photoURL}}/>
         </div>

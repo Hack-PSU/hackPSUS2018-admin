@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserViewComponent } from './user-view/user-view.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { RegistrationTableComponent } from './registration-table/registration-ta
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    CustomMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
