@@ -13,7 +13,6 @@ export class HttpAdminService {
 
   getAdminStatus() {
     const API_ENDPOINT = 'admin/';
-    const FINAL_DEST = 'users/';
     return Observable.fromPromise(new Promise((resolve, reject) => {
       this.afAuth.auth.onAuthStateChanged((user) => {
         if (user) {
@@ -50,7 +49,7 @@ export class HttpAdminService {
         }
       });
     })).switchMap((user: any) => {
-      console.log("ADAM SANDLER--------" + user);
+      console.log(user);
           return Observable.fromPromise(user.getIdToken(true))
             .switchMap((idToken: string) => {
               console.log(idToken);
@@ -65,7 +64,7 @@ export class HttpAdminService {
   }
 
   getRegistrations(limit?: number) {
-    const API_ENDPOINT = 'admin/preregistered';
+    const API_ENDPOINT = 'admin/registered';
     return Observable.fromPromise(new Promise((resolve, reject) => {
       this.afAuth.auth.onAuthStateChanged((user) => {
         if (user) {
@@ -90,6 +89,9 @@ export class HttpAdminService {
         });
   }
 
+  makeUserAdmin() {
+
+  }
 
 
 }
