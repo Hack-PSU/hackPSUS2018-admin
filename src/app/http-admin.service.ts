@@ -33,7 +33,6 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        //let options = new RequestOptions({ headers: headers, params: params });
         return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
       });
   }
@@ -48,14 +47,42 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        //let options = new RequestOptions({ headers: headers, params: params });
         return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
       });
   }
 
-  makeUserAdmin() {
-
+  getUserUID(user: firebase.User, email: string): Observable<RegistrationModel[]> {
+    const API_ENDPOINT = 'admin/userid';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if( email != null) {
+          params = params.set('email', email);
+        }
+        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+      });
   }
+
+  elevateUser(user: firebase.User, uid: string, level: string) {
+    const API_ENDPOINT = 'admin/makeadmin';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if(uid != null) {
+          params = params.append('uid', uid);
+        }
+        if(level != null) {
+          params = params.append("level", level);
+        }
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+      });
+  }
+
+
 
 
 }

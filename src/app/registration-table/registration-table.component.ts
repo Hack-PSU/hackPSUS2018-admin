@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgModule, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, NgModule, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
 import { MatPaginator, MatSort, MatTabChangeEvent, MatTableDataSource } from '@angular/material';
@@ -18,6 +18,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   displayedColumns = RegistrationTableComponent.preRegCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
+  private viewProperty = -1;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
   
@@ -82,17 +83,3 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
-export interface User {
-  email: string;
-  uid: string;
-}
-
-const Testing: User[] = [
-  
-  {uid: '501920391237', email: 'Goluck@gmail.com'},
-  {uid: '798709812313', email: 'Golem@gmail.com'},
-  {uid: '802985350932', email: 'Toaster@gmail.com'},
-  {uid: '779490920399', email: 'Mankey@gmail.com'},
-  {uid: '665589393989', email: 'Monkey@gmail.com'},
-];

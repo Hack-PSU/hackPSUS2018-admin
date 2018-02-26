@@ -14,6 +14,9 @@ export class UserViewComponent {
 
   logout() {
     this.afAuth.auth.signOut();
+
+    //Redirects the user on logout
+    window.location.href='https://hackpsu.org/';
   }
 
 }
