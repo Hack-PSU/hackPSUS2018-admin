@@ -4,10 +4,14 @@
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 100vh;
+    min-height: 100%;
     background-color: #24577C;
     padding: 10px;
     transition: all 0.3s;
+}
+
+#sidebar ul {
+    list-style: none;
 }
 
 a[data-toggle="collapse"] {
@@ -58,6 +62,7 @@ a[aria-expanded="true"]::before {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    color: white;
 }
 #sidebar ul li a:hover {
     -webkit-transition: all 0.3s;

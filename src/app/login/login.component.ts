@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
@@ -25,9 +25,9 @@ export class LoginComponent {
       .then((response) => {
         this.onLogin();
       }).catch((error) => {
-        this.errors = error;
-        console.error(error);
-      });
+      this.errors = error;
+      console.error(error);
+    });
   }
 
   loginFacebook() {
@@ -37,7 +37,7 @@ export class LoginComponent {
       }).catch((error) => {
       this.errors = error;
       console.error(error);
-      });
+    });
   }
 
   loginGithub() {
@@ -45,9 +45,9 @@ export class LoginComponent {
       .then(() => {
         this.onLogin();
       }).catch((error) => {
-        this.errors = error;
-        console.error(error);
-      });
+      this.errors = error;
+      console.error(error);
+    });
   }
 
   loginEmail() {
@@ -56,21 +56,28 @@ export class LoginComponent {
         .then(() => {
           this.onLogin();
         }).catch((error) => {
-          this.errors = error;
-          console.error(error);
-        });
+        this.errors = error;
+        console.error(error);
+      });
     }
   }
 
   onLogin() {
-    this.adminService.getAdminStatus().subscribe((response) => {
-      console.log(response);
-      this.router.navigate(['/users']);
-    },                                           (error) => {
-      this.errors = error;
-      console.error(error);
-      this.afAuth.auth.signOut();
-      this.router.navigate(['/login']);
+    const listener = this.afAuth.auth.onAuthStateChanged((user) => {
+      listener();
+      if (user) {
+        this.adminService.getAdminStatus(user).subscribe((response) => {
+          this.router.navigate(['/users']);
+        }, (error) => {
+          this.errors = error;
+          console.error(error);
+          this.afAuth.auth.signOut();
+          this.router.navigate(['/login']);
+        });
+      } else {
+        this.afAuth.auth.signOut();
+        this.router.navigate(['/login']);
+      }
     });
   }
 }

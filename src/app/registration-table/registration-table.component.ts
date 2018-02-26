@@ -1,10 +1,9 @@
-import { Component, OnInit , ViewChild, NgModule} from '@angular/core';
-import { PreRegistrationModel } from '../pre-registration-model'
-import { RegistrationModel } from '../registration-model'
+import { Component, OnInit, ViewChild, NgModule, AfterViewInit } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatTableDataSource } from '@angular/material';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatSort, MatTabChangeEvent, MatTableDataSource } from '@angular/material';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { PreRegistrationModel } from '../pre-registration-model';
 
 @Component({
   selector: 'app-registration-table',
@@ -13,22 +12,31 @@ import { MatPaginator } from '@angular/material';
   styleUrls: ['./registration-table.component.css'],
 })
 
-export class RegistrationTableComponent implements OnInit {
-  public userArray:any = [];
-
-
-  displayedColumns = ['email', 'uid'];
-  dataSource = new MatTableDataSource(Testing);
+export class RegistrationTableComponent implements OnInit, AfterViewInit {
+  private static preRegCols = ['email', 'uid'];
+  private static regCols = ['firstname', 'lastname', 'email', 'uid'];
+  displayedColumns = RegistrationTableComponent.preRegCols;
+  public dataSource = new MatTableDataSource<any>([]);
+  private user: firebase.User;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) table: MatSort;
   
-  constructor(public adminService: HttpAdminService) {}
+  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {}
 
   ngOnInit() {
-  	this.adminService.getPreRegistrations().subscribe((data) => {
-  		console.log(data);
-  		this.userArray = data;
-  	}, (error) => {
-  		console.error(error);
-  	});
+    this.afAuth.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+        this.onPreRegistrationClick();
+      } else {
+        console.error("NO USER");
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.table;
   }
 
   applyFilter(filterValue: string) {
@@ -37,22 +45,41 @@ export class RegistrationTableComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+
+
   onRegistrationClick() {
-    this.adminService.getRegistrations().subscribe((data) => {
+    this.displayedColumns = [];
+    this.dataSource.data = [];
+    this.adminService.getRegistrations(this.user).subscribe((data) => {
       console.log(data);
-      this.userArray = data;
+      this.displayedColumns = RegistrationTableComponent.regCols;
+      this.dataSource.data = data;
     }, (error) => {
       console.error(error);
     });
   }
 
   onPreRegistrationClick() {
-    this.adminService.getPreRegistrations().subscribe((data) => {
+    this.displayedColumns = [];
+    this.dataSource.data = [];
+    this.adminService.getPreRegistrations(this.user).subscribe((data) => {
       console.log(data);
-      this.userArray = data;
+      this.displayedColumns = RegistrationTableComponent.preRegCols;
+      this.dataSource.data = data;
     }, (error) => {
       console.error(error);
     });
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    switch(event.index) {
+      case 0:
+        this.onPreRegistrationClick();
+        break;
+      case 1:
+        this.onRegistrationClick();
+        break;
+    }
   }
 }
 

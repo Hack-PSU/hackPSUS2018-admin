@@ -1,14 +1,20 @@
 <div class="wrapper">
-    <app-sidebar></app-sidebar>
-    <div class="content">
-        <div class="row header">
-            <button type="button" id="sidebarCollapse" class="btn btn-menu-toggle navbar-btn col-xs-1 .hide-on-med-and-up">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <app-user-view class="col-xs-3 user-view"></app-user-view>
-        </div>
-        <router-outlet></router-outlet>
-    </div>
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav mode="side" opened>
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="content">
+                <div class="row header">
+                    <button type="button" id="sidebarCollapse" class="btn btn-menu-toggle navbar-btn col-xs-1 .hide-on-med-and-up">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <app-user-view class="col-xs-3 user-view"></app-user-view>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

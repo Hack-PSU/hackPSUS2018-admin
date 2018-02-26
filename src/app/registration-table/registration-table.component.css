@@ -1,4 +1,4 @@
-.example-container {
+.table-container {
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -11,4 +11,11 @@
 
 .mat-header-cell.mat-sort-header-sorted {
   color: black;
+}
+
+.email-filter {
+  display: block;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
