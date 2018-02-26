@@ -51,7 +51,7 @@ export class HttpAdminService {
       });
   }
 
-  getUserUID(user: firebase.User, email: string): Observable<RegistrationModel[]> {
+  getUserUID(user: firebase.User, email: string): Observable<RegistrationModel>{
     const API_ENDPOINT = 'admin/userid';
     return Observable.fromPromise(user.getIdToken(true))
       .switchMap((idToken: string) => {
@@ -61,7 +61,7 @@ export class HttpAdminService {
         if( email != null) {
           params = params.set('email', email);
         }
-        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.get<RegistrationModel>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
       });
   }
 
@@ -71,18 +71,15 @@ export class HttpAdminService {
       .switchMap((idToken: string) => {
         let myHeader = new HttpHeaders();
         let params = new HttpParams();
+        console.log(idToken);
         myHeader = myHeader.set('idtoken', idToken);
         if(uid != null) {
           params = params.append('uid', uid);
         }
         if(level != null) {
-          params = params.append("level", level);
+          params = params.append('level', level);
         }
-        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT),{ 'uid': uid, 'level': level} ,  { headers: myHeader, params: params });
       });
   }
-
-
-
-
 }

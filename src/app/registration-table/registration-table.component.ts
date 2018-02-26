@@ -18,7 +18,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   displayedColumns = RegistrationTableComponent.preRegCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
-  private viewProperty = -1;
+  private privSelect = -1;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
   
@@ -49,13 +49,15 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
 
 
   onRegistrationClick() {
-    this.displayedColumns = [];
+    this.displayedColumns = []; //RegistrationTableComponent.regCols;
     this.dataSource.data = [];
     this.adminService.getRegistrations(this.user).subscribe((data) => {
       console.log(data);
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
+      console.log('I am done, no errors');
     }, (error) => {
+      console.error("SUSH BE CRAY");
       console.error(error);
     });
   }
@@ -80,6 +82,22 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       case 1:
         this.onRegistrationClick();
         break;
+    }
+  }
+
+  makeAdmin(email: string) {
+    console.log(email);
+    if(email != null) {
+      this.adminService.getUserUID(this.user, email).subscribe((test) => {
+        console.log(test);
+        this.adminService.elevateUser(this.user, test.uid, '3').subscribe((resp) => {
+          console.log(resp);
+        }, (error) => {
+          console.error(error);
+        });
+      }, (error) => {
+          console.error(error);
+      });
     }
   }
 }
