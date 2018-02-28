@@ -14,10 +14,6 @@
     list-style: none;
 }
 
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
 a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
     content: '\e259';
     display: block;
@@ -25,23 +21,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
     right: 20px;
     font-family: 'Glyphicons Halflings', serif;
     font-size: 0.6em;
-}
-
-a[aria-expanded="true"]::before {
-    content: '\e260';
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
 }
 
 #sidebar .sidebar-header {

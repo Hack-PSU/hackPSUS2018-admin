@@ -19,5 +19,5 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 })
 
 export class AppComponent implements AngularFireAuthModule{
-
+  public opened = true;
 }

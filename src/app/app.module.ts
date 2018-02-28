@@ -14,6 +14,8 @@ import { UserViewComponent } from './user-view/user-view.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { RegistrationTableComponent } from './registration-table/registration-ta
     SidebarComponent,
     UserViewComponent,
     RegistrationTableComponent,
+    ManageUsersComponent,
+    PreRegistrationTableComponent,
   ],
   imports: [
     BrowserModule,

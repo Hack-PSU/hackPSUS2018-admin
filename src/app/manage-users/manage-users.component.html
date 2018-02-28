@@ -1,0 +1,10 @@
+<div class="col s12">
+  <mat-form-field class="admin-maker">
+    <input matInput (keyup.enter)="makeAdmin($event.target.value)" placeholder="Admin Email" id="admin-maker">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(value)]="level">
+      <mat-option *ngFor="let option of options" value="{{option.value}}">option.text</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
