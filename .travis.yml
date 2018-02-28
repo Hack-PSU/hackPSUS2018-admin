@@ -20,8 +20,10 @@ script:
 - ng e2e
 before_deploy:
 - ng build --prod --no-aot
+- rvm default do gem install aws-sdk -v 2.1.36
 deploy:
   provider: s3
+  skip_cleanup: true
   access_key_id: AKIAJAG5TNY3SN77L5HA
   secret_access_key:
     secure: krAOZmvGBjWQHjHPiPP4G6ATPnk+mml6IXLMnobEnnVBcXg0qiy8d/m++TJDn4IQ6vkF7XUJ170LI+4qWaSh7Wvv1bDjvDJ4/Y9Xbol6htwH7GNqd1FnAlQzXBz3UDA/4XQb2sqhvNTKMD0uAx9mRC6TGfU+swfwQU8yaXkXD1YeacliWyt0HZJFRiy+HkZbA3ceJrLBNxb63oAV6GuDLcD9UjojDMHf/UgvfJY8xWmKygMTtV3p51gcTWYsWn2mE53ApjdbWjpZ8dbU5fIVvrpWb9Y3qbOdHFbQLms8yIsn/fACoh8/M5gz/WkZDqxusYVwQKl6eCCAwbFGjlU8VoqVooi22ZqjT+CmdwdIw1cFrVh1clgSxd5Tgv1sEmOpdtdLt5uVmcwwqozE0nfGN6M55Xzi7waES89wp/3Sje5BmN1RFwYid342ng981F7ZZ0Z76gOBY6xY3mu2TyO73m24uwqREYoH5tbZUmLnoxvawBLzqxxn2HEQ5NGlu14Znxzwc+OoV/sSpYu/pROGjl/ahWJw9g9Wy2CtAZqpXq6JWGAy+pAzfFBw3u6j/D2IxWDrNJTZOgIcHPwsYBjIQcS+Pv6L8paRF2RmCnd+rWXMTQfKmf+uvVZOZw9lh6pRf/RKb585UCD1IFUgOv4A5DKtbdgt1iq+QOfJdaBcKXM=
