@@ -6,12 +6,13 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { AuthGuard } from './AuthGuard';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
+import { HttpAdminService } from './http-admin.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'preregistrations', component: PreRegistrationTableComponent },
-  { path: 'registrations', component: RegistrationTableComponent },
-  { path: 'users', component: ManageUsersComponent },
+  { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
+  { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -19,7 +20,8 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard,
-    AngularFireAuth
+    AngularFireAuth,
+    HttpAdminService,
   ],
   declarations: [],
 })

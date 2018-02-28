@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { HttpAdminService } from '../http-admin.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-users',
@@ -18,6 +19,8 @@ export class ManageUsersComponent implements OnInit {
   }];
 
   public level: number;
+  public email: string;
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
   public options: { text, value }[];
 
   constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {
@@ -27,7 +30,10 @@ export class ManageUsersComponent implements OnInit {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
-        this.options = this.totalOptions.slice(0, this.adminService.adminData.privilege);
+        this.adminService.getAdminStatus(user)
+          .subscribe((adminData) => {
+            this.options = this.totalOptions.slice(0, adminData.privilege);
+          })
       } else {
         console.error('NO USER');
       }
@@ -39,12 +45,12 @@ export class ManageUsersComponent implements OnInit {
     if (email != null) {
       this.adminService.getUserUID(this.user, email).subscribe((user) => {
         console.log(user);
-        this.adminService.elevateUser(this.user, user.uid, '3').subscribe((resp) => {
+        this.adminService.elevateUser(this.user, user.uid, this.level.toString()).subscribe((resp) => {
           console.log(resp);
-        }, (error) => {
+        },                                                                       (error) => {
           console.error(error);
         });
-      }, (error) => {
+      },                                                       (error) => {
         console.error(error);
       });
     }
