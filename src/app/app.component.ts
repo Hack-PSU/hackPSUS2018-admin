@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -20,5 +19,5 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 })
 
 export class AppComponent implements AngularFireAuthModule{
-
+  public opened = true;
 }

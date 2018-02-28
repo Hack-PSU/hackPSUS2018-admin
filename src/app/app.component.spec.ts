@@ -1,12 +1,39 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import { UserViewComponent } from './user-view/user-view.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { RegistrationTableComponent } from './registration-table/registration-table.component';
+import { LoginComponent } from './login/login.component';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { CustomMaterialModule } from './custom.materials';
+import { BrowserModule } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from 'angularfire2';
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        LoginComponent,
+        SidebarComponent,
+        UserViewComponent,
+        RegistrationTableComponent,
+      ],
+      imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        HttpClientModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        CustomMaterialModule,
       ],
     }).compileComponents();
   }));

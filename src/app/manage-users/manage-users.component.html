@@ -1,0 +1,23 @@
+<div class="container-fluid center">
+    <form (submit)="makeAdmin(email)" class="row">
+        <div class="row">
+            <mat-form-field class="admin-maker" class="col-sm-6 col-sm-offset-3">
+                <input matInput [(ngModel)]="email" placeholder="Admin Email" id="admin-maker"
+                       [formControl]="emailControl"
+                       required>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="col-sm-6 col-sm-offset-3">
+                <mat-select [(value)]="level">
+                    <mat-option *ngFor="let option of options" value="{{option.value}}">{{option.text}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-social">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
