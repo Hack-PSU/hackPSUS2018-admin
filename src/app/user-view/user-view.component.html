@@ -1,0 +1,11 @@
+<div *ngIf="afAuth.authState | async as user; else showLogin">
+    <div class="profile-view valign-wrapper">
+        <div class="profile-image-holder">
+            <img class="profile-image" src={{user.photoURL}} matTooltip="{{user.displayName}}"/>
+        </div>
+        <button class="btn" (click)="logout()">Logout</button>
+    </div>
+</div>
+<ng-template #showLogin>
+    <button class="btn"><a routerLink="login">Login</a></button>
+</ng-template>

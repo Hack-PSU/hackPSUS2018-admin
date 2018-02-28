@@ -8,3 +8,12 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
+declare var $:any;
+
+$(document).ready(() => {
+  $('#sidebarCollapse').on('click', () => {
+    $('#sidebar').toggleClass('active');
+    $('.navbar-btn').toggleClass('active');
+  });
+
+});

@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent  {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(public afAuth: AngularFireAuth) { }
 
 }

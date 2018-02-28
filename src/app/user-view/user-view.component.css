@@ -1,0 +1,26 @@
+
+
+.profile-image-holder {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-image-holder img {
+    height: 100%;
+    width: 100%;
+}
+
+.btn {
+    background-color: #fff;
+    box-shadow: none;
+    float: right;
+    color: #333333;
+}
+
+.btn:hover {
+    background-color: #fcfcfc;
+}

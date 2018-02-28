@@ -1,77 +1,22 @@
 <div class="wrapper">
-    <nav id="sidebar">
-        <!-- Sidebar Header -->
-        <div class="sidebar-header">
-            <div class="logo item">
-                <img src="../assets/images/logo.svg">
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+            <app-sidebar></app-sidebar>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="content">
+                <div class="row header">
+                    <button type="button" id="sidebarCollapse"
+                            class="btn btn-menu-toggle navbar-btn col-xs-1 .hide-on-med-and-up"
+                            (click)="sidenav.toggle()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <app-user-view class="col-xs-3 user-view"></app-user-view>
+                </div>
+                <router-outlet></router-outlet>
             </div>
-            <div class="username">
-                <!--<username />-->
-            </div>
-        </div>
-
-        <!-- Sidebar Links -->
-        <ul class="row">
-            <li class="col-sm-12"><a routerLink="">Home</a></li>
-            <li class="col-sm-12"><a routerLink="login">Login</a></li>
-        </ul>
-        <!--<div class="item">-->
-        <!--Dashboard-->
-        <!--</div>-->
-
-        <!--<div>-->
-
-        <!--<div-->
-        <!--class="item">-->
-        <!--Application-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.confirmation"-->
-        <!--class="item">-->
-        <!--Confirmation-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.team"-->
-        <!--class="item">-->
-        <!--Team-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.admin.stats"-->
-        <!--class="item">-->
-        <!--Admin-->
-        <!--</div>-->
-
-        <!--</div>-->
-
-        <!--<div class="item"-->
-        <!--(click)="logout()">-->
-        <!--Logout-->
-        <!--</div>-->
-
-        <!--<div class="note">-->
-        <!--</div>-->
-        <!--</nav>-->
-        <!--</div>-->
-
-        <!--<div class="tab">-->
-        <!--<div class="logo">-->
-        <!--<img src="../assets/images/logo.svg">-->
-        <!--</div>-->
-        <!--<span class="close" [hidden]="showSidebar"></span>-->
-        <!--</div>-->
-    </nav>
-    <div class="container-fluid">
-    <div class="row header">
-        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-            <i class="fa fa-hamburger"></i>
-        </button>
-    </div>
-    <router-outlet></router-outlet>
-    </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>
