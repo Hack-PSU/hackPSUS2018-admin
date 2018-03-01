@@ -15,17 +15,55 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name</mat-header-cell>
         <mat-cell *matCellDef="let user"> {{user.lastname}}</mat-cell>
     </ng-container>
-    <!-- UID Column -->
-    <ng-container matColumnDef="uid">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> UID</mat-header-cell>
-        <mat-cell *matCellDef="let user"> {{user.uid}}</mat-cell>
-    </ng-container>
 
     <!-- Email Column -->
     <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
         <mat-cell *matCellDef="let user"> {{user.email}}</mat-cell>
     </ng-container>
+
+    <!-- Academic Year Column -->
+    <ng-container matColumnDef="academic_year">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Academic Year</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.academic_year}}</mat-cell>
+    </ng-container>
+
+    <!-- Gender Column -->
+    <ng-container matColumnDef="gender">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Gender</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.gender}}</mat-cell>
+    </ng-container>
+
+    <!-- Coding Experience Column -->
+    <ng-container matColumnDef="coding_experience">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Coding Experience</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.coding_experience}}</mat-cell>
+    </ng-container>
+
+    <!-- College Major Column -->
+    <ng-container matColumnDef="major">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Major </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.major}}</mat-cell>
+    </ng-container>
+
+     <!-- Shirt Size Column -->
+    <ng-container matColumnDef="shirt_size">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Shirt Size </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.shirt_size}}</mat-cell>
+    </ng-container>
+
+    <!--  Pin Number Column -->
+    <ng-container matColumnDef="pin">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Pin Number </mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.pin}}</mat-cell>
+    </ng-container>
+
+    <!-- UID Column -->
+    <ng-container matColumnDef="uid">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> UID</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.uid}}</mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>

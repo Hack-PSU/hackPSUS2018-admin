@@ -12,7 +12,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 
 export class RegistrationTableComponent implements OnInit, AfterViewInit {
-  private static regCols = ['firstname', 'lastname', 'email', 'uid'];
+  private static regCols = ['firstname', 'lastname', 'email', 'academic_year', 'gender', 'coding_experience', 'major', 'shirt_size', 'pin', 'uid'];
   displayedColumns = RegistrationTableComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
@@ -43,18 +43,14 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = mFilterValue;
   }
 
-
-
   onRegistrationClick() {
-    this.displayedColumns = []; // RegistrationTableComponent.regCols;
+    this.displayedColumns = [];
     this.dataSource.data = [];
     this.adminService.getRegistrations(this.user).subscribe((data) => {
       console.log(data);
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
-      console.log('I am done, no errors');
     },                                                      (error) => {
-      console.error('SUSH BE CRAY');
       console.error(error);
     });
   }
