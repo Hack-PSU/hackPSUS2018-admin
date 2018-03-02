@@ -20,6 +20,10 @@
   margin-right: auto;
 }
 
+.mat-column-select {
+  overflow: visible;
+}
+
 mat-header-cell, mat-cell {
   display: inline-block;
   width: 200px;
