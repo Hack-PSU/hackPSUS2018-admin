@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
@@ -12,14 +12,18 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 
 export class RegistrationTableComponent implements OnInit, AfterViewInit {
-  private static regCols = ['firstname', 'lastname', 'email', 'academic_year', 'gender', 'coding_experience', 'major', 'shirt_size', 'pin', 'uid'];
+  private static regCols = ['firstname', 'lastname', 'email', 'university', 'academic_year',
+    'gender', 'coding_experience',
+    'major', 'shirt_size', 'dietary_restriction', 'allergies', 'travel_reimbursement', 'veteran',
+    'first_hackathon', 'race', 'expectations', 'project', 'referral', 'resume', 'pin', 'uid'];
   displayedColumns = RegistrationTableComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
 
-  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {}
+  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {
+  }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
@@ -50,7 +54,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       console.log(data);
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
-    },                                                      (error) => {
+    }, (error) => {
       console.error(error);
     });
   }
