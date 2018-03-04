@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
+
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-registration-table',
@@ -12,14 +14,20 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 
 export class RegistrationTableComponent implements OnInit, AfterViewInit {
-  private static regCols = ['firstname', 'lastname', 'email', 'uid'];
+  private static regCols = ['select', 'firstname', 'lastname', 'email', 'university', 'academic_year',
+    'gender', 'coding_experience',
+    'major', 'shirt_size', 'dietary_restriction', 'allergies', 'travel_reimbursement', 'veteran',
+    'first_hackathon', 'race', 'expectations', 'project', 'referral', 'resume', 'pin', 'uid'];
   displayedColumns = RegistrationTableComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
+  selection = new SelectionModel<any>(true, []);
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
 
-  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {}
+  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {
+  }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
@@ -43,18 +51,28 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = mFilterValue;
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
 
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }
 
   onRegistrationClick() {
-    this.displayedColumns = []; // RegistrationTableComponent.regCols;
+    this.displayedColumns = [];
     this.dataSource.data = [];
     this.adminService.getRegistrations(this.user).subscribe((data) => {
       console.log(data);
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
-      console.log('I am done, no errors');
-    },                                                      (error) => {
-      console.error('SUSH BE CRAY');
+    }, (error) => {
       console.error(error);
     });
   }

@@ -81,3 +81,7 @@ p {
 .example-container {
     width: 100%;
 }
+
+mat-sidenav {
+    overflow-y: visible;
+}

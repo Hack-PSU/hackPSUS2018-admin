@@ -65,7 +65,7 @@ export class HttpAdminService {
       });
   }
 
-  elevateUser(user: firebase.User, uid: string, level: string) {
+  elevateUser(user: firebase.User, uid: string, privilege: string) {
     const API_ENDPOINT = 'admin/makeadmin';
     return Observable.fromPromise(user.getIdToken(true))
       .switchMap((idToken: string) => {
@@ -74,7 +74,8 @@ export class HttpAdminService {
         console.log(idToken);
         myHeader = myHeader.set('idtoken', idToken);
         params = params.append('uid', uid);
-        params = params.append('level', level);
+        params = params.append('privilege', privilege);
+        console.log(privilege);
         return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), params, { headers: myHeader });
       });
   }
