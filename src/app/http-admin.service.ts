@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { PreRegistrationModel } from './pre-registration-model';
 import { RegistrationModel } from './registration-model';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class HttpAdminService {
@@ -34,7 +33,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 
@@ -48,7 +47,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 
@@ -61,7 +60,7 @@ export class HttpAdminService {
         let params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
         params = params.set('email', email);
-        return this.http.get<{uid, displayName}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<{uid, displayName}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 

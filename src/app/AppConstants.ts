@@ -3,4 +3,5 @@ export class AppConstants {
   public static LOGIN_ENDPOINT = '/login';
   public static REGISTRATION_ENDPOINT = '/registrations';
   public static PRE_REGISTRATION_ENDPOINT = '/preregistrations';
+  public static EMAIL_ENDPOINT: '/email';
 }

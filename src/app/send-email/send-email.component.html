@@ -1,0 +1,88 @@
+<mat-card>
+    <mat-card-title>
+        Send email
+    </mat-card-title>
+    <mat-card-content>
+        <mat-horizontal-stepper class="email-list" [linear]="true" #stepper="matHorizontalStepper">
+            <mat-step>
+                <ng-template matStepLabel>Select recipients</ng-template>
+                <div class="email-list row">
+                    <mat-selection-list dense #emails>
+                        <mat-list-option *ngFor="let user of emailListService.emailList">
+                            <div style="display: inherit;">
+                                <mat-icon matListIcon>person</mat-icon>
+                                <p>{{user.email}}</p>
+                            </div>
+                        </mat-list-option>
+                    </mat-selection-list>
+                    <mat-card-actions>
+                        <button (click)="deleteSelected(emails)" mat-button
+                                color="secondary" [disabled]="emails.selectedOptions.selected.length === 0">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button (click)="addNew()" mat-button color="secondary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </div>
+                <div>
+                    <mat-card-actions>
+                        <button mat-button matStepperNext color="primary"
+                                [disabled]="emailListService.emailList.length === 0">Next
+                        </button>
+                    </mat-card-actions>
+                </div>
+            </mat-step>
+            <!--<mat-step>-->
+            <!---->
+            <!--TODO: Add template selector-->
+            <!--</mat-step>-->
+            <mat-step [stepControl]="secondFormGroup">
+                <div style="margin: 10px;">
+                    <button mat-raised-button class="placeholder-button" color="primary" (click)="addPlaceholder(key)"
+                            *ngFor="let key of keys">
+                        {{key}}
+                    </button>
+                    <button mat-raised-button color="primary" (click)="addPlaceholder('forgot_url')">
+                        Password Reset URL
+                    </button>
+                </div>
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Email body</ng-template>
+                    <mat-form-field>
+                        <textarea matTextareaAutosize matAutosizeMinRows="2"
+                                  [(ngModel)]="emailBody" matInput placeholder="Email body" formControlName="secondCtrl"
+                                  required>
+                        </textarea>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                You are now done.
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+
+        <!--<div class="email-body-input">-->
+        <!--<mat-form-field color="primary" floatLabel='Email body'>-->
+        <!--<textarea matInput placeHolder="Email body..."></textarea>-->
+        <!--</mat-form-field>-->
+        <!--</div>-->
+    </mat-card-content>
+    <!--<mat-card-actions>-->
+    <!--<button mat-button color="primary">-->
+    <!--Cancel-->
+    <!--</button>-->
+    <!--<button mat-button color="primary">-->
+    <!--Send-->
+    <!--</button>-->
+    <!--</mat-card-actions>-->
+</mat-card>

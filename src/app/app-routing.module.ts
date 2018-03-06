@@ -7,12 +7,14 @@ import { AuthGuard } from './AuthGuard';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
 import { HttpAdminService } from './http-admin.service';
+import { SendEmailComponent } from './send-email/send-email.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
-  { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] },
+  { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
+  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] , data: { privilegeLevel: '3' } },
+  { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
 ];
 
 @NgModule({

@@ -1,0 +1,36 @@
+.mat-card-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-card-content .mat-form-field {
+    width: 100%;
+}
+
+.mat-card-header {
+    margin-bottom: 15px;
+}
+
+.mat-selection-list {
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+@media screen and (max-width: 600px) {
+    .mat-horizontal-stepper-header-container {
+        display: block;
+    }
+}
+
+.email-list {
+    flex: 2;
+    margin: 15px;
+}
+
+.mat-card-actions {
+    float: right;
+}
+
+.placeholder-button {
+    margin: 5px;
+}
