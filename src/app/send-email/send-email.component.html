@@ -50,6 +50,9 @@
                 <form [formGroup]="secondFormGroup">
                     <ng-template matStepLabel>Email body</ng-template>
                     <mat-form-field>
+                        <input matInput [(ngModel)]="emailSubject" placeholder="Email subject" required formControlName="subjectCtrl">
+                    </mat-form-field>
+                    <mat-form-field>
                         <textarea matTextareaAutosize matAutosizeMinRows="2"
                                   [(ngModel)]="emailBody" matInput placeholder="Email body" formControlName="secondCtrl"
                                   required>
@@ -57,16 +60,32 @@
                     </mat-form-field>
                     <div>
                         <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button matStepperNext>Next</button>
+                        <button mat-button matStepperNext (click)="loadPreview()">Next</button>
                     </div>
                 </form>
             </mat-step>
             <mat-step>
-                <ng-template matStepLabel>Done</ng-template>
-                You are now done.
+                <ng-template matStepLabel>Confirm</ng-template>
+                <div class="email-preview-container">
+                    <div class="email-preview-list row">
+                        <mat-list dense>
+                            <mat-list-item *ngFor="let user of emailListService.emailList">
+                                <div style="display: inherit;">
+                                    <mat-icon matListIcon>person</mat-icon>
+                                    <p>{{user.email}}</p>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <div class="email-preview">
+                        <iframe id="email-preview"></iframe>
+                    </div>
+                </div>
                 <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
+                    <mat-card-actions>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="emailConfirmClicked()">Confirm</button>
+                    </mat-card-actions>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>

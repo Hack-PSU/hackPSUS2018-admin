@@ -1,7 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { EmailListService } from '../email-list.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+
+import { EmailListService } from '../email-list.service';
+import { htmlTemplate } from '../../assets/hackpsu_email_template';
+import { HttpAdminService } from '../http-admin.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-send-email',
@@ -13,8 +17,11 @@ export class SendEmailComponent implements OnInit {
   secondFormGroup: FormGroup;
   keys = [];
   emailBody = '';
+  emailSubject = '';
 
-  constructor(public emailListService: EmailListService, public dialog: MatDialog, private _formBuilder: FormBuilder) {
+  constructor(public emailListService: EmailListService, public dialog: MatDialog,
+              public adminService: HttpAdminService, public afAuth: AngularFireAuth,
+              private _formBuilder: FormBuilder) {
 
   }
 
@@ -22,6 +29,7 @@ export class SendEmailComponent implements OnInit {
     this.keys = Object.keys(this.emailListService.emailList[0] ? this.emailListService.emailList[0] : { email: '' });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
+      subjectCtrl: ['', Validators.required],
     });
   }
 
@@ -47,11 +55,47 @@ export class SendEmailComponent implements OnInit {
   }
 
   addPlaceholder(id: any) {
-    this.emailBody = this.emailBody.concat('$').concat(id).concat('$');
+    this.emailBody = this.emailBody.concat('$').concat(id).concat('$ ');
     if (id === 'forgot_url') {
       this.emailListService.emailList.forEach((object) => {
         object.forgot_url = 'https://app.hackpsu.org/forgot/?email='.concat(object.email);
       })
+    }
+  }
+
+  emailConfirmClicked() {
+    // Generate email sending request
+    const generatedBody = this.generateEmailFromTemplate();
+    this.adminService.sendEmail(
+      this.afAuth.auth.currentUser,
+      generatedBody,
+      this.emailSubject,
+      this.emailListService.emailList.map((value) => {
+        return {
+          email: value.email,
+          name: value.firstname ? value.firstname : '',
+          substitutions: generatedBody.match(/\$\w+\$/g).reduce((substitution, arrValue) => {
+            const key = arrValue.replace(/\$/g, '');
+            substitution[key] = value[key];
+            return substitution;
+          },                                                    {}),
+        }
+      })).subscribe((value) => {
+        console.log(value);
+      },            err => console.error(err);
+  }
+
+  generateEmailFromTemplate() {
+    return htmlTemplate.replace(/\$\$BODY\$\$/g, this.emailBody.replace(/\n/g, '<br>'));
+  }
+
+  loadPreview() {
+    const subHtml = this.generateEmailFromTemplate();
+    if (document.getElementById('email-preview')) {
+      const iframe = document.getElementById('email-preview');
+      iframe.contentWindow.document.open('text/html', 'replace');
+      iframe.contentWindow.document.write(subHtml);
+      iframe.contentWindow.document.close();
     }
   }
 }
@@ -59,21 +103,15 @@ export class SendEmailComponent implements OnInit {
 @Component({
   selector: 'app-add-email-dialog',
   templateUrl: './add-email-dialog.html',
-  styleUrls: [],
+  styleUrls: ['./add-email-dialog.css'],
 })
 export class AddEmailDialogComponent {
 
   public outData: any;
 
-  constructor(
-    public dialogRef: MatDialogRef<AddEmailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data);
+  constructor(public dialogRef: MatDialogRef<AddEmailDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
     this.outData = {};
     data.forEach(d => this.outData[d] = '');
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

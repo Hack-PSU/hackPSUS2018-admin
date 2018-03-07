@@ -57,4 +57,10 @@ mat-cell {
 
 .item-selected {
     background-color: rgba(170, 202, 204, 0.3);
+    color: #6C88B7;
+    font-size: small;
+}
+
+.item-selected p {
+    margin: 10px;
 }
