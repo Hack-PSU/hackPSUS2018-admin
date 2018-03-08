@@ -15,6 +15,7 @@ import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
+import { LiveUpdateComponent } from './live-update/live-update.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
     RegistrationTableComponent,
     ManageUsersComponent,
     PreRegistrationTableComponent,
+    LiveUpdateComponent,
   ],
   imports: [
     BrowserModule,

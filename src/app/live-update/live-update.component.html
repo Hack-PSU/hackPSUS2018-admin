@@ -1,0 +1,6 @@
+<p>
+  live-update works!
+</p>
+<p *ngFor="let update of updates"> {{update}} </p>
+
+<input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage(message)">
