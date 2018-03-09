@@ -22,7 +22,6 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard,
-    AngularFireAuth,
     HttpAdminService,
   ],
   declarations: [],

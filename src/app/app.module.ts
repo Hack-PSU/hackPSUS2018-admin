@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -38,7 +38,7 @@ import { LiveUpdateComponent } from './live-update/live-update.component';
     AngularFireAuthModule,
     CustomMaterialModule,
   ],
-  providers: [],
+  providers: [AngularFireAuth],
   bootstrap: [AppComponent],
 })
 export class AppModule {
