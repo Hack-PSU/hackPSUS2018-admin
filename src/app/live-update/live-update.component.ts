@@ -3,6 +3,14 @@ import { LiveUpdatesService } from '../live-updates.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 
+class UpdateModel {
+  public idLIVE_UPDATES: string;
+  public update_text: string;
+  public update_image: string;
+  public update_title: string;
+}
+
+
 @Component({
   selector: 'app-live-update',
   templateUrl: './live-update.component.html',
@@ -11,8 +19,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class LiveUpdateComponent implements OnInit {
 
-  updates: {idLIVE_UPDATES, update_text, update_image}[];
+  updates: UpdateModel[];
   message: string;
+  title: string;
   image: File;
   idtoken: Observable<string>;
   progress: { uploaded, total };
@@ -35,7 +44,7 @@ export class LiveUpdateComponent implements OnInit {
     this.afAuth.auth.onAuthStateChanged((user) => {
       this.idtoken = Observable.fromPromise(user.getIdToken(true));
       this.idtoken.subscribe((value) => {
-        this.liveUpdates.getUpdates(value).subscribe((message: {idLIVE_UPDATES, update_text, update_image}[]) => {
+        this.liveUpdates.getUpdates(value).subscribe((message: UpdateModel[]) => {
           message.forEach(m => this.updates.push(m));
         });
       },                     (error) => {
@@ -48,7 +57,7 @@ export class LiveUpdateComponent implements OnInit {
     this.progress = null;
     this.error = null;
     this.loading = true;
-    this.liveUpdates.sendMessage(this.message, this.image)
+    this.liveUpdates.sendMessage(this.message, this.image, this.title)
       .subscribe((value) => {
         this.progress = value;
       },         (error) => {

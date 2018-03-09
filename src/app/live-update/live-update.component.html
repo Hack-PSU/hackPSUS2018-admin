@@ -20,8 +20,20 @@
                class="validate required"
         >
     </mat-form-field>
+    <mat-form-field class="example-full-width row">
+        <input matInput
+               type="text"
+               name="major"
+               [(ngModel)]="title"
+               #messageInput="ngModel"
+               id="autocomplete-input-title"
+               required
+               placeholder="Enter live update title"
+               class="validate required"
+        >
+    </mat-form-field>
     <label class="data-error" *ngIf="!messageInput.valid">Required</label>
-    <input class="row" type="file" name="resume" (change)="fileAdded($event)" accept="image/*">
+    <input class="row" type="file" name="resume" (change)="fileAdded($event)" accept="image/*;capture=camera">
     <div *ngIf="registrationModel.form.valid" class="cente rowr">
         <button *ngIf="!loading; else spinner" class="btn waves-effect waves-light submit-btn" type="submit"
                 name="action">Submit
