@@ -12,15 +12,15 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.checkLogin();
+    return this.checkLogin(route.data.privilegeLevel);
   }
 
-  checkLogin(): Observable<boolean> {
+  checkLogin(privilegeLevel= '0'): Observable<boolean> {
     if (this.authService.auth.currentUser) {
       return this.httpService.getAdminStatus(this.authService.auth.currentUser)
         .pipe(
           map((adminData) => {
-            if (adminData.admin) {
+            if (adminData.admin && adminData.privilege >= privilegeLevel) {
               return true;
             }
             this.authService.auth.signOut();
