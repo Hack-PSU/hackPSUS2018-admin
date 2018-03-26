@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppConstants } from './AppConstants';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 import * as firebase from 'firebase';
 import { PreRegistrationModel } from './pre-registration-model';
 import { RegistrationModel } from './registration-model';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class HttpAdminService {
@@ -20,7 +20,7 @@ export class HttpAdminService {
       .switchMap((idToken: string) => {
         let headers = new HttpHeaders();
         headers = headers.set('idtoken', idToken);
-        return this.http.get<{admin, privilege}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers });
+        return this.http.get<{ admin, privilege }>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers });
       });
   }
 
@@ -34,7 +34,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 
@@ -48,7 +48,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 
@@ -61,7 +61,7 @@ export class HttpAdminService {
         let params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
         params = params.set('email', email);
-        return this.http.get<{uid, displayName}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+        return this.http.get<{ uid, displayName }>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 
@@ -70,13 +70,36 @@ export class HttpAdminService {
     return Observable.fromPromise(user.getIdToken(true))
       .switchMap((idToken: string) => {
         let myHeader = new HttpHeaders();
-        let params = new HttpParams();
-        console.log(idToken);
+        const params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
-        params = params.append('uid', uid);
-        params = params.append('privilege', privilege);
-        console.log(privilege);
-        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), params, { headers: myHeader });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, privilege }, { headers: myHeader });
+      });
+  }
+
+  sendEmail(user: firebase.User, emailBody: string, emailSubject: string, emailObjects: any[]): Observable<any> {
+    console.log(emailSubject, emailObjects);
+    const API_ENDPOINT = 'admin/email';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+
+        // CHECK THAT REPLACEMENTS ARE VALID
+        const replacements = emailBody.match(/\$\w+\$/g);
+        replacements.forEach((replacement) => {
+          emailObjects.forEach((object) => {
+            const key = replacement.replace(/\$/g, '');
+            if (!object.substitutions
+                || object.substitutions[key] === null
+                || typeof object.substitutions[key] === 'undefined') {
+              throw Observable.throw('Replacements are invalid: ' + key);
+            }
+          })
+        });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT),
+                              { subject: emailSubject, html: emailBody, emails: emailObjects },
+                              { headers: myHeader });
       });
   }
 }
