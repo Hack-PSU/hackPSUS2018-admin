@@ -3,7 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
-  MatDialogModule,
+  MatDialogModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -14,7 +14,7 @@ import {
   MatSortModule,
   MatStepperModule,
   MatTableModule,
-  MatTabsModule,
+  MatTabsModule, MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,14 +22,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
-    MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule, MatSidenavModule,
+    MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule, MatSidenavModule,
     MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule, MatPaginatorModule,
-    MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule,
+    MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule,
   ],
   exports: [
-    MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule,
+    MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule,
     MatSidenavModule, MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule,
-    MatPaginatorModule, MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule,
+    MatPaginatorModule, MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule,MatExpansionModule,
   ],
 })
 export class CustomMaterialModule {

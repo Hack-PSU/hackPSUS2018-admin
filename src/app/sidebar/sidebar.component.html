@@ -1,74 +1,27 @@
-<nav id="sidebar">
-    <!-- Sidebar Header -->
-    <div class="sidebar-header">
-        <div class="logo item">
-            <a href="https://hackpsu.org">
-                <img src="../../assets/images/logo.svg" class="hoverable">
-            </a>
-        </div>
-    </div>
-
-    <!-- Sidebar Links -->
-    <div *ngIf="afAuth.authState | async as user; else home">
-        <ul class="row">
-            <li class="col-sm-12"><a routerLink="/registrations">Registration Data</a></li>
-            <li class="col-sm-12"><a routerLink="/preregistrations">Pre-Registration Data</a></li>
-            <li class="col-sm-12"><a routerLink="/users">Manage Users</a></li>
-        </ul>
-        <!--<div class="item">-->
-        <!--Dashboard-->
-        <!--</div>-->
-
-        <!--<div>-->
-
-        <!--<div-->
-        <!--class="item">-->
-        <!--Application-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.confirmation"-->
-        <!--class="item">-->
-        <!--Confirmation-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.team"-->
-        <!--class="item">-->
-        <!--Team-->
-        <!--</div>-->
-
-        <!--<div-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.admin.stats"-->
-        <!--class="item">-->
-        <!--Admin-->
-        <!--</div>-->
-
-        <!--</div>-->
-
-        <!--<div class="item"-->
-        <!--(click)="logout()">-->
-        <!--Logout-->
-        <!--</div>-->
-
-        <!--<div class="note">-->
-        <!--</div>-->
-        <!--</nav>-->
-        <!--</div>-->
-
-        <!--<div class="tab">-->
-        <!--<div class="logo">-->
-        <!--<img src="../assets/images/logo.svg">-->
-        <!--</div>-->
-        <!--<span class="close" [hidden]="showSidebar"></span>-->
-        <!--</div>-->
-    </div>
-</nav>
+<mat-nav-list>
+    <mat-accordion *ngIf="afAuth.authState | async as user; else home">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Manage Registrations
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLink="/registrations">Registration Data</a>
+            <a mat-list-item routerLink="/preregistrations">Pre-Registration Data</a>
+            <a mat-list-item routerLink="/users">Manage Users</a>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Manage Event
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLink="/live">Live Updates</a>
+            <a mat-list-item routerLink="/events">Manage Events</a>
+            <a mat-list-item routerLink="/locations">Manage Locations</a>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-nav-list>
 <ng-template #home>
-    <ul class="row">
-        <li class="col-sm-12"><a routerLink="">Home</a></li>
-    </ul>
+    <a mat-list-item routerLink="">Home</a>
 </ng-template>
