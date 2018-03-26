@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
 
 @Injectable()
 export class LiveUpdatesService {
-  private url = 'http://localhost:5001/updates';
+  private url = 'http://localhost:5000/updates';
   private socket;
 
   private broadcastSubject: BehaviorSubject<Event> = new BehaviorSubject<Event>(new Event(''));
@@ -45,14 +45,15 @@ export class LiveUpdatesService {
       this.socket.on('update', (data) => {
         observer.next(data);
       });
+      this.socket.on('error', error => observer.error(error));
       return () => {
         this.socket.disconnect();
       };
     });
   }
 
-  sendMessage(message: string, image: File, title: string) {
-    this.socket.emit('upstream-update', { message, title, image: { name: image.name, type: image.type } });
+  sendMessage(message: string, image: File, title: string, push_notification: boolean) {
+    this.socket.emit('upstream-update', { message, title, push_notification, image: { name: image.name, type: image.type } });
     const compress = new Compress();
     compress.compress([image], {
       size: 0.5, // the max size in MB, defaults to 2MB

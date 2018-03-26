@@ -27,6 +27,7 @@ export class LiveUpdateComponent implements OnInit {
   progress: { uploaded, total };
   error: any;
   loading = false;
+  push_notification = false;
 
   constructor(public liveUpdates: LiveUpdatesService, public afAuth: AngularFireAuth) {
     this.updates = [];
@@ -57,7 +58,7 @@ export class LiveUpdateComponent implements OnInit {
     this.progress = null;
     this.error = null;
     this.loading = true;
-    this.liveUpdates.sendMessage(this.message, this.image, this.title)
+    this.liveUpdates.sendMessage(this.message, this.image, this.title, this.push_notification)
       .subscribe((value) => {
         this.progress = value;
       },         (error) => {
