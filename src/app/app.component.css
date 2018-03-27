@@ -30,12 +30,20 @@ p {
     margin-left: 10px;
 }
 
+.mat-drawer-container {
+    overflow: visible;
+}
+
 .mat-drawer-content {
     overflow: initial;
 }
 
 .mat-sidenav-container {
     height: 100vh;
+}
+
+mat-sidenav-content {
+    padding: 0 5%;
 }
 
 @media screen and (max-width: 768px) {
