@@ -4,11 +4,16 @@ import { HttpAdminService } from '../http-admin.service';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+import { AppConstants } from '../AppConstants';
+import { EmailListService } from '../email-list.service';
 
 @Component({
   selector: 'app-registration-table',
-  providers: [HttpAdminService],
+  providers: [
+    HttpAdminService,
+  ],
   templateUrl: './registration-table.component.html',
   styleUrls: ['./registration-table.component.css'],
 })
@@ -26,7 +31,11 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
 
-  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {
+  constructor(
+    public adminService: HttpAdminService,
+    public afAuth: AngularFireAuth,
+    public emailListService: EmailListService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -47,7 +56,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
 
   applyFilter(filterValue: string) {
     let mFilterValue = filterValue.trim();
-    mFilterValue = filterValue.toLowerCase();
+    mFilterValue = mFilterValue.toLowerCase();
     this.dataSource.filter = mFilterValue;
   }
 
@@ -61,19 +70,26 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   onRegistrationClick() {
-    this.displayedColumns = [];
-    this.dataSource.data = [];
     this.adminService.getRegistrations(this.user).subscribe((data) => {
-      console.log(data);
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
-    }, (error) => {
+    },                                                      (error) => {
       console.error(error);
     });
+  }
+
+  sendEmail() {
+    this.emailListService.emailList = this.selection.selected;
+    this.router.navigate([AppConstants.EMAIL_ENDPOINT])
+      .catch(e => console.error(e));
+  }
+
+  refreshData() {
+    this.onRegistrationClick();
   }
 }
