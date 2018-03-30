@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -16,12 +16,12 @@ import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
+import { ChartsModule } from 'ng2-charts';
 
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
 import { VisComponent } from './vis/vis.component';
-import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -36,7 +36,6 @@ import { ChartsModule } from 'ng2-charts';
     SendEmailComponent,
     AddEmailDialogComponent,
     VisComponent,
-
   ],
   imports: [
     BrowserModule,

@@ -39,7 +39,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
       });
   }
 
@@ -53,7 +53,7 @@ export class HttpAdminService {
         if (limit) {
           params = params.set('limit', limit.toString());
         }
-        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
       });
   }
 
@@ -66,7 +66,7 @@ export class HttpAdminService {
         let params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
         params = params.set('email', email);
-        return this.http.get<{uid, displayName}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.get<{uid, displayName}>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
       });
   }
 
@@ -80,7 +80,34 @@ export class HttpAdminService {
         myHeader = myHeader.set('idtoken', idToken);
         params = params.append('uid', uid);
         params = params.append('level', level);
-        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params: params });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { headers: myHeader, params });
+      });
+  }
+
+  sendEmail(user: firebase.User, emailBody: string, emailSubject: string, emailObjects: any[]): Observable<any> {
+    console.log(emailSubject, emailObjects);
+    const API_ENDPOINT = 'admin/email';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+
+        // CHECK THAT REPLACEMENTS ARE VALID
+        const replacements = emailBody.match(/\$\w+\$/g);
+        replacements.forEach((replacement) => {
+          emailObjects.forEach((object) => {
+            const key = replacement.replace(/\$/g, '');
+            if (!object.substitutions
+                || object.substitutions[key] === null
+                || typeof object.substitutions[key] === 'undefined') {
+              throw Observable.throw('Replacements are invalid: ' + key);
+            }
+          })
+        });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT),
+                              { subject: emailSubject, html: emailBody, emails: emailObjects },
+                              { headers: myHeader });
       });
   }
 }

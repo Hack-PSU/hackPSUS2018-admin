@@ -6,15 +6,6 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { AuthGuard } from './AuthGuard';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
-
-
-const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'preregistrations', component: PreRegistrationTableComponent },
-  { path: 'registrations', component: RegistrationTableComponent },
-  { path: 'users', component: ManageUsersComponent },
-
-import { HttpAdminService } from './http-admin.service';
 import { SendEmailComponent } from './send-email/send-email.component';
 import { VisComponent } from './vis/vis.component';
 
@@ -33,7 +24,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard,
-    AngularFireAuth
+    AngularFireAuth,
   ],
   declarations: [],
 })

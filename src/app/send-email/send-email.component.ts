@@ -93,9 +93,11 @@ export class SendEmailComponent implements OnInit {
     const subHtml = this.generateEmailFromTemplate();
     if (document.getElementById('email-preview')) {
       const iframe = document.getElementById('email-preview');
-      // iframe.contentWindow.document.open('text/html', 'replace');
-      // iframe.contentWindow.document.write(subHtml);
-      // iframe.contentWindow.document.close();
+      // if (iframe.contentWindow) {
+      //   iframe.contentWindow.document.open('text/html', 'replace');
+      //   iframe.contentWindow.document.write(subHtml);
+      //   iframe.contentWindow.document.close();
+      // }
     }
   }
 }
