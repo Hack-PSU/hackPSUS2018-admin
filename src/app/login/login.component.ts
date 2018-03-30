@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { HttpAdminService } from '../http-admin.service';
 import { LoginModel } from '../login-model';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent {
 
   public errors: Error = null;
   public model: LoginModel;
+  email = new FormControl('', [Validators.required, Validators.email]);
 
   constructor(public afAuth: AngularFireAuth, private router: Router, private adminService: HttpAdminService) {
     this.model = new LoginModel();
@@ -25,9 +27,9 @@ export class LoginComponent {
       .then((response) => {
         this.onLogin();
       }).catch((error) => {
-      this.errors = error;
-      console.error(error);
-    });
+        this.errors = error;
+        console.error(error);
+      });
   }
 
   loginFacebook() {
@@ -35,9 +37,9 @@ export class LoginComponent {
       .then((response) => {
         this.onLogin();
       }).catch((error) => {
-      this.errors = error;
-      console.error(error);
-    });
+        this.errors = error;
+        console.error(error);
+      });
   }
 
   loginGithub() {
@@ -45,9 +47,9 @@ export class LoginComponent {
       .then(() => {
         this.onLogin();
       }).catch((error) => {
-      this.errors = error;
-      console.error(error);
-    });
+        this.errors = error;
+        console.error(error);
+      });
   }
 
   loginEmail() {
@@ -56,9 +58,9 @@ export class LoginComponent {
         .then(() => {
           this.onLogin();
         }).catch((error) => {
-        this.errors = error;
-        console.error(error);
-      });
+          this.errors = error;
+          console.error(error);
+        });
     }
   }
 
@@ -68,7 +70,7 @@ export class LoginComponent {
       if (user) {
         this.adminService.getAdminStatus(user).subscribe((response) => {
           this.router.navigate(['/users']);
-        }, (error) => {
+        },                                               (error) => {
           this.errors = error;
           console.error(error);
           this.afAuth.auth.signOut();
@@ -79,5 +81,11 @@ export class LoginComponent {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
   }
 }

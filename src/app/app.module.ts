@@ -1,26 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserViewComponent } from './user-view/user-view.component';
-import { HttpClientModule } from '@angular/common/http';
 import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
-import { ChartsModule } from 'ng2-charts';
-
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
+import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './vis/vis.component';
 
 
@@ -40,7 +38,6 @@ import { VisComponent } from './vis/vis.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -49,7 +46,8 @@ import { VisComponent } from './vis/vis.component';
     AngularFireAuthModule,
     CustomMaterialModule,
   ],
-  providers: [],
+  entryComponents: [AddEmailDialogComponent],
+  providers: [EmailListService, HttpAdminService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

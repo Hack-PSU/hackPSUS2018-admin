@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppConstants } from './AppConstants';
 import { HttpAdminService } from './http-admin.service';
@@ -12,19 +12,23 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    const url: string = state.url;
-
-    return this.checkLogin();
+    return this.checkLogin(route.data.privilegeLevel);
   }
 
-  checkLogin(): Observable<boolean> {
+  checkLogin(privilegeLevel= '0'): Observable<boolean> {
     if (this.authService.auth.currentUser) {
       return this.httpService.getAdminStatus(this.authService.auth.currentUser)
         .pipe(
           map((adminData) => {
-            return adminData.admin;
+            if (adminData.admin && adminData.privilege >= privilegeLevel) {
+              return true;
+            }
+            this.authService.auth.signOut();
+            this.router.navigate([AppConstants.LOGIN_ENDPOINT]);
+            return false;
           }),
           catchError(() => {
+            this.authService.auth.signOut();
             this.router.navigate([AppConstants.LOGIN_ENDPOINT]);
             return Observable.of(false);
           }),

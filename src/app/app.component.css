@@ -4,15 +4,18 @@
 h1 {
     color: #fff;
 }
+
 h2, h3 {
     color: #444;
     font-family: Lato, Helvetica, sans-serif;
     font-weight: lighter;
 }
+
 body {
     margin: 2em;
     font-family: Lato, Georgia, sans-serif;
 }
+
 p {
     color: #888;
     font-family: Lato, Georgia, sans-serif;
@@ -22,62 +25,29 @@ p {
     border-bottom: #333333 solid 1px;
 }
 
-.wrapper {
-    align-items: stretch;
-    display: flex;
-    padding: 0px;
+.example-app-name {
+    line-height: 56px;
+    margin-left: 10px;
 }
 
-.content {
-    padding: 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-    flex: 1;
+.mat-drawer-container {
+    overflow: visible;
 }
 
-.navbar-btn {
-    background-color: #fff;
-    box-shadow: none;
-    color: #333333;
+.mat-drawer-content {
+    overflow: initial;
 }
 
-#sidebarCollapse {
-    height: 40px;
-    background: #fcfcfc;
+.mat-sidenav-container {
+    height: 100vh;
 }
 
-#sidebarCollapse span {
-    width: 32px;
-    height: 2px;
-    margin: 0 auto;
-    display: block;
-    background: #333;
-    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
-}
-#sidebarCollapse span:first-of-type {
-    /* rotate first one */
-    transform: rotate(45deg) translate(2px, 2px);
-}
-#sidebarCollapse span:nth-of-type(2) {
-    /* second one is not visible */
-    opacity: 0;
-}
-#sidebarCollapse span:last-of-type {
-    /* rotate third one */
-    transform: rotate(-45deg) translate(1px, -1px);
-}
-#sidebarCollapse.active span {
-    /* no rotation */
-    transform: none;
-    /* all bars are visible */
-    opacity: 1;
-    margin: 5px auto;
+mat-sidenav-content {
+    padding: 0 5%;
 }
 
-.user-view {
-    float: right;
-}
-
-.example-container {
-    width: 100%;
+@media screen and (max-width: 768px) {
+    .example-app-name {
+        display: none;
+    }
 }
