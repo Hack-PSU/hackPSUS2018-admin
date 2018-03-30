@@ -18,6 +18,9 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
+import { ChartsModule } from 'ng2-charts';
+import { VisComponent } from './vis/vis.component';
+
 
 @NgModule({
   declarations: [
@@ -30,10 +33,12 @@ import { HttpAdminService } from './http-admin.service';
     PreRegistrationTableComponent,
     SendEmailComponent,
     AddEmailDialogComponent,
+    VisComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
