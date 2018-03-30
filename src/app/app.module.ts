@@ -17,6 +17,13 @@ import { RegistrationTableComponent } from './registration-table/registration-ta
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
 
+import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
+import { EmailListService } from './email-list.service';
+import { HttpAdminService } from './http-admin.service';
+import { VisComponent } from './vis/vis.component';
+import { ChartsModule } from 'ng2-charts';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,11 +33,17 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
     RegistrationTableComponent,
     ManageUsersComponent,
     PreRegistrationTableComponent,
+    SendEmailComponent,
+    AddEmailDialogComponent,
+    VisComponent,
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ChartsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
