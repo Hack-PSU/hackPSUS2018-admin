@@ -18,6 +18,9 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
+import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
+import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { HttpAdminService } from './http-admin.service';
     PreRegistrationTableComponent,
     SendEmailComponent,
     AddEmailDialogComponent,
+    ManageEventsComponent,
+    ManageRsvpComponent,
+    ManageLocationsComponent,
   ],
   imports: [
     BrowserModule,

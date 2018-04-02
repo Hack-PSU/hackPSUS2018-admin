@@ -6,6 +6,8 @@ import 'rxjs/add/observable/throw';
 import * as firebase from 'firebase';
 import { PreRegistrationModel } from './pre-registration-model';
 import { RegistrationModel } from './registration-model';
+import { RSVPModel } from './rsvp-model';
+import { LocationModel } from './location-model';
 
 @Injectable()
 export class HttpAdminService {
@@ -100,6 +102,59 @@ export class HttpAdminService {
         return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT),
                               { subject: emailSubject, html: emailBody, emails: emailObjects },
                               { headers: myHeader });
+      });
+  }
+
+  getRSVP(user: firebase.User, limit?: number): Observable<RegistrationModel[]> {
+    const API_ENDPOINT = 'admin/rsvp_list';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<RegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  getLocations(user: firebase.User, limit?: number): Observable<LocationModel[]> {
+    const API_ENDPOINT = 'admin/location_list';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<LocationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  addNewLocation(user: firebase.User, locationName: string) {
+    console.log(locationName);
+    const API_ENDPOINT = 'admin/create_location';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { locationName }, { headers: myHeader });
+      });
+  }
+
+  removeLocation(user: firebase.User, uid: string) {
+    console.log(uid);
+    uid = uid.toString();
+    const API_ENDPOINT = 'admin/remove_location';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid }, { headers: myHeader });
       });
   }
 }
