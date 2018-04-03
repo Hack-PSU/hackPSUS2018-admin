@@ -43,7 +43,8 @@
                 <div>
                     <mat-card-actions>
                         <button mat-button matStepperNext color="primary"
-                                [disabled]="!customHTML || uploadedHTML !== null">Next
+                                (click)="customHTML ? loadPreview() : noop()"
+                                [disabled]="customHTML && mDisabled">Next
                         </button>
                     </mat-card-actions>
                 </div>
@@ -89,7 +90,7 @@
                         </mat-list>
                     </div>
                     <div class="email-preview">
-                        <iframe id="email-preview" [attr.srcDoc]="srcDocContent"></iframe>
+                        <iframe id="email-preview" #iframe></iframe>
                     </div>
                 </div>
                 <div>
