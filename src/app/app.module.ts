@@ -21,6 +21,8 @@ import { HttpAdminService } from './http-admin.service';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { ChartsModule } from 'ng2-charts';
+import { VisComponent } from './vis/vis.component';
 
 @NgModule({
   declarations: [
@@ -36,10 +38,12 @@ import { ManageLocationsComponent } from './manage-locations/manage-locations.co
     ManageEventsComponent,
     ManageRsvpComponent,
     ManageLocationsComponent,
+    VisComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,

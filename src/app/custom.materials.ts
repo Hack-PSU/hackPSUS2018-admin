@@ -10,7 +10,7 @@ import {
   MatListModule,
   MatMenuModule,
   MatSelectModule,
-  MatSidenavModule,
+  MatSidenavModule, MatSlideToggleModule,
   MatSortModule,
   MatStepperModule,
   MatTableModule,
@@ -24,12 +24,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule, MatSidenavModule,
     MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule, MatPaginatorModule,
-    MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule,
+    MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule,
   ],
   exports: [
     MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule,
     MatSidenavModule, MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule,
-    MatPaginatorModule, MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule,MatExpansionModule,
+    MatPaginatorModule, MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule,
   ],
 })
 export class CustomMaterialModule {
