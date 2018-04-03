@@ -39,6 +39,9 @@
                 <form *ngIf="customHTML" class="example-full-width">
                     <label for="file-input" class="alert">Your HTML must have the appropriate substitutions already formatted</label>
                     <input id="file-input" type="file" placeholder="Upload html template" (change)="htmlFileAdded($event)" accept="text/html">
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="emailSubject" placeholder="Email subject" required name="subject">
+                    </mat-form-field>
                 </form>
                 <div>
                     <mat-card-actions>
