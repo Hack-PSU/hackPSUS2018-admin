@@ -27,10 +27,6 @@
                     <mat-icon>refresh</mat-icon>
                     <span>Refresh Data</span>
                 </button>
-                <button mat-menu-item *ngIf="!selection.isEmpty()" (click)="sendEmail()">
-                    <mat-icon>email</mat-icon>
-                    <span>Send email</span>
-                </button>
             </mat-menu>
         </div>
     </mat-card-title>
@@ -70,12 +66,6 @@
                 <mat-cell *matCellDef="let user"> {{user.email}}</mat-cell>
             </ng-container>
 
-            <!-- RSVP Time Column -->
-            <ng-container matColumnDef="rsvp_time">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> University</mat-header-cell>
-                <mat-cell *matCellDef="let user"> {{user.university}}</mat-cell>
-            </ng-container>
-
             <!--  Pin Number Column -->
             <ng-container matColumnDef="pin">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Pin Number</mat-header-cell>
@@ -85,7 +75,13 @@
             <!-- UID Column -->
             <ng-container matColumnDef="uid">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> UID</mat-header-cell>
-                <mat-cell *matCellDef="let user"> {{user.uid}}</mat-cell>
+                <mat-cell *matCellDef="let user"> {{user.idRSVP}}</mat-cell>
+            </ng-container>
+
+             <!-- RSVP Time Column -->
+            <ng-container matColumnDef="rsvp_time">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> RSVP Time</mat-header-cell>
+                <mat-cell *matCellDef="let user"> {{getDateString(user.rsvp_time)}} </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -19,7 +19,7 @@ import { AppConstants } from '../AppConstants';
 
 
 export class ManageRsvpComponent implements OnInit, AfterViewInit {
-  private static regCols = ['select', 'firstname', 'lastname', 'email','pin', 'uid'];
+  private static regCols = ['select', 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
   displayedColumns = ManageRsvpComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
@@ -81,5 +81,9 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
 
   refreshData() {
     this.onRSVPClick();
+  }
+
+  getDateString(time: string) {
+    return new Date(parseInt(time, 10)).toLocaleString()
   }
 }
