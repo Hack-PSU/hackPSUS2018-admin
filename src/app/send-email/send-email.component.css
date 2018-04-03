@@ -1,12 +1,15 @@
 .mat-card-content {
     display: flex;
     flex-direction: row;
+    font-family: 'Lato', sans-serif;
 }
 
 .mat-card-content .mat-form-field {
     width: 100%;
 }
-
+.mat-horizontal-stepper-content {
+    text-align: center;
+}
 .mat-card-header {
     margin-bottom: 15px;
 }
