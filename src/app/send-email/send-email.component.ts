@@ -18,6 +18,9 @@ export class SendEmailComponent implements OnInit {
   keys = [];
   emailBody = '';
   emailSubject = '';
+  customHTML = false;
+  srcDocContent = '';
+  uploadedHTML = null;
 
   constructor(public emailListService: EmailListService, public dialog: MatDialog,
               public adminService: HttpAdminService, public afAuth: AngularFireAuth,
@@ -92,13 +95,12 @@ export class SendEmailComponent implements OnInit {
   loadPreview() {
     const subHtml = this.generateEmailFromTemplate();
     if (document.getElementById('email-preview')) {
-      const iframe = document.getElementById('email-preview');
-      // if (iframe.contentWindow) {
-      //   iframe.contentWindow.document.open('text/html', 'replace');
-      //   iframe.contentWindow.document.write(subHtml);
-      //   iframe.contentWindow.document.close();
-      // }
+      this.srcDocContent = subHtml;
     }
+  }
+  
+  htmlFileAdded($event) {
+    console.log($event);
   }
 }
 
