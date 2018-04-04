@@ -1,41 +1,47 @@
-<svg width="960" height="500"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="../../../node_modules/chart.js/src/chart.js"></script>
-<linechart data="chart.data" options="chart.options"></linechart>
-<ngx-charts-line-chart
-        *ngIf="chartType === 'line-chart'"
-        [view]="view"
-        class="chart-container"
-        [scheme]="colorScheme"
-        [schemeType]="schemeType"
-        [results]="dateDataWithOrWithoutRange"
-        [animations]="animations"
-        [legend]="showLegend"
-        [legendTitle]="legendTitle"
-        (legendLabelClick)="onLegendLabelClick($event)"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [autoScale]="autoScale"
-        [xScaleMin]="xScaleMin"
-        [xScaleMax]="xScaleMax"
-        [yScaleMin]="yScaleMin"
-        [yScaleMax]="yScaleMax"
-        [timeline]="timeline"
-        [showGridLines]="showGridLines"
-        [curve]="curve"
-        [rangeFillOpacity]="rangeFillOpacity"
-        [roundDomains]="roundDomains"
-        [tooltipDisabled]="tooltipDisabled"
-        (select)="select($event)">
-</ngx-charts-line-chart>
+<div style="position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px;">
+    <mat-form-field >
+        <mat-select [(value)]="selected" placeholder="What do you want to see" (change)="onOptionChange($event)">
+            <mat-option value="referral"> Referral Source</mat-option>
+            <mat-option value="gender"> Gender</mat-option>
+            <mat-option value="experience"> Coding Experience</mat-option>
+            <mat-option value="academic_year">Academic Year</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <ngx-charts-line-chart
+            *ngIf="multi.length> 0"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            [timeline]="timeline"
+            (select)="onSelect($event)">
+    </ngx-charts-line-chart>
+    <ngx-charts-pie-chart
+            *ngIf="this.multi.length >0"
+            [view]="[600, 300]"
+            [scheme]="colorScheme"
+            [results]="single"
+            [legend]="option"
+            [explodeSlices]="false"
+            [labels]="showLabels"
+            [doughnut]="false"
+            [gradient]="false"
+            (select)="onSelect($event)">
+    </ngx-charts-pie-chart>
+    <ngx-charts-number-card
+            ng-if="selected == 'coding_experience' || selected == 'academic_year'"
+            [view]="[600,300]"
+            [scheme]="colorScheme"
+            [results]="single"
+            (select)="onSelect($event)">
+    </ngx-charts-number-card>
 
-<script>
-
-
-
-</script>
+</div>

@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] , data: { privilegeLevel: '3' } },
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
-    { path: 'vis', component: VisComponent },
+    { path: 'vis', component: VisComponent},
 ];
 
 @NgModule({

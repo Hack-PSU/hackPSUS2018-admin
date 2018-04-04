@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { MatSelectChange } from '@angular/material';
+
 
 @Component({
   selector: 'app-vis',
@@ -8,16 +10,78 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./vis.component.css'],
 })
 export class VisComponent implements OnInit {
+  multi = [];
+    // options
+  showXAxis = true;
+  timeline = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Time';
+  showYAxisLabel = true;
+  yAxisLabel = 'Registrations';
+
+  single = [];
+  view: any[] = [700, 400];
+
+  //for pie chart
+  //explodeSlices = false;
+  //doughnut = false;
+
+  colorScheme = {
+    domain: ['#E5704C', '#6C88B7', '#133753', '#24577C', '#D0EAF1', '#C94331', '#AACACC', '#AACACC'],
+  };
+
+  autoScale = true;
+  selected = 'referral';
 
   private user: firebase.User;
-  public chart: any;
-  private lineChartType: string;
 
-  public lineChartData = [];
+  private data: any[];
+
+    /**
+     *
+     * @param data
+     * @param key
+     */
+  static reduceParent(data, key: string) {
+      /**
+       * Reduction function for incoming data
+       * @param accumulator
+       * @param currentValue
+       * @returns {any}
+       */
+    function reduceDataG(accumulator, currentValue) {
+      const k = currentValue[key];
+      if (k) {
+        if (accumulator[k]) {
+          accumulator[k].value += 1
+        } else {
+          accumulator[k] = {};
+          accumulator[k].value = 1;
+          accumulator[k].name = currentValue[key];
+        }
+      }
+      return accumulator;
+    }
+    return data.reduce(reduceDataG, {});
+  }
+
+  static reduceData(accumulator, currentValue) {
+    const date = new Date(currentValue.sign_up_time);
+    const key = date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString();
+    if (accumulator[key]) {
+      accumulator[key].value += 1
+    } else {
+      accumulator[key] = {};
+      accumulator[key].value = 1;
+      accumulator[key].name = date;
+    }
+    return accumulator;
+  }
 
   constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {
-    this.chart.data = {};
-    this.chart.options = {};
   }
 
   ngOnInit() {
@@ -25,120 +89,182 @@ export class VisComponent implements OnInit {
       if (user) {
         this.user = user;
         this.adminService.getRegistrations(this.user)
-          .subscribe((data: any[]) => {
-            console.log(data);
-            /* [
-    {
-        "name": "facebook",
-        "value": 3/17/2018
-    },
-    {
-        "name": "friends",
-        "value": 3/02/2018
-    },
-    {
-        "name": "MLH",
-        "value": 3/01/2018
-    }
-];*/
-            this.lineChartData = [
-              {
-                name: 'MLH',
-                series: data.reduce((accumulator, currentValue) => {
-                  const date = new Date(currentValue.sign_up_time);
-                  if (accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()]) {
-                    if (currentValue.referral.match(/mlh/i)) {
-                      accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value += 1
-                    }
-                  } else {
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value = 1;
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear()
-                      .toString()].name = 'date.getDay().toString()+date.getMonth().toString()+date.getFullYear().toString()'
-                  }
-                }), // return an object in the form of the dates
-              },
-              {
-                name: 'facebook',
-                series: data.reduce((accumulator, currentValue) => {
-                  const date = new Date(currentValue.sign_up_time);
-                  if (accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()]) {
-                    if (currentValue.referral.match(/facebook|fb/i)) {
-                      accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value += 1
-                    }
-                  } else {
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value = 1;
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear()
-                      .toString()].name = 'date.getDay().toString()+date.getMonth().toString()+date.getFullYear().toString()'
-                  }
-                }),
-              },
-              {
-                name: 'friends',
-                series: data.reduce((accumulator, currentValue) => {
-                  const date = new Date(currentValue.sign_up_time);
-                  if (accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()]) {
-                    if (currentValue.referral.match(/friends|friend/i)) {
-                      accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value += 1
-                    }
-                  } else {
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear().toString()].value = 1;
-                    accumulator[date.getDay().toString() + date.getMonth().toString() + date.getFullYear()
-                      .toString()].name = 'date.getDay().toString()+date.getMonth().toString()+date.getFullYear().toString()'
-                  }
-                }),
-              },
-            ];
-            //
-            //     //get timestamp from firebase
-            //     this.lineChartLabel
-            // :
-            //     Array < any > = firebase.User.TimeInterval;
-            //     //just something they do, i'm not sure why
-            //     this.lineChartOptions
-            // :
-            //     any = {
-            //         responsive: true
-            //     };
-            //     //coloring for background and lines
-            //     this.lineChartColors
-            // :
-            //     Array < any > = [
-            //         { // grey
-            //             backgroundColor: 'rgba(148,159,177,0.2)',
-            //             borderColor: 'rgba(148,159,177,1)',
-            //             pointBackgroundColor: 'rgba(148,159,177,1)',
-            //             pointBorderColor: '#fff',
-            //         },
-            //         { // dark grey
-            //             backgroundColor: 'rgba(77,83,96,0.2)',
-            //             borderColor: 'rgba(77,83,96,1)',
-            //             pointBackgroundColor: 'rgba(77,83,96,1)',
-            //             pointBorderColor: '#fff',
-            //         },
-            //         { // grey
-            //             backgroundColor: 'rgba(148,159,177,0.2)',
-            //             borderColor: 'rgba(148,159,177,1)',
-            //             pointBackgroundColor: 'rgba(148,159,177,1)',
-            //             pointBorderColor: '#fff',
-            //         }
-            //     ];
-            //     //I think this is just testing if it's running
-            //     this.lineChartLegend
-            // :
-            //     boolean = true;
-          });
-      } else {
-        console.error('NO USER');
-      }
-    });
+                    .subscribe((data: any[]) => {
+                      console.log(data);
+                      this.data = data;
+                      this.onOptionChange(null);
+                        // filter out mlh first and then set the date
 
-    function type(d, _, columns) {
-      // d.date = parseTime(d.date);
-      for (let i = 1, n = columns.length, c; i < n; ++i) {
-        d[c = columns[i]] = +d[c];
+                    });
       }
-      return d;
-    }
+    })
   }
 
+  onOptionChange($event: MatSelectChange) {
+    switch (this.selected) {
+      case 'referral':
+        const mlh = this.data.filter(value => value.referral && value.referral.match(/mlh|major\sleague/i));
+        console.log(mlh);
+        const mlhObj = mlh.reduce(VisComponent.reduceData, {});
+        console.log(Object.keys(mlhObj).map(key => mlhObj[key]));
+
+                // Facebook
+        const fb = this.data.filter(value => value.referral && value.referral.match(/twitter|facebook|fb/i));
+        const fbObj = fb.reduce(VisComponent.reduceData, {});
+
+                // Friends
+        const friend = this.data.filter(value => value.referral && value.referral.match(/friend/i));
+        const friendObj = friend.reduce(VisComponent.reduceData, {});
+                //school|professor|teacher|class|course|department|PSU|major
+        const school = this.data.filter(value => value.referral && value.referral.match(/school|professor|advisor|teacher|class|course|department|PSU|major/i));
+        const schoolObj = school.reduce(VisComponent.reduceData, {});
+                //email
+        const email = this.data.filter(value => value.referral && value.referral.match(/email/i));
+        const emailObj = email.reduce(VisComponent.reduceData, {});
+                //flyer|banner|poster
+        const ads = this.data.filter(value => value.referral && value.referral.match(/flyer|banner|poster/i));
+        const adsObj = ads.reduce(VisComponent.reduceData, {});
+                //extra credit
+        const excre = this.data.filter(value => value.referral && value.referral.match(/extra|cmpsc|compsc/i));
+        const excreObj = excre.reduce(VisComponent.reduceData, {});
+
+        this.multi = [
+          {
+            name: 'MLH',
+            series: Object.keys(mlhObj).map(key => mlhObj[key]),
+          },
+          {
+            name: 'FACEBOOK',
+            series: Object.keys(fbObj).map(key => fbObj[key]),
+          },
+          {
+            name: 'FRIEND REFFERAL',
+            series: Object.keys(friendObj).map(key => friendObj[key]),
+          },
+          {
+            name: 'SCHOOL',
+            series: Object.keys(schoolObj).map(key => schoolObj[key]),
+          },
+          {
+            name: 'EMAIL',
+            series: Object.keys(emailObj).map(key => emailObj[key]),
+          },
+          {
+            name: 'ADVERTISEMENT',
+            series: Object.keys(adsObj).map(key => adsObj[key]),
+          },
+          {
+            name: 'EXTRA CREDIT',
+            series: Object.keys(excreObj).map(key => excreObj[key]),
+          },
+        ];
+
+        const rData = VisComponent.reduceParent(this.data, 'referral');
+        this.single = Object.keys(rData).map(key => rData[key]);
+        break;
+      case 'gender':
+        //female
+        const female = this.data.filter(value => value.gender && value.gender.match(/female/i));
+        console.log(female);
+        const femaleObj = female.reduce(VisComponent.reduceData, {});
+        console.log(Object.keys(femaleObj).map(key => femaleObj[key]));
+        //male
+        const male = this.data.filter(value => value.gender && value.gender.match(/male/i));
+        const maleObj = male.reduce(VisComponent.reduceData, {});
+        this.multi = [
+          {
+            name: 'Female',
+            series: Object.keys(femaleObj).map(key => femaleObj[key]),
+          },
+          {
+            name: 'male',
+            series: Object.keys(maleObj).map(key => maleObj[key]),
+          },
+        ];
+          const gData = VisComponent.reduceParent(this.data, 'gender');
+          this.single = Object.keys(gData).map(key => gData[key]);
+        break;
+
+      case 'experience':
+        const beginner = this.data.filter(value => value.coding_experience && value.coding_experience.match(/beginner/i));
+        const beginnerObj = beginner.reduce(VisComponent.reduceData, {});
+
+        const intermediate = this.data.filter(value => value.coding_experience && value.coding_experience.match(/intermediate/i));
+        const intermediateObj = intermediate.reduce(VisComponent.reduceData, {});
+
+        const advanced = this.data.filter(value => value.coding_experience && value.coding_experience.match(/advanced/i));
+        const advancedObj = advanced.reduce(VisComponent.reduceData, {});
+
+        const none = this.data.filter(value => value.coding_experience && value.coding_experience.match(/none/i));
+        const noneObj = none.reduce(VisComponent.reduceData, {});
+
+        this.multi = [
+          {
+            name: 'beginner',
+            series: Object.keys(beginnerObj).map(key => beginnerObj[key]),
+          },
+          {
+            name: 'intermediate',
+            series: Object.keys(intermediateObj).map(key => intermediateObj[key]),
+          },
+          {
+            name: 'advanced',
+            series: Object.keys(advancedObj).map(key => advancedObj[key]),
+          },
+          {
+            name: 'none',
+            series: Object.keys(noneObj).map(key => noneObj[key]),
+          },
+        ];
+        const cData = VisComponent.reduceParent(this.data, 'coding_experience');
+        console.log(cData);
+        this.single = Object.keys(cData).map(key => cData[key]);
+        break;
+
+      case 'academic_year':
+        const freshman = this.data.filter(value => value.academic_year && value.academic_year.match(/freshman/i));
+        const freshmanObj = freshman.reduce(VisComponent.reduceData, {});
+
+        const sophmore = this.data.filter(value => value.academic_year && value.academic_year.match(/sophmore/i));
+        const sophmoreObj = sophmore.reduce(VisComponent.reduceData, {});
+
+        const junior = this.data.filter(value => value.academic_year && value.academic_year.match(/junior/i));
+        const juniorObj = junior.reduce(VisComponent.reduceData, {});
+
+        const senior = this.data.filter(value => value.academic_year && value.academic_year.match(/senior/i));
+        const seniorObj = senior.reduce(VisComponent.reduceData, {});
+
+        const graduate = this.data.filter(value => value.academic_year && value.academic_year.match(/graduate/i));
+        const graduateObj = graduate.reduce(VisComponent.reduceData, {});
+
+        this.multi = [
+          {
+            name: 'freshman',
+            series: Object.keys(freshmanObj).map(key => freshmanObj[key]),
+          },
+          {
+            name: 'sophmore',
+            series: Object.keys(sophmoreObj).map(key => sophmoreObj[key]),
+          },
+          {
+            name: 'junior',
+            series: Object.keys(juniorObj).map(key => juniorObj[key]),
+          },
+          {
+            name: 'senior',
+            series: Object.keys(seniorObj).map(key => seniorObj[key]),
+          },
+          {
+            name: 'graduate',
+            series: Object.keys(graduateObj).map(key => graduateObj[key]),
+          },
+        ];
+        const aData = VisComponent.reduceParent(this.data, 'academic_year');
+        console.log(aData);
+        this.single = Object.keys(aData).map(key => aData[key]);
+        break;
+    }
+  }
 }
+
+

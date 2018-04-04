@@ -20,6 +20,8 @@ import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
 import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './vis/vis.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+//import { NgxUIModule } from '';
 
 
 @NgModule({
@@ -45,6 +47,8 @@ import { VisComponent } from './vis/vis.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     CustomMaterialModule,
+      NgxChartsModule,
+      //NgxUIModule,
   ],
   entryComponents: [AddEmailDialogComponent],
   providers: [EmailListService, HttpAdminService],
