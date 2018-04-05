@@ -1,5 +1,5 @@
 <div style="position: absolute; top: 20px; left: 50px; right: 0px; bottom: 50px;">
-    <mat-form-field >
+    <mat-form-field>
         <mat-select [(value)]="selected" placeholder="What do you want to see" (change)="onOptionChange($event)">
             <mat-option value="referral"> Referral Source</mat-option>
             <mat-option value="gender"> Gender</mat-option>
@@ -7,9 +7,7 @@
             <mat-option value="academic_year">Academic Year</mat-option>
         </mat-select>
     </mat-form-field>
-
     <mat-grid-list cols="4" rowHeight="200px" columnHeight="400px">
-
         <mat-grid-tile
                 *ngFor="let tile of tiles"
                 [colspan]="tile.cols"
@@ -30,7 +28,6 @@
             {{tile.text}}
         </mat-grid-tile>
     </mat-grid-list>
-
     <ngx-charts-line-chart
             *ngIf="multi.length> 0"
             [view]="[700, 400]"
@@ -49,19 +46,3 @@
             (select)="onSelect($event)">
     </ngx-charts-line-chart>
 </div>
-
-<!--        <mat-grid-tile
-            *ngFor="let Tile of tiles"
-            [colspan]="Tile.cols"
-            [rowspan]="Tile.rows"
-            [style.background]="Tile.color">
-            <ngx-charts-number-card
-                    ng-if="selected == 'coding_experience' || selected == 'academic_year'"
-                    [view]="[200,200]"
-                    [scheme]="colorScheme"
-                    [results]="single"
-                    (select)="onSelect($event)">
-            </ngx-charts-number-card>
-        {{Tile.text}}
-    </mat-grid-tile>
--->

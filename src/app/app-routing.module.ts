@@ -20,8 +20,8 @@ const routes: Routes = [
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
     { path: 'vis', component: VisComponent},
   { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
-  { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
-  { path: 'vis', component: VisComponent },
+  { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'} },
+  { path: 'vis', component: VisComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: '**', component: ManageUsersComponent },
 ];
 
