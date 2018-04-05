@@ -22,8 +22,7 @@
                     [explodeSlices]="false"
                     [labels]="showLabels"
                     [doughnut]="false"
-                    [gradient]="false"
-                    (select)="onSelect($event)">
+                    [gradient]="false">
             </ngx-charts-pie-chart>
             {{tile.text}}
         </mat-grid-tile>
@@ -42,7 +41,6 @@
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
             [autoScale]="autoScale"
-            [timeline]="timeline"
-            (select)="onSelect($event)">
+            [timeline]="timeline">
     </ngx-charts-line-chart>
 </div>

@@ -22,7 +22,6 @@ export class VisComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Registrations';
   single = [];
-  view: any[] = [700, 400];
 
   tiles = [
         { case: 'ngx-charts-pie-chart', cols: 2, rows: 1, color: '#ffffff00' },
@@ -88,10 +87,8 @@ export class VisComponent implements OnInit {
         this.user = user;
         this.adminService.getRegistrations(this.user)
                     .subscribe((data: any[]) => {
-                      console.log(data);
                       this.data = data;
                       this.onOptionChange(null);
-                        // filter out mlh first and then set the date
                     });
       }
     })
@@ -101,9 +98,9 @@ export class VisComponent implements OnInit {
     switch (this.selected) {
       case 'referral':
         const mlh = this.data.filter(value => value.referral && value.referral.match(/mlh|major\sleague/i));
-        console.log(mlh);
+
         const mlhObj = mlh.reduce(VisComponent.reduceData, {});
-        console.log(Object.keys(mlhObj).map(key => mlhObj[key]));
+
 
                 // Facebook
         const fb = this.data.filter(value => value.referral && value.referral.match(/twitter|facebook|fb/i));
@@ -163,9 +160,9 @@ export class VisComponent implements OnInit {
       case 'gender':
         //female
         const female = this.data.filter(value => value.gender && value.gender.match(/female/i));
-        console.log(female);
+
         const femaleObj = female.reduce(VisComponent.reduceData, {});
-        console.log(Object.keys(femaleObj).map(key => femaleObj[key]));
+
         //male
         const male = this.data.filter(value => value.gender && value.gender.match(/male/i));
         const maleObj = male.reduce(VisComponent.reduceData, {});
@@ -215,7 +212,7 @@ export class VisComponent implements OnInit {
           },
         ];
         const cData = VisComponent.reduceParent(this.data, 'coding_experience');
-        console.log(cData);
+
         this.single = Object.keys(cData).map(key => cData[key]);
         break;
 
@@ -241,7 +238,7 @@ export class VisComponent implements OnInit {
             series: Object.keys(freshmanObj).map(key => freshmanObj[key]),
           },
           {
-            name: 'SOPHMORE',
+            name: 'SOPHOMORE',
             series: Object.keys(sophmoreObj).map(key => sophmoreObj[key]),
           },
           {
@@ -258,7 +255,7 @@ export class VisComponent implements OnInit {
           },
         ];
         const aData = VisComponent.reduceParent(this.data, 'academic_year');
-        console.log(aData);
+
         this.single = Object.keys(aData).map(key => aData[key]);
         break;
     }
