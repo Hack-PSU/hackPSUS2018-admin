@@ -1,4 +1,4 @@
-<div style="position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px;">
+<div style="position: absolute; top: 20px; left: 50px; right: 0px; bottom: 50px;">
     <mat-form-field >
         <mat-select [(value)]="selected" placeholder="What do you want to see" (change)="onOptionChange($event)">
             <mat-option value="referral"> Referral Source</mat-option>
@@ -7,9 +7,33 @@
             <mat-option value="academic_year">Academic Year</mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-grid-list cols="4" rowHeight="200px" columnHeight="400px">
+
+        <mat-grid-tile
+                *ngFor="let tile of tiles"
+                [colspan]="tile.cols"
+                [rowspan]="tile.rows"
+                [style.background]="tile.color">
+            <ngx-charts-pie-chart
+                    *ngIf="this.multi.length >0"
+                    [view]="[400, 200]"
+                    [scheme]="colorScheme"
+                    [results]="single"
+                    [legend]="option"
+                    [explodeSlices]="false"
+                    [labels]="showLabels"
+                    [doughnut]="false"
+                    [gradient]="false"
+                    (select)="onSelect($event)">
+            </ngx-charts-pie-chart>
+            {{tile.text}}
+        </mat-grid-tile>
+    </mat-grid-list>
+
     <ngx-charts-line-chart
             *ngIf="multi.length> 0"
-            [view]="view"
+            [view]="[700, 400]"
             [scheme]="colorScheme"
             [results]="multi"
             [gradient]="gradient"
@@ -24,24 +48,19 @@
             [timeline]="timeline"
             (select)="onSelect($event)">
     </ngx-charts-line-chart>
-    <ngx-charts-pie-chart
-            *ngIf="this.multi.length >0"
-            [view]="[600, 300]"
-            [scheme]="colorScheme"
-            [results]="single"
-            [legend]="option"
-            [explodeSlices]="false"
-            [labels]="showLabels"
-            [doughnut]="false"
-            [gradient]="false"
-            (select)="onSelect($event)">
-    </ngx-charts-pie-chart>
-    <ngx-charts-number-card
-            ng-if="selected == 'coding_experience' || selected == 'academic_year'"
-            [view]="[600,300]"
-            [scheme]="colorScheme"
-            [results]="single"
-            (select)="onSelect($event)">
-    </ngx-charts-number-card>
-
 </div>
+
+<!--        <mat-grid-tile
+            *ngFor="let Tile of tiles"
+            [colspan]="Tile.cols"
+            [rowspan]="Tile.rows"
+            [style.background]="Tile.color">
+            <ngx-charts-number-card
+                    ng-if="selected == 'coding_experience' || selected == 'academic_year'"
+                    [view]="[200,200]"
+                    [scheme]="colorScheme"
+                    [results]="single"
+                    (select)="onSelect($event)">
+            </ngx-charts-number-card>
+        {{Tile.text}}
+    </mat-grid-tile>

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MatSelectChange } from '@angular/material';
-
+import { MatSelectChange, MatGridListModule } from '@angular/material';
 
 @Component({
   selector: 'app-vis',
   templateUrl: './vis.component.html',
   styleUrls: ['./vis.component.css'],
 })
+
 export class VisComponent implements OnInit {
   multi = [];
     // options
@@ -21,21 +21,19 @@ export class VisComponent implements OnInit {
   xAxisLabel = 'Time';
   showYAxisLabel = true;
   yAxisLabel = 'Registrations';
-
   single = [];
   view: any[] = [700, 400];
 
-  //for pie chart
-  //explodeSlices = false;
-  //doughnut = false;
+  tiles = [
+        { case: 'ngx-charts-pie-chart', cols: 2, rows: 1, color: '#ffffff00' },
+  ];
+
 
   colorScheme = {
     domain: ['#E5704C', '#6C88B7', '#133753', '#24577C', '#D0EAF1', '#C94331', '#AACACC', '#AACACC'],
   };
-
   autoScale = true;
   selected = 'referral';
-
   private user: firebase.User;
 
   private data: any[];
@@ -94,7 +92,6 @@ export class VisComponent implements OnInit {
                       this.data = data;
                       this.onOptionChange(null);
                         // filter out mlh first and then set the date
-
                     });
       }
     })
@@ -134,11 +131,11 @@ export class VisComponent implements OnInit {
             series: Object.keys(mlhObj).map(key => mlhObj[key]),
           },
           {
-            name: 'FACEBOOK',
+            name: 'FB',
             series: Object.keys(fbObj).map(key => fbObj[key]),
           },
           {
-            name: 'FRIEND REFFERAL',
+            name: 'FRIEND',
             series: Object.keys(friendObj).map(key => friendObj[key]),
           },
           {
@@ -150,11 +147,11 @@ export class VisComponent implements OnInit {
             series: Object.keys(emailObj).map(key => emailObj[key]),
           },
           {
-            name: 'ADVERTISEMENT',
+            name: 'AD',
             series: Object.keys(adsObj).map(key => adsObj[key]),
           },
           {
-            name: 'EXTRA CREDIT',
+            name: 'EXCRED',
             series: Object.keys(excreObj).map(key => excreObj[key]),
           },
         ];
@@ -162,6 +159,7 @@ export class VisComponent implements OnInit {
         const rData = VisComponent.reduceParent(this.data, 'referral');
         this.single = Object.keys(rData).map(key => rData[key]);
         break;
+
       case 'gender':
         //female
         const female = this.data.filter(value => value.gender && value.gender.match(/female/i));
@@ -173,16 +171,16 @@ export class VisComponent implements OnInit {
         const maleObj = male.reduce(VisComponent.reduceData, {});
         this.multi = [
           {
-            name: 'Female',
+            name: 'FEMALE',
             series: Object.keys(femaleObj).map(key => femaleObj[key]),
           },
           {
-            name: 'male',
+            name: 'MALE',
             series: Object.keys(maleObj).map(key => maleObj[key]),
           },
         ];
-          const gData = VisComponent.reduceParent(this.data, 'gender');
-          this.single = Object.keys(gData).map(key => gData[key]);
+        const gData = VisComponent.reduceParent(this.data, 'gender');
+        this.single = Object.keys(gData).map(key => gData[key]);
         break;
 
       case 'experience':
@@ -200,19 +198,19 @@ export class VisComponent implements OnInit {
 
         this.multi = [
           {
-            name: 'beginner',
+            name: 'BGINNER',
             series: Object.keys(beginnerObj).map(key => beginnerObj[key]),
           },
           {
-            name: 'intermediate',
+            name: 'INTER',
             series: Object.keys(intermediateObj).map(key => intermediateObj[key]),
           },
           {
-            name: 'advanced',
+            name: 'ADVANCED',
             series: Object.keys(advancedObj).map(key => advancedObj[key]),
           },
           {
-            name: 'none',
+            name: 'NONE',
             series: Object.keys(noneObj).map(key => noneObj[key]),
           },
         ];
@@ -239,23 +237,23 @@ export class VisComponent implements OnInit {
 
         this.multi = [
           {
-            name: 'freshman',
+            name: 'FRESH',
             series: Object.keys(freshmanObj).map(key => freshmanObj[key]),
           },
           {
-            name: 'sophmore',
+            name: 'SOPH',
             series: Object.keys(sophmoreObj).map(key => sophmoreObj[key]),
           },
           {
-            name: 'junior',
+            name: 'JUNI',
             series: Object.keys(juniorObj).map(key => juniorObj[key]),
           },
           {
-            name: 'senior',
+            name: 'SENI',
             series: Object.keys(seniorObj).map(key => seniorObj[key]),
           },
           {
-            name: 'graduate',
+            name: 'GRAD',
             series: Object.keys(graduateObj).map(key => graduateObj[key]),
           },
         ];
