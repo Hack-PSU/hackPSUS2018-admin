@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
@@ -7,20 +7,20 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { AppConstants } from '../AppConstants';
-//import { EmailListService } from '../email-list.service';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-manage-locations',
+  selector: 'app-extra-credit-classes',
   providers: [
     HttpAdminService,
   ],
-  templateUrl: './manage-locations.component.html',
-  styleUrls: ['./manage-locations.component.css']
+  templateUrl: './extra-credit-classes.component.html',
+  styleUrls: ['./extra-credit-classes.component.css']
 })
-
-export class ManageLocationsComponent implements OnInit, AfterViewInit {
-  private static regCols = [/*'select',*/ 'location_name', 'uid', 'button',];
-  displayedColumns = ManageLocationsComponent.regCols;
+export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
+  private static regCols = ['select', 'class_name', 'uid'];
+  displayedColumns = ExtraCreditClassesComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
   selection = new SelectionModel<any>(true, []);
@@ -31,14 +31,15 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    private router: Router) {
+    private router: Router,
+    public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
-        this.onLocationClick();
+        this.onClassesClick();
       } else {
         console.error('NO USER');
       }
@@ -70,9 +71,9 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  onLocationClick() {
-    this.adminService.getLocations(this.user).subscribe((data) => {
-      this.displayedColumns = ManageLocationsComponent.regCols;
+  onClassesClick() {
+    this.adminService.getExtraCreditClasses(this.user).subscribe((data) => {
+      this.displayedColumns = ExtraCreditClassesComponent.regCols;
       this.dataSource.data = data;
     },                                                      (error) => {
       console.error(error);
@@ -101,7 +102,50 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
   }
 
   refreshData() {
-    this.onLocationClick();
+    this.onClassesClick();
+  }
+
+  addUserToClasses() {
+    let dialogRef = this.dialog.open(AddUserClassDialogComponent, {
+      width: '300px',
+      //data: { selected: this.selection.selected }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result) {
+        this.adminService.getUserUID(this.user, result).subscribe((resp) => {
+          console.log(resp);
+          console.log(this.selection.selected.length);
+          for(let i = 0; i < this.selection.selected.length; i++) {
+            //console.log(this.selection.selected[i].class_name);
+            //console.log(this.selection.selected[i].uid);
+            this.adminService.addUserToExtraClass(this.user, resp.uid, this.selection.selected[i].uid).subscribe((rest) => {
+              console.log(rest);
+            },                                                      (error) => {
+              console.error(error);
+            });
+          }
+        },                                                      (error) => {
+          console.error(error);
+        });
+      }
+    });
   }
 }
 
+@Component({
+  selector: 'app-add-user-class-dialog',
+  templateUrl: './add-user-class-dialog.html',
+  styleUrls: ['./add-user-class-dialog.css'],
+})
+export class AddUserClassDialogComponent {
+
+  constructor( public dialogRef: MatDialogRef<AddUserClassDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}

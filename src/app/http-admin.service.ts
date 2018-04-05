@@ -8,6 +8,7 @@ import { PreRegistrationModel } from './pre-registration-model';
 import { RegistrationModel } from './registration-model';
 import { RSVPModel } from './rsvp-model';
 import { LocationModel } from './location-model';
+import { ClassesModel } from './classes-model';
 
 @Injectable()
 export class HttpAdminService {
@@ -134,7 +135,6 @@ export class HttpAdminService {
   }
 
   addNewLocation(user: firebase.User, locationName: string) {
-    console.log(locationName);
     const API_ENDPOINT = 'admin/create_location';
     return Observable.fromPromise(user.getIdToken(true))
       .switchMap((idToken: string) => {
@@ -146,7 +146,6 @@ export class HttpAdminService {
   }
 
   removeLocation(user: firebase.User, uid: string) {
-    console.log(uid);
     uid = uid.toString();
     const API_ENDPOINT = 'admin/remove_location';
     return Observable.fromPromise(user.getIdToken(true))
@@ -155,6 +154,31 @@ export class HttpAdminService {
         const params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
         return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid }, { headers: myHeader });
+      });
+  }
+
+  getExtraCreditClasses(user: firebase.User, limit?: number): Observable<ClassesModel[]> {
+    const API_ENDPOINT = 'admin/extra_credit_list';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<ClassesModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  addUserToExtraClass(user: firebase.User, uid: string, cid: string) {
+    const API_ENDPOINT = 'admin/assign_extra_credit';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, cid }, { headers: myHeader });
       });
   }
 }

@@ -21,6 +21,7 @@ import { HttpAdminService } from './http-admin.service';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import { ManageLocationsComponent } from './manage-locations/manage-locations.co
     ManageEventsComponent,
     ManageRsvpComponent,
     ManageLocationsComponent,
+    ExtraCreditClassesComponent,
+    AddUserClassDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,7 @@ import { ManageLocationsComponent } from './manage-locations/manage-locations.co
     AngularFireAuthModule,
     CustomMaterialModule,
   ],
-  entryComponents: [AddEmailDialogComponent],
+  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent],
   providers: [EmailListService, HttpAdminService],
   bootstrap: [AppComponent],
 })

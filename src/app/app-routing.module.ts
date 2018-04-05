@@ -10,6 +10,7 @@ import { HttpAdminService } from './http-admin.service';
 import { SendEmailComponent } from './send-email/send-email.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
   { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
   { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
+  { path: 'classes', component: ExtraCreditClassesComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
   
 ];
 

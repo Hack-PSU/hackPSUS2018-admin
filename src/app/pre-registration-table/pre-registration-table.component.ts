@@ -49,7 +49,6 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
     this.displayedColumns = [];
     this.dataSource.data = [];
     this.adminService.getPreRegistrations(this.user).subscribe((data) => {
-      console.log(data);
       this.displayedColumns = PreRegistrationTableComponent.preRegCols;
       this.dataSource.data = data;
     },                                                         (error) => {

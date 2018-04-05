@@ -19,7 +19,7 @@ import { AppConstants } from '../AppConstants';
 
 
 export class ManageRsvpComponent implements OnInit, AfterViewInit {
-  private static regCols = ['select', 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
+  private static regCols = [/*'select',*/ 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
   displayedColumns = ManageRsvpComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
@@ -73,7 +73,6 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
     this.adminService.getRSVP(this.user).subscribe((data) => {
       this.displayedColumns = ManageRsvpComponent.regCols;
       this.dataSource.data = data;
-      //console.log(data);
     },                                                      (error) => {
       console.error(error);
     });
