@@ -23,6 +23,8 @@ import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './vis/vis.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+//import { NgxUIModule } from '';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { VisComponent } from './vis/vis.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     CustomMaterialModule,
+      NgxChartsModule,
+      //NgxUIModule,
   ],
   entryComponents: [AddEmailDialogComponent],
   providers: [EmailListService, HttpAdminService],

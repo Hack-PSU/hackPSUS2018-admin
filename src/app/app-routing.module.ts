@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '2' } },
   { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] , data: { privilegeLevel: '1' } },
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
+    { path: 'vis', component: VisComponent},
   { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
   { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
   { path: 'vis', component: VisComponent },
