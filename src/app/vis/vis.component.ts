@@ -147,11 +147,11 @@ export class VisComponent implements OnInit {
             series: Object.keys(emailObj).map(key => emailObj[key]),
           },
           {
-            name: 'AD',
+            name: 'ADVERTISE',
             series: Object.keys(adsObj).map(key => adsObj[key]),
           },
           {
-            name: 'EXCRED',
+            name: 'EXTRA CRE',
             series: Object.keys(excreObj).map(key => excreObj[key]),
           },
         ];
@@ -198,11 +198,11 @@ export class VisComponent implements OnInit {
 
         this.multi = [
           {
-            name: 'BGINNER',
+            name: 'BEGINNER',
             series: Object.keys(beginnerObj).map(key => beginnerObj[key]),
           },
           {
-            name: 'INTER',
+            name: 'INTERMED',
             series: Object.keys(intermediateObj).map(key => intermediateObj[key]),
           },
           {
@@ -237,23 +237,23 @@ export class VisComponent implements OnInit {
 
         this.multi = [
           {
-            name: 'FRESH',
+            name: 'FRESHMAN',
             series: Object.keys(freshmanObj).map(key => freshmanObj[key]),
           },
           {
-            name: 'SOPH',
+            name: 'SOPHMORE',
             series: Object.keys(sophmoreObj).map(key => sophmoreObj[key]),
           },
           {
-            name: 'JUNI',
+            name: 'JUNIOR',
             series: Object.keys(juniorObj).map(key => juniorObj[key]),
           },
           {
-            name: 'SENI',
+            name: 'SENIOR',
             series: Object.keys(seniorObj).map(key => seniorObj[key]),
           },
           {
-            name: 'GRAD',
+            name: 'GRADUATE',
             series: Object.keys(graduateObj).map(key => graduateObj[key]),
           },
         ];
