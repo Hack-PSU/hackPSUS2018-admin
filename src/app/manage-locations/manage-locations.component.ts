@@ -1,13 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { AppConstants } from '../AppConstants';
-//import { EmailListService } from '../email-list.service';
 
 @Component({
   selector: 'app-manage-locations',
@@ -15,11 +13,11 @@ import { AppConstants } from '../AppConstants';
     HttpAdminService,
   ],
   templateUrl: './manage-locations.component.html',
-  styleUrls: ['./manage-locations.component.css']
+  styleUrls: ['./manage-locations.component.css'],
 })
 
 export class ManageLocationsComponent implements OnInit, AfterViewInit {
-  private static regCols = [/*'select',*/ 'location_name', 'uid', 'button',];
+  private static regCols = [/*'select',*/ 'location_name', 'uid', 'button'];
   displayedColumns = ManageLocationsComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;

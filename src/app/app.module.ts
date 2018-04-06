@@ -18,7 +18,7 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
-import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
@@ -34,6 +34,7 @@ import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extr
     PreRegistrationTableComponent,
     SendEmailComponent,
     AddEmailDialogComponent,
+    AddEventDialogComponent,
     ManageEventsComponent,
     ManageRsvpComponent,
     ManageLocationsComponent,
@@ -50,7 +51,7 @@ import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extr
     AngularFireAuthModule,
     CustomMaterialModule,
   ],
-  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent],
+  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent],
   providers: [EmailListService, HttpAdminService],
   bootstrap: [AppComponent],
 })
