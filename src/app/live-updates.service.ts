@@ -52,21 +52,8 @@ export class LiveUpdatesService {
     });
   }
 
-  sendMessage(message: string, image: File, title: string, push_notification: boolean) {
-    this.socket.emit('upstream-update', { message, title, push_notification, image: { name: image.name, type: image.type } });
-    const compress = new Compress();
-    compress.compress([image], {
-      size: 0.5, // the max size in MB, defaults to 2MB
-      quality: 1, // the quality of the image, max is 1,
-      maxWidth: 1920, // the max width of the output image, defaults to 1920px
-      maxHeight: 1920, // the max height of the output image, defaults to 1920px
-      resize: true, // defaults to true, set false if you do not want to resize the image width and height
-    }).then((data) => {
-      // returns an array of compressed images
-      if (data) {
-        this.socket.emit('image', `${data[0].prefix}${data[0].data}`);
-      }
-    });
+  sendMessage(message: string, title: string, push_notification: boolean) {
+    this.socket.emit('upstream-update', { message, title, push_notification });
     return new Observable<{ uploaded, total }>((observer) => {
       this.socket.on('upload-progress', (update: { uploaded, total }) => {
         observer.next(update);

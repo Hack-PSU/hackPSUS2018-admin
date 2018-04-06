@@ -6,10 +6,8 @@ import { Observable } from 'rxjs/Observable';
 class UpdateModel {
   public idLIVE_UPDATES: string;
   public update_text: string;
-  public update_image: string;
   public update_title: string;
 }
-
 
 @Component({
   selector: 'app-live-update',
@@ -22,7 +20,7 @@ export class LiveUpdateComponent implements OnInit {
   updates: UpdateModel[];
   message: string;
   title: string;
-  image: File;
+  //image: File;
   idtoken: Observable<string>;
   progress: { uploaded, total };
   error: any;
@@ -58,7 +56,7 @@ export class LiveUpdateComponent implements OnInit {
     this.progress = null;
     this.error = null;
     this.loading = true;
-    this.liveUpdates.sendMessage(this.message, this.image, this.title, this.push_notification)
+    this.liveUpdates.sendMessage(this.message, this.title, this.push_notification)
       .subscribe((value) => {
         this.progress = value;
       },         (error) => {
@@ -71,9 +69,5 @@ export class LiveUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  fileAdded($event) {
-    this.image = $event.target.files[0];
   }
 }

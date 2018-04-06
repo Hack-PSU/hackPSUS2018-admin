@@ -38,18 +38,4 @@
     <mat-checkbox class="row" type="checkbox" [(ngModel)]="push_notification" name="push_notification">Send as a push
         notification?
     </mat-checkbox>
-    <input class="row" type="file" name="resume" (change)="fileAdded($event)" accept="image/*;capture=camera">
-    <div *ngIf="registrationModel.form.valid" class="center row">
-        <button *ngIf="!loading; else spinner" class="btn waves-effect waves-light submit-btn" type="submit"
-                name="action">Submit
-            <i class="material-icons right">send</i>
-        </button>
-        <div *ngIf="error" class="alert alert-danger">
-            <p>{{error.message}}</p>
-        </div>
-        <ng-template #spinner>
-            <mat-progress-bar mode="determinate"
-                              [value]="progress?.uploaded * 100 / progress?.total"></mat-progress-bar>
-        </ng-template>
-    </div>
 </form>
