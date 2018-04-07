@@ -6,21 +6,21 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
+import { AppConstants } from '../AppConstants';
 
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-manage-locations',
+  selector: 'app-extra-credit-classes',
   providers: [
     HttpAdminService,
   ],
-  templateUrl: './manage-locations.component.html',
-  styleUrls: ['./manage-locations.component.css'],
+  templateUrl: './extra-credit-classes.component.html',
+  styleUrls: ['./extra-credit-classes.component.css']
 })
-
-export class ManageLocationsComponent implements OnInit, AfterViewInit {
-  private static regCols = [/*'select',*/ 'location_name', 'uid', 'button'];
-  displayedColumns = ManageLocationsComponent.regCols;
+export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
+  private static regCols = ['select', 'class_name', 'uid'];
+  displayedColumns = ExtraCreditClassesComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
   selection = new SelectionModel<any>(true, []);
@@ -33,14 +33,14 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
     public afAuth: AngularFireAuth,
     private router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar, ) {
+    public snackBar: MatSnackBar ) {
   }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
-        this.onLocationClick();
+        this.onClassesClick();
       } else {
         console.error('NO USER');
       }
@@ -72,77 +72,64 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  onLocationClick() {
-    this.adminService.getLocations(this.user).subscribe((data) => {
-      this.displayedColumns = ManageLocationsComponent.regCols;
+  onClassesClick() {
+    this.adminService.getExtraCreditClasses(this.user).subscribe((data) => {
+      this.displayedColumns = ExtraCreditClassesComponent.regCols;
       this.dataSource.data = data;
     },                                                      (error) => {
       console.error(error);
     });
   }
 
-  showInsertDialog() {
-    let dialogRef = this.dialog.open(AddLocationDialogComponent, {
-      height: '240px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      //console.log(result);
-      this.insertLocation(result);
-    },                                                      (error) => {
-      this.openSnackBar("Error: Failed to record location", "");
-    });
-  }
-
   insertLocation(locationValue: string) {
   	let mLocationValue = locationValue.trim();
-  	//console.log(mLocationValue);
+  	console.log(mLocationValue);
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
       this.refreshData();
-      this.openSnackBar("Success: Inserted new location", "");
     },                                                      (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to insert location", "");
     });
   }
 
   removeLocation(uid: string ) {
-  	//console.log(uid);
+  	console.log(uid);
     this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
+      console.log(resp);
       this.refreshData();
-      this.openSnackBar("Success: Removed location", "");
     },                                                      (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to remove location", "");
-    });
-  }
-
-  showUpdateDialog(uid: string) {
-    let dialogRef = this.dialog.open(UpdateLocationDialogComponent, {
-      height: '240px',
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.updateLocation(result, uid);
-      }
-    },                                                      (error) => {
-      this.openSnackBar("Error: Failed to record location", "");
-    });
-  }
-
-  updateLocation(locationValue: string, uid: string) {
-    let mLocationValue = locationValue.trim();
-    console.log(mLocationValue);
-    this.adminService.updateLocation(this.user, uid, mLocationValue).subscribe((resp) => {
-      this.refreshData();
-      this.openSnackBar("Success: Updated location", "");
-    },                                                      (error) => {
-      console.error(error);
-      this.openSnackBar("Error: Failed to update location", "");
     });
   }
 
   refreshData() {
-    this.onLocationClick();
+    this.onClassesClick();
+  }
+
+  addUserToClasses() {
+    let dialogRef = this.dialog.open(AddUserClassDialogComponent, {
+      height: '240px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result) {
+        this.adminService.getUserUID(this.user, result).subscribe((resp) => {
+          console.log(resp);
+          console.log(this.selection.selected.length);
+          for(let i = 0; i < this.selection.selected.length; i++) {
+            this.adminService.addUserToExtraClass(this.user, resp.uid, this.selection.selected[i].uid).subscribe((rest) => {
+              this.openSnackBar("Success: Added User", "");
+            },                                                      (error) => {
+              console.error(error);
+              this.openSnackBar("Error: Failed to Add User", "");
+            });
+          }
+        },                                                      (error) => {
+          console.error(error);
+          this.openSnackBar("Error: Issue with provided Email", "");
+        });
+      }
+    });
   }
 
   openSnackBar(message: string, action: string) {
@@ -153,13 +140,13 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
 }
 
 @Component({
-  selector: 'app-add-location-dialog',
-  templateUrl: './add-location-dialog.html',
-  styleUrls: ['./add-location-dialog.css'],
+  selector: 'app-add-user-class-dialog',
+  templateUrl: './add-user-class-dialog.html',
+  styleUrls: ['./add-user-class-dialog.css'],
 })
-export class AddLocationDialogComponent {
+export class AddUserClassDialogComponent {
 
-  constructor( public dialogRef: MatDialogRef<AddLocationDialogComponent>,
+  constructor( public dialogRef: MatDialogRef<AddUserClassDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -167,20 +154,3 @@ export class AddLocationDialogComponent {
     this.dialogRef.close();
   }
 }
-
-@Component({
-  selector: 'app-update-location-dialog',
-  templateUrl: './update-location-dialog.html',
-  styleUrls: ['./update-location-dialog.css'],
-})
-export class UpdateLocationDialogComponent {
-
-  constructor( public dialogRef: MatDialogRef<UpdateLocationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-

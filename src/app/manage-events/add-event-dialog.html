@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Add Recipient</h1>
+<div mat-dialog-content>
+    <p>Add new recipient</p>
+    <mat-form-field *ngFor="let input of data">
+        <input matInput [(ngModel)]="outData[input]" placeholder="{{input}}">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>No Thanks</button>
+    <button mat-button [mat-dialog-close]="outData" cdkFocusInitial>Ok</button>
+</div>
