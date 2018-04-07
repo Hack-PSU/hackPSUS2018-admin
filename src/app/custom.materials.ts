@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
+  MatButtonModule, MatFormFieldModule, MatInputModule, MatSidenavModule, MatTableModule, MatTabsModule,
+  MatTooltipModule, MatSelectModule, MatIconModule, MatSortModule, MatCheckboxModule, MatProgressBarModule,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -24,12 +26,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   imports: [
     MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule, MatSidenavModule,
-    MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule, MatPaginatorModule,
+    MatProgressBarModule, MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule, MatPaginatorModule,
     MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule, MatGridListModule,MatSlideToggleModule,MatSnackBarModule,
   ],
   exports: [
     MatToolbarModule, MatCardModule, MatDialogModule, MatStepperModule, MatListModule, MatMenuModule, MatIconModule,
-    MatSidenavModule, MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule,
+    MatProgressBarModule, MatSidenavModule, MatTabsModule, MatTableModule, MatFormFieldModule, MatButtonModule, MatInputModule, NoopAnimationsModule,
     MatPaginatorModule, MatTooltipModule, MatSelectModule, MatSortModule, MatCheckboxModule, MatExpansionModule, MatGridListModule,MatSlideToggleModule,MatSnackBarModule
   ],
 })

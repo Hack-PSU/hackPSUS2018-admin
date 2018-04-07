@@ -7,6 +7,7 @@ import { AuthGuard } from './AuthGuard';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
 import { HttpAdminService } from './http-admin.service';
+import { LiveUpdateComponent } from './live-update/live-update.component';
 import { SendEmailComponent } from './send-email/send-email.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
@@ -17,6 +18,9 @@ import { VisComponent } from './vis/vis.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
+  { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] },
+  { path: 'live', component: LiveUpdateComponent },
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '2' } },
   { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] , data: { privilegeLevel: '1' } },
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
@@ -35,7 +39,6 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard,
-    AngularFireAuth,
     HttpAdminService,
   ],
   declarations: [],

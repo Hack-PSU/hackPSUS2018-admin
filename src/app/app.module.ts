@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserViewComponent } from './user-view/user-view.component';
@@ -15,6 +17,7 @@ import { CustomMaterialModule } from './custom.materials'
 import { RegistrationTableComponent } from './registration-table/registration-table.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
+import { LiveUpdateComponent } from './live-update/live-update.component';
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
@@ -36,6 +39,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     RegistrationTableComponent,
     ManageUsersComponent,
     PreRegistrationTableComponent,
+    LiveUpdateComponent,
     SendEmailComponent,
     AddEmailDialogComponent,
     AddEventDialogComponent,
@@ -62,7 +66,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
       //NgxUIModule,
   ],
   entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
-  providers: [EmailListService, HttpAdminService],
+  providers: [EmailListService, HttpAdminService, AngularFireAuth],
   bootstrap: [AppComponent],
 })
 export class AppModule {
