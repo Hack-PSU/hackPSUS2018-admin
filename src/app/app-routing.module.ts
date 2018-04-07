@@ -4,7 +4,6 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationTableComponent } from './registration-table/registration-table.component'
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { AuthGuard } from './AuthGuard';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
 import { HttpAdminService } from './http-admin.service';
 import { LiveUpdateComponent } from './live-update/live-update.component';
@@ -18,20 +17,16 @@ import { VisComponent } from './vis/vis.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
-  { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] },
-  { path: 'live', component: LiveUpdateComponent },
+  { path: 'live', component: LiveUpdateComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '1' } },
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '2' } },
-  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard] , data: { privilegeLevel: '1' } },
+  { path: 'users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { privilegeLevel: '1' } },
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
-    { path: 'vis', component: VisComponent},
-  { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
-  { path: 'classes', component: ExtraCreditClassesComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
-  { path: 'events', component: ManageEventsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
-  
-  { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'} },
+  { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
+  { path: 'classes', component: ExtraCreditClassesComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
+  { path: 'events', component: ManageEventsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
+  { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: 'vis', component: VisComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
-  { path: '**', component: ManageUsersComponent },
+  { path: '**', component: LiveUpdateComponent },
 ];
 
 @NgModule({

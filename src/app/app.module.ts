@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -23,12 +21,15 @@ import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
 import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
-import { AddLocationDialogComponent, UpdateLocationDialogComponent, ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import {
+  AddLocationDialogComponent,
+  UpdateLocationDialogComponent,
+  ManageLocationsComponent,
+} from './manage-locations/manage-locations.component';
 import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
-import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './vis/vis.component';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -62,8 +63,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     CustomMaterialModule,
-      NgxChartsModule,
-      //NgxUIModule,
+    NgxChartsModule,
   ],
   entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
   providers: [EmailListService, HttpAdminService, AngularFireAuth],

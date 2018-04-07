@@ -38,4 +38,5 @@
     <mat-checkbox class="row" type="checkbox" [(ngModel)]="push_notification" name="push_notification">Send as a push
         notification?
     </mat-checkbox>
+    <button mat-button type="submit" *ngIf="registrationModel.form.valid">Submit</button>
 </form>

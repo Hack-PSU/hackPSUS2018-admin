@@ -16,7 +16,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
     HttpAdminService,
   ],
   templateUrl: './extra-credit-classes.component.html',
-  styleUrls: ['./extra-credit-classes.component.css']
+  styleUrls: ['./extra-credit-classes.component.css'],
 })
 export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
   private static regCols = ['select', 'class_name', 'uid'];
@@ -33,7 +33,7 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
     public afAuth: AngularFireAuth,
     private router: Router,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar ) {
+    public snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -76,27 +76,24 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
     this.adminService.getExtraCreditClasses(this.user).subscribe((data) => {
       this.displayedColumns = ExtraCreditClassesComponent.regCols;
       this.dataSource.data = data;
-    },                                                      (error) => {
+    },                                                           (error) => {
       console.error(error);
     });
   }
 
   insertLocation(locationValue: string) {
-  	let mLocationValue = locationValue.trim();
-  	console.log(mLocationValue);
+  	const mLocationValue = locationValue.trim();
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
       this.refreshData();
-    },                                                      (error) => {
+    },                                                                    (error) => {
       console.error(error);
     });
   }
 
-  removeLocation(uid: string ) {
-  	console.log(uid);
+  removeLocation(uid: string) {
     this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
-      console.log(resp);
       this.refreshData();
-    },                                                      (error) => {
+    },                                                         (error) => {
       console.error(error);
     });
   }
@@ -106,27 +103,25 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
   }
 
   addUserToClasses() {
-    let dialogRef = this.dialog.open(AddUserClassDialogComponent, {
+    const dialogRef = this.dialog.open(AddUserClassDialogComponent, {
       height: '240px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
-      if(result) {
+      if (result) {
         this.adminService.getUserUID(this.user, result).subscribe((resp) => {
-          console.log(resp);
-          console.log(this.selection.selected.length);
-          for(let i = 0; i < this.selection.selected.length; i++) {
+          for (let i = 0; i < this.selection.selected.length; i++) {
             this.adminService.addUserToExtraClass(this.user, resp.uid, this.selection.selected[i].uid).subscribe((rest) => {
-              this.openSnackBar("Success: Added User", "");
-            },                                                      (error) => {
+              this.openSnackBar('Success: Added User', '');
+            },                                                                                                   (error) => {
               console.error(error);
-              this.openSnackBar("Error: Failed to Add User", "");
+              this.openSnackBar('Error: Failed to Add User', '');
             });
           }
-        },                                                      (error) => {
+        },                                                        (error) => {
           console.error(error);
-          this.openSnackBar("Error: Issue with provided Email", "");
+          this.openSnackBar('Error: Issue with provided Email', '');
         });
       }
     });
@@ -146,8 +141,8 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
 })
 export class AddUserClassDialogComponent {
 
-  constructor( public dialogRef: MatDialogRef<AddUserClassDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<AddUserClassDialogComponent>,
+               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   onNoClick(): void {
