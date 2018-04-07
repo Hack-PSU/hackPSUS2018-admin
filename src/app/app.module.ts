@@ -22,6 +22,10 @@ import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { AddLocationDialogComponent, UpdateLocationDialogComponent, ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
+import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { ChartsModule } from 'ng2-charts';
+import { VisComponent } from './vis/vis.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -42,16 +46,20 @@ import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extr
     UpdateLocationDialogComponent,
     ExtraCreditClassesComponent,
     AddUserClassDialogComponent,
+    VisComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     CustomMaterialModule,
+      NgxChartsModule,
+      //NgxUIModule,
   ],
   entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
   providers: [EmailListService, HttpAdminService],

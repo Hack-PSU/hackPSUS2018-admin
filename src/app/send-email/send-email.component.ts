@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
@@ -14,10 +14,16 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./send-email.component.css'],
 })
 export class SendEmailComponent implements OnInit {
+
+  @ViewChild('iframe') iframe: ElementRef;
+
   secondFormGroup: FormGroup;
   keys = [];
   emailBody = '';
   emailSubject = '';
+  customHTML = false;
+  uploadedHTML = '';
+  mDisabled = true;
 
   constructor(public emailListService: EmailListService, public dialog: MatDialog,
               public adminService: HttpAdminService, public afAuth: AngularFireAuth,
@@ -47,7 +53,6 @@ export class SendEmailComponent implements OnInit {
       data: this.keys,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         this.emailListService.emailList.push(result)
       }
@@ -86,19 +91,32 @@ export class SendEmailComponent implements OnInit {
   }
 
   generateEmailFromTemplate() {
-    return htmlTemplate.replace(/\$\$BODY\$\$/g, this.emailBody.replace(/\n/g, '<br>'));
+    return this.customHTML ? this.uploadedHTML : htmlTemplate.replace(/\$\$BODY\$\$/g, this.emailBody.replace(/\n/g, '<br>'));
   }
 
   loadPreview() {
     const subHtml = this.generateEmailFromTemplate();
     if (document.getElementById('email-preview')) {
-      const iframe = document.getElementById('email-preview');
-      // if (iframe.contentWindow) {
-      //   iframe.contentWindow.document.open('text/html', 'replace');
-      //   iframe.contentWindow.document.write(subHtml);
-      //   iframe.contentWindow.document.close();
-      // }
+      const doc =  this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentWindow;
+      doc.open();
+      doc.write(subHtml);
+      doc.close();
     }
+  }
+
+  htmlFileAdded($event) {
+    console.log($event);
+    const fileToLoad = $event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onload = (fileLoadedEvent: any) => {
+      this.uploadedHTML = fileLoadedEvent.target.result;
+      this.mDisabled = false;
+    };
+    fileReader.readAsText(fileToLoad, 'UTF-8');
+  }
+  
+  noop() {
+    return;
   }
 }
 
