@@ -41,13 +41,10 @@ export class ManageUsersComponent implements OnInit {
   }
 
   makeAdmin(email: string) {
-    console.log(email);
     if (email != null) {
       this.adminService.getUserUID(this.user, email).subscribe((user) => {
         console.log(user);
         this.adminService.elevateUser(this.user, user.uid, this.level.toString()).subscribe((resp) => {
-          console.log('Hello World');
-          console.log(resp);
         },                                                                       (error) => {
           console.error(error);
         });

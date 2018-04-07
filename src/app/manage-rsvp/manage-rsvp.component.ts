@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
@@ -19,7 +19,7 @@ import { AppConstants } from '../AppConstants';
 
 
 export class ManageRsvpComponent implements OnInit, AfterViewInit {
-  private static regCols = ['select', 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
+  private static regCols = [/*'select',*/ 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
   displayedColumns = ManageRsvpComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
@@ -31,7 +31,8 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    private router: Router) {
+    private router: Router,
+    private snackBar: MatSnackBar, ) {
   }
 
   ngOnInit() {
@@ -73,9 +74,9 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
     this.adminService.getRSVP(this.user).subscribe((data) => {
       this.displayedColumns = ManageRsvpComponent.regCols;
       this.dataSource.data = data;
-      //console.log(data);
     },                                                      (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to load data", "");
     });
   }
 
@@ -85,5 +86,16 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
 
   getDateString(time: string) {
     return new Date(parseInt(time, 10)).toLocaleString()
+  }
+
+  convertFromBaseToBase(str, fromBase, toBase) {
+    var num = parseInt(str, fromBase); //convert from one base to another
+    return num.toString(toBase);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

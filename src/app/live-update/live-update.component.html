@@ -1,0 +1,42 @@
+<!--<div *ngFor="let update of updates">-->
+<!--<p>-->
+<!--{{update.update_text}}-->
+<!--</p>-->
+<!--<img src="{{update.update_image}}" height="100px" width="100px">-->
+<!--</div>-->
+<form class="registration-form container-fluid"
+      (ngSubmit)="registrationModel.form.valid ? sendMessage() : error = registrationModel.form.errors"
+      name="registrationFormDOM"
+      #registrationModel="ngForm">
+    <mat-form-field class="example-full-width row">
+        <input matInput
+               type="text"
+               name="major"
+               [(ngModel)]="title"
+               #messageInput="ngModel"
+               id="autocomplete-input-title"
+               required
+               placeholder="Enter live update title"
+               class="validate required"
+        >
+    </mat-form-field>
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput
+                   type="text"
+                   name="major"
+                   [(ngModel)]="message"
+                   #messageInput="ngModel"
+                   id="autocomplete-input-major"
+                   required
+                   placeholder="Enter live update"
+                   class="validate required"
+            >
+        </mat-form-field>
+        <label class="data-error" *ngIf="!messageInput.valid">Required</label><br>
+    </div>
+    <mat-checkbox class="row" type="checkbox" [(ngModel)]="push_notification" name="push_notification">Send as a push
+        notification?
+    </mat-checkbox>
+    <button mat-button type="submit" *ngIf="registrationModel.form.valid">Submit</button>
+</form>
