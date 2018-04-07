@@ -4,11 +4,12 @@ import * as Compress from 'compress.js';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/filter';
+import { AppConstants } from './AppConstants';
 
 
 @Injectable()
 export class LiveUpdatesService {
-  private url = 'http://localhost:5000/updates';
+  private url = `${AppConstants.SOCKET_BASE_URL}/updates`;
   private socket;
 
   private broadcastSubject: BehaviorSubject<Event> = new BehaviorSubject<Event>(new Event(''));

@@ -24,6 +24,7 @@ export class ManageEventsComponent implements OnInit {
   newEvent: EventModel;
   public dataSource = new MatTableDataSource<EventModel>([]);
   private idtoken: Observable<string>;
+  private idtokenString = '';
 
 
   constructor(private eventsService: EventsService,
@@ -48,6 +49,7 @@ export class ManageEventsComponent implements OnInit {
       if (user) {
         this.idtoken = Observable.fromPromise(user.getIdToken(true));
         this.idtoken.subscribe((value) => {
+          this.idtokenString = value;
           this.eventsService.getEvents(value).subscribe((events: EventModel[]) => {
             this.dataSource.data = this.dataSource.data.concat(events);
           });
@@ -59,6 +61,12 @@ export class ManageEventsComponent implements OnInit {
       } else {
         this._router.navigate([AppConstants.LOGIN_ENDPOINT]);
       }
+    });
+  }
+
+  refreshData() {
+    this.eventsService.getEvents(this.idtokenString).subscribe((events: EventModel[]) => {
+      this.dataSource.data = this.dataSource.data.concat(events);
     });
   }
 
