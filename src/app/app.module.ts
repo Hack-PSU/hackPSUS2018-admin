@@ -20,7 +20,7 @@ import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
 import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
-import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { AddLocationDialogComponent, UpdateLocationDialogComponent, ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
 
 @NgModule({
@@ -38,6 +38,8 @@ import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extr
     ManageEventsComponent,
     ManageRsvpComponent,
     ManageLocationsComponent,
+    AddLocationDialogComponent,
+    UpdateLocationDialogComponent,
     ExtraCreditClassesComponent,
     AddUserClassDialogComponent,
   ],
@@ -51,7 +53,7 @@ import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extr
     AngularFireAuthModule,
     CustomMaterialModule,
   ],
-  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent],
+  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
   providers: [EmailListService, HttpAdminService],
   bootstrap: [AppComponent],
 })

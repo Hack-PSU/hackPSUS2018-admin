@@ -157,6 +157,18 @@ export class HttpAdminService {
       });
   }
 
+  updateLocation(user: firebase.User, uid: string, name: string) {
+    uid = uid.toString();
+    const API_ENDPOINT = 'admin/update_location';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        const params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, name }, { headers: myHeader });
+      });
+  }
+
   getExtraCreditClasses(user: firebase.User, limit?: number): Observable<ClassesModel[]> {
     const API_ENDPOINT = 'admin/extra_credit_list';
     return Observable.fromPromise(user.getIdToken(true))

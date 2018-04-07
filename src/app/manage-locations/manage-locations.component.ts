@@ -1,11 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-manage-locations',
@@ -29,7 +31,9 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    private router: Router) {
+    private router: Router,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar, ) {
   }
 
   ngOnInit() {
@@ -77,29 +81,106 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  showInsertDialog() {
+    let dialogRef = this.dialog.open(AddLocationDialogComponent, {
+      height: '240px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log(result);
+      this.insertLocation(result);
+    },                                                      (error) => {
+      this.openSnackBar("Error: Failed to record location", "");
+    });
+  }
+
   insertLocation(locationValue: string) {
   	let mLocationValue = locationValue.trim();
-  	console.log(mLocationValue);
+  	//console.log(mLocationValue);
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
-      //console.log(resp);
       this.refreshData();
+      this.openSnackBar("Success: Inserted new location", "");
     },                                                      (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to insert location", "");
     });
   }
 
   removeLocation(uid: string ) {
-  	console.log(uid);
+  	//console.log(uid);
     this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
-      //console.log(resp);
       this.refreshData();
+      this.openSnackBar("Success: Removed location", "");
     },                                                      (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to remove location", "");
+    });
+  }
+
+  showUpdateDialog(uid: string) {
+    let dialogRef = this.dialog.open(UpdateLocationDialogComponent, {
+      height: '240px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.updateLocation(result, uid);
+      }
+    },                                                      (error) => {
+      this.openSnackBar("Error: Failed to record location", "");
+    });
+  }
+
+  updateLocation(locationValue: string, uid: string) {
+    let mLocationValue = locationValue.trim();
+    console.log(mLocationValue);
+    this.adminService.updateLocation(this.user, uid, mLocationValue).subscribe((resp) => {
+      this.refreshData();
+      this.openSnackBar("Success: Updated location", "");
+    },                                                      (error) => {
+      console.error(error);
+      this.openSnackBar("Error: Failed to update location", "");
     });
   }
 
   refreshData() {
     this.onLocationClick();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+}
+
+@Component({
+  selector: 'app-add-location-dialog',
+  templateUrl: './add-location-dialog.html',
+  styleUrls: ['./add-location-dialog.css'],
+})
+export class AddLocationDialogComponent {
+
+  constructor( public dialogRef: MatDialogRef<AddLocationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'app-update-location-dialog',
+  templateUrl: './update-location-dialog.html',
+  styleUrls: ['./update-location-dialog.css'],
+})
+export class UpdateLocationDialogComponent {
+
+  constructor( public dialogRef: MatDialogRef<UpdateLocationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
 

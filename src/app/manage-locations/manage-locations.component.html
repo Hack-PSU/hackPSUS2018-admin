@@ -37,6 +37,10 @@
                     <mat-icon>refresh</mat-icon>
                     <span>Refresh Data</span>
                 </button>
+                <button mat-menu-item (click)="showInsertDialog()">
+                    <mat-icon>add</mat-icon>
+                    <span>Add Location</span>
+                </button>
             </mat-menu>
         </div>
     </mat-card-title>
@@ -63,7 +67,7 @@
                             <mat-icon>settings</mat-icon>
                         </button>
                          <mat-menu #crud_menu="matMenu">
-                            <button mat-menu-item (click)="refreshData()">
+                            <button mat-menu-item (click)="showUpdateDialog(user.uid)">
                                 <mat-icon>edit</mat-icon>
                                 <span>Update Location</span>
                             </button>
