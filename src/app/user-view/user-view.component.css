@@ -9,6 +9,12 @@
     border-radius: 50%;
 }
 
+@media screen and (max-width: 768px){
+    .profile-image-holder {
+        display: none;
+    }
+}
+
 .profile-image-holder img {
     height: 100%;
     width: 100%;

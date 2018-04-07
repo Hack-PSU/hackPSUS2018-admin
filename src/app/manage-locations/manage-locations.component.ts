@@ -7,23 +7,20 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { AppConstants } from '../AppConstants';
-import { EmailListService } from '../email-list.service';
+//import { EmailListService } from '../email-list.service';
 
 @Component({
-  selector: 'app-registration-table',
+  selector: 'app-manage-locations',
   providers: [
     HttpAdminService,
   ],
-  templateUrl: './registration-table.component.html',
-  styleUrls: ['./registration-table.component.css'],
+  templateUrl: './manage-locations.component.html',
+  styleUrls: ['./manage-locations.component.css']
 })
 
-export class RegistrationTableComponent implements OnInit, AfterViewInit {
-  private static regCols = ['select', 'firstname', 'lastname', 'email', 'university', 'academic_year',
-    'gender', 'coding_experience',
-    'major', 'shirt_size', 'dietary_restriction', 'allergies', 'travel_reimbursement', 'veteran',
-    'first_hackathon', 'race', 'expectations', 'project', 'referral', 'resume', 'pin', 'uid'];
-  displayedColumns = RegistrationTableComponent.regCols;
+export class ManageLocationsComponent implements OnInit, AfterViewInit {
+  private static regCols = ['select', 'location_name', 'uid', 'button',];
+  displayedColumns = ManageLocationsComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
   selection = new SelectionModel<any>(true, []);
@@ -34,7 +31,6 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    public emailListService: EmailListService,
     private router: Router) {
   }
 
@@ -42,7 +38,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
-        this.onRegistrationClick();
+        this.onLocationClick();
       } else {
         console.error('NO USER');
       }
@@ -74,22 +70,38 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  onRegistrationClick() {
-    this.adminService.getRegistrations(this.user).subscribe((data) => {
-      this.displayedColumns = RegistrationTableComponent.regCols;
+  onLocationClick() {
+    this.adminService.getLocations(this.user).subscribe((data) => {
+      this.displayedColumns = ManageLocationsComponent.regCols;
       this.dataSource.data = data;
     },                                                      (error) => {
       console.error(error);
     });
   }
 
-  sendEmail() {
-    this.emailListService.emailList = this.selection.selected;
-    this.router.navigate([AppConstants.EMAIL_ENDPOINT])
-      .catch(e => console.error(e));
+  insertLocation(locationValue: string) {
+  	let mLocationValue = locationValue.trim();
+  	console.log(mLocationValue);
+    this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
+      console.log(resp);
+      this.refreshData();
+    },                                                      (error) => {
+      console.error(error);
+    });
+  }
+
+  removeLocation(uid: string ) {
+  	console.log(uid);
+    this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
+      console.log(resp);
+      this.refreshData();
+    },                                                      (error) => {
+      console.error(error);
+    });
   }
 
   refreshData() {
-    this.onRegistrationClick();
+    this.onLocationClick();
   }
 }
+

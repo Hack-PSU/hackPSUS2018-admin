@@ -13,6 +13,20 @@
   color: black;
 }
 
+.h4 {
+  display: block;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.insert-location {
+  display: block;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .email-filter {
   display: block;
   width: 80%;
@@ -53,6 +67,10 @@ mat-cell {
 
 .context-menu {
     float: right;
+}
+
+.action-menu {
+  
 }
 
 .item-selected {

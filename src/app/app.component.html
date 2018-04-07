@@ -1,22 +1,26 @@
-<div class="wrapper">
-    <mat-sidenav-container class="example-container">
-        <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-            <app-sidebar></app-sidebar>
-        </mat-sidenav>
-        <mat-sidenav-content>
-            <div class="content">
-                <div class="row header">
-                    <button type="button" id="sidebarCollapse"
-                            class="btn btn-menu-toggle navbar-btn col-xs-1 .hide-on-med-and-up"
-                            (click)="sidenav.toggle()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <app-user-view class="col-xs-3 user-view"></app-user-view>
-                </div>
-                <router-outlet></router-outlet>
-            </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-</div>
+<mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <div class="logo item" style="flex: 5; height: 100%; display:flex;">
+        <a href="https://hackpsu.org" style="height: 90%;">
+            <img src="../assets/images/logo.svg" class="hoverable" style="height: 100%;">
+        </a>
+        <h1 class="example-app-name">HackPSU Admin App</h1>
+    </div>
+    <div style="flex: 1;">
+        <app-user-view></app-user-view>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="example-sidenav-container"
+                       [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <app-sidebar></app-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

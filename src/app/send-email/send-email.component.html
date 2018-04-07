@@ -1,0 +1,122 @@
+<mat-card>
+    <mat-card-title>
+        Send email
+    </mat-card-title>
+    <mat-card-content>
+        <mat-horizontal-stepper class="email-list" [linear]="true" #stepper="matHorizontalStepper">
+            <mat-step>
+                <ng-template matStepLabel>Select recipients</ng-template>
+                <div class="email-list row">
+                    <mat-selection-list dense #emails>
+                        <mat-list-option *ngFor="let user of emailListService.emailList">
+                            <div style="display: inherit;">
+                                <mat-icon matListIcon>person</mat-icon>
+                                <p>{{user.email}}</p>
+                            </div>
+                        </mat-list-option>
+                    </mat-selection-list>
+                    <mat-card-actions>
+                        <button (click)="deleteSelected(emails)" mat-button
+                                color="secondary" [disabled]="emails.selectedOptions.selected.length === 0">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button (click)="addNew()" mat-button color="secondary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </div>
+                <div>
+                    <mat-card-actions>
+                        <button mat-button matStepperNext color="primary"
+                                [disabled]="emailListService.emailList.length === 0">Next
+                        </button>
+                    </mat-card-actions>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Select template</ng-template>
+                <mat-slide-toggle [(ngModel)]="customHTML" style="margin: 0 auto;">Custom HTML template?</mat-slide-toggle>
+                <form *ngIf="customHTML" class="example-full-width">
+                    <label for="file-input" class="alert">Your HTML must have the appropriate substitutions already formatted</label>
+                    <input id="file-input" type="file" placeholder="Upload html template" (change)="htmlFileAdded($event)" accept="text/html">
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="emailSubject" placeholder="Email subject" required name="subject">
+                    </mat-form-field>
+                </form>
+                <div>
+                    <mat-card-actions>
+                        <button mat-button matStepperNext color="primary"
+                                (click)="customHTML ? loadPreview() : noop()"
+                                [disabled]="customHTML && mDisabled">Next
+                        </button>
+                    </mat-card-actions>
+                </div>
+            </mat-step>
+            <mat-step *ngIf="!customHTML" [stepControl]="secondFormGroup">
+                <div style="margin: 10px;">
+                    <button mat-raised-button class="placeholder-button" color="primary" (click)="addPlaceholder(key)"
+                            *ngFor="let key of keys">
+                        {{key}}
+                    </button>
+                    <button mat-raised-button color="primary" (click)="addPlaceholder('forgot_url')">
+                        Password Reset URL
+                    </button>
+                </div>
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Email body</ng-template>
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="emailSubject" placeholder="Email subject" required formControlName="subjectCtrl">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <textarea matTextareaAutosize matAutosizeMinRows="2"
+                                  [(ngModel)]="emailBody" matInput placeholder="Email body" formControlName="secondCtrl"
+                                  required>
+                        </textarea>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext (click)="loadPreview()">Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Confirm</ng-template>
+                <div class="email-preview-container">
+                    <div class="email-preview-list row">
+                        <mat-list dense>
+                            <mat-list-item *ngFor="let user of emailListService.emailList">
+                                <div style="display: inherit;">
+                                    <mat-icon matListIcon>person</mat-icon>
+                                    <p>{{user.email}}</p>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <div class="email-preview">
+                        <iframe id="email-preview" #iframe></iframe>
+                    </div>
+                </div>
+                <div>
+                    <mat-card-actions>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="emailConfirmClicked()">Confirm</button>
+                    </mat-card-actions>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+
+        <!--<div class="email-body-input">-->
+        <!--<mat-form-field color="primary" floatLabel='Email body'>-->
+        <!--<textarea matInput placeHolder="Email body..."></textarea>-->
+        <!--</mat-form-field>-->
+        <!--</div>-->
+    </mat-card-content>
+    <!--<mat-card-actions>-->
+    <!--<button mat-button color="primary">-->
+    <!--Cancel-->
+    <!--</button>-->
+    <!--<button mat-button color="primary">-->
+    <!--Send-->
+    <!--</button>-->
+    <!--</mat-card-actions>-->
+</mat-card>

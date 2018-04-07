@@ -7,23 +7,20 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { AppConstants } from '../AppConstants';
-import { EmailListService } from '../email-list.service';
 
 @Component({
-  selector: 'app-registration-table',
+  selector: 'app-manage-rsvp',
   providers: [
     HttpAdminService,
   ],
-  templateUrl: './registration-table.component.html',
-  styleUrls: ['./registration-table.component.css'],
+  templateUrl: './manage-rsvp.component.html',
+  styleUrls: ['./manage-rsvp.component.css']
 })
 
-export class RegistrationTableComponent implements OnInit, AfterViewInit {
-  private static regCols = ['select', 'firstname', 'lastname', 'email', 'university', 'academic_year',
-    'gender', 'coding_experience',
-    'major', 'shirt_size', 'dietary_restriction', 'allergies', 'travel_reimbursement', 'veteran',
-    'first_hackathon', 'race', 'expectations', 'project', 'referral', 'resume', 'pin', 'uid'];
-  displayedColumns = RegistrationTableComponent.regCols;
+
+export class ManageRsvpComponent implements OnInit, AfterViewInit {
+  private static regCols = ['select', 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
+  displayedColumns = ManageRsvpComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
   private user: firebase.User;
   selection = new SelectionModel<any>(true, []);
@@ -34,7 +31,6 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    public emailListService: EmailListService,
     private router: Router) {
   }
 
@@ -42,14 +38,13 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
         this.user = user;
-        this.onRegistrationClick();
+        this.onRSVPClick();
       } else {
         console.error('NO USER');
       }
     });
   }
-
-  ngAfterViewInit() {
+    ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.table;
   }
@@ -74,22 +69,21 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  onRegistrationClick() {
-    this.adminService.getRegistrations(this.user).subscribe((data) => {
-      this.displayedColumns = RegistrationTableComponent.regCols;
+  onRSVPClick() {
+    this.adminService.getRSVP(this.user).subscribe((data) => {
+      this.displayedColumns = ManageRsvpComponent.regCols;
       this.dataSource.data = data;
+      //console.log(data);
     },                                                      (error) => {
       console.error(error);
     });
   }
 
-  sendEmail() {
-    this.emailListService.emailList = this.selection.selected;
-    this.router.navigate([AppConstants.EMAIL_ENDPOINT])
-      .catch(e => console.error(e));
+  refreshData() {
+    this.onRSVPClick();
   }
 
-  refreshData() {
-    this.onRegistrationClick();
+  getDateString(time: string) {
+    return new Date(parseInt(time, 10)).toLocaleString()
   }
 }

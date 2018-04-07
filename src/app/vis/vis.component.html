@@ -1,0 +1,46 @@
+<div style="position: absolute; top: 20px; left: 50px; right: 0px; bottom: 50px;">
+    <mat-form-field>
+        <mat-select [(value)]="selected" placeholder="What do you want to see" (change)="onOptionChange($event)">
+            <mat-option value="referral"> Referral Source</mat-option>
+            <mat-option value="gender"> Gender</mat-option>
+            <mat-option value="experience"> Coding Experience</mat-option>
+            <mat-option value="academic_year">Academic Year</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-grid-list cols="4" rowHeight="200px" columnHeight="400px">
+        <mat-grid-tile
+                *ngFor="let tile of tiles"
+                [colspan]="tile.cols"
+                [rowspan]="tile.rows"
+                [style.background]="tile.color">
+            <ngx-charts-pie-chart
+                    *ngIf="this.multi.length >0"
+                    [view]="[400, 200]"
+                    [scheme]="colorScheme"
+                    [results]="single"
+                    [legend]="option"
+                    [explodeSlices]="false"
+                    [labels]="showLabels"
+                    [doughnut]="false"
+                    [gradient]="false">
+            </ngx-charts-pie-chart>
+            {{tile.text}}
+        </mat-grid-tile>
+    </mat-grid-list>
+    <ngx-charts-line-chart
+            *ngIf="multi.length> 0"
+            [view]="[700, 400]"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            [timeline]="timeline">
+    </ngx-charts-line-chart>
+</div>
