@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Add Location</h1>
+<div mat-dialog-content>
+    <p>Enter Location Name</p>
+	<mat-form-field class="add-location" class="col-sm-6 col-sm-offset-3">
+	    <input matInput #addLocation placeholder="Location Name" id="add-location">
+	</mat-form-field>
+</div>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close>No Thanks</button>
+	<button mat-button [mat-dialog-close]="addLocation.value"> Add Location </button>
+</div>
+    

@@ -10,6 +10,8 @@ import { HttpAdminService } from './http-admin.service';
 import { SendEmailComponent } from './send-email/send-email.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
+import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { VisComponent } from './vis/vis.component';
 
 const routes: Routes = [
@@ -20,6 +22,9 @@ const routes: Routes = [
   { path: 'email', component: SendEmailComponent, data: { privilegeLevel: '3' } },
     { path: 'vis', component: VisComponent},
   { path: 'rsvp', component: ManageRsvpComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
+  { path: 'classes', component: ExtraCreditClassesComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
+  { path: 'events', component: ManageEventsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'}},
+  
   { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3'} },
   { path: 'vis', component: VisComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: '**', component: ManageUsersComponent },

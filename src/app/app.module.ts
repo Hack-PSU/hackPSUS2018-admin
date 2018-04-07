@@ -18,13 +18,14 @@ import { PreRegistrationTableComponent } from './pre-registration-table/pre-regi
 import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
 import { EmailListService } from './email-list.service';
 import { HttpAdminService } from './http-admin.service';
-import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/manage-events.component';
 import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
+import { AddLocationDialogComponent, UpdateLocationDialogComponent, ManageLocationsComponent } from './manage-locations/manage-locations.component';
+import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
 import { ManageLocationsComponent } from './manage-locations/manage-locations.component';
 import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './vis/vis.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
-//import { NgxUIModule } from '';
 
 @NgModule({
   declarations: [
@@ -37,9 +38,14 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     PreRegistrationTableComponent,
     SendEmailComponent,
     AddEmailDialogComponent,
+    AddEventDialogComponent,
     ManageEventsComponent,
     ManageRsvpComponent,
     ManageLocationsComponent,
+    AddLocationDialogComponent,
+    UpdateLocationDialogComponent,
+    ExtraCreditClassesComponent,
+    AddUserClassDialogComponent,
     VisComponent,
   ],
   imports: [
@@ -55,7 +61,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
       NgxChartsModule,
       //NgxUIModule,
   ],
-  entryComponents: [AddEmailDialogComponent],
+  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
   providers: [EmailListService, HttpAdminService],
   bootstrap: [AppComponent],
 })

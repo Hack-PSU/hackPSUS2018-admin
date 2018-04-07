@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { HttpAdminService } from '../http-admin.service';
-import { LoginModel } from '../login-model';
+import { LoginModel } from '../models/login-model';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
