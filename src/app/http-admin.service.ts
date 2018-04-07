@@ -4,11 +4,11 @@ import { AppConstants } from './AppConstants';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import * as firebase from 'firebase';
-import { PreRegistrationModel } from './pre-registration-model';
-import { RegistrationModel } from './registration-model';
-import { RSVPModel } from './rsvp-model';
-import { LocationModel } from './location-model';
-import { ClassesModel } from './classes-model';
+import { PreRegistrationModel } from './models/pre-registration-model';
+import { RegistrationModel } from './models/registration-model';
+import { RSVPModel } from './models/rsvp-model';
+import { LocationModel } from './models/location-model';
+import { ClassesModel } from './models/classes-model';
 
 @Injectable()
 export class HttpAdminService {

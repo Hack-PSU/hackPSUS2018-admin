@@ -2,11 +2,11 @@
 <div mat-dialog-content>
     <p>Enter User Email</p>
 	<mat-form-field class="user-maker" class="col-sm-6 col-sm-offset-3">
-        <input matInput #usermaker placeholder="User Email" id="user-maker">
-    </mat-form-field>
-    <div mat-dialog-actions>
-		<button mat-button mat-dialog-close>No Thanks</button>
-		<button mat-button [mat-dialog-close]="usermaker.value"> Add User </button>
-	</div>
+	    <input matInput #usermaker placeholder="User Email" id="user-maker">
+	</mat-form-field>
+</div>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close>No Thanks</button>
+	<button mat-button [mat-dialog-close]="usermaker.value"> Add User </button>
 </div>
     

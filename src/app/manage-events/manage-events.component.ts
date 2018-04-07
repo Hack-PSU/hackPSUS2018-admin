@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { EventModel } from '../event-model';
+import { EventModel } from '../models/event-model';
 import { EventsService } from '../events.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource } from '@angular/material';
 import * as uuid from 'uuid/v4';

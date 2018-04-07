@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
@@ -31,7 +31,8 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
-    private router: Router) {
+    private router: Router,
+    private snackBar: MatSnackBar, ) {
   }
 
   ngOnInit() {
@@ -75,6 +76,7 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
       this.dataSource.data = data;
     },                                                      (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to load data", "");
     });
   }
 
@@ -89,5 +91,11 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
   convertFromBaseToBase(str, fromBase, toBase) {
     var num = parseInt(str, fromBase); //convert from one base to another
     return num.toString(toBase);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

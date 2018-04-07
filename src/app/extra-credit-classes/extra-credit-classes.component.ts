@@ -8,7 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { AppConstants } from '../AppConstants';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-extra-credit-classes',
@@ -32,7 +32,8 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
     private router: Router,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar ) {
   }
 
   ngOnInit() {
@@ -84,7 +85,6 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
   	let mLocationValue = locationValue.trim();
   	console.log(mLocationValue);
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
-      console.log(resp);
       this.refreshData();
     },                                                      (error) => {
       console.error(error);
@@ -107,8 +107,7 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
 
   addUserToClasses() {
     let dialogRef = this.dialog.open(AddUserClassDialogComponent, {
-      width: '300px',
-      //data: { selected: this.selection.selected }
+      height: '240px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -118,18 +117,24 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
           console.log(resp);
           console.log(this.selection.selected.length);
           for(let i = 0; i < this.selection.selected.length; i++) {
-            //console.log(this.selection.selected[i].class_name);
-            //console.log(this.selection.selected[i].uid);
             this.adminService.addUserToExtraClass(this.user, resp.uid, this.selection.selected[i].uid).subscribe((rest) => {
-              console.log(rest);
+              this.openSnackBar("Success: Added User", "");
             },                                                      (error) => {
               console.error(error);
+              this.openSnackBar("Error: Failed to Add User", "");
             });
           }
         },                                                      (error) => {
           console.error(error);
+          this.openSnackBar("Error: Issue with provided Email", "");
         });
       }
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 }

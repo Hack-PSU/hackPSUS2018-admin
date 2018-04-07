@@ -1,10 +1,13 @@
+<!--
 <div class = "h4"><u>Insert Location</u></div>
 <div class="col s12">
     <mat-form-field class="insert-location">
         <input matInput (keyup.enter)="insertLocation($event.target.value)" placeholder="Add New Location" id="insert-location">
     </mat-form-field>
 </div>
+
 <div class = "h4"><u>Search Location Table</u></div>
+-->
 <div class="col s12">
     <mat-form-field class="email-filter">
         <input matInput (keydown)="applyFilter($event.target.value)" placeholder="Search" id="email-filter">
@@ -39,24 +42,6 @@
     </mat-card-title>
     <mat-card-content>
         <mat-table #table [dataSource]="dataSource" matSort>
-            
-            <!--
-            Checkbox Column
-            <ng-container matColumnDef="select">
-                <mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()"
-                                  (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox>
-                </mat-cell>
-            </ng-container>
-            -->
 
             <!--  Location Name Column -->
             <ng-container matColumnDef="location_name">
@@ -79,7 +64,7 @@
                         </button>
                          <mat-menu #crud_menu="matMenu">
                             <button mat-menu-item (click)="refreshData()">
-                                <mat-icon>refresh</mat-icon>
+                                <mat-icon>edit</mat-icon>
                                 <span>Update Location</span>
                             </button>
                             <button mat-menu-item (click)="removeLocation(user.uid)">

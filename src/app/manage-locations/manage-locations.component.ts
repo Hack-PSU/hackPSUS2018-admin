@@ -81,7 +81,7 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
   	let mLocationValue = locationValue.trim();
   	console.log(mLocationValue);
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
-      console.log(resp);
+      //console.log(resp);
       this.refreshData();
     },                                                      (error) => {
       console.error(error);
@@ -91,7 +91,7 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
   removeLocation(uid: string ) {
   	console.log(uid);
     this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
-      console.log(resp);
+      //console.log(resp);
       this.refreshData();
     },                                                      (error) => {
       console.error(error);

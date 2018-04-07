@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
@@ -35,7 +35,8 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
     public emailListService: EmailListService,
-    private router: Router) {
+    private router: Router,
+    private snackBar: MatSnackBar, ) {
   }
 
   ngOnInit() {
@@ -80,6 +81,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       this.dataSource.data = data;
     },                                                      (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to load data", "");
     });
   }
 
@@ -91,5 +93,11 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
 
   refreshData() {
     this.onRegistrationClick();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

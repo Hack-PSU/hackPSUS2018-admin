@@ -4,7 +4,7 @@ import { AppConstants } from './AppConstants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
-import { EventModel } from './event-model';
+import { EventModel } from './models/event-model';
 
 @Injectable()
 export class EventsService {

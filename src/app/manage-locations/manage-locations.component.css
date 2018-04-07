@@ -55,6 +55,7 @@ mat-cell {
   position: sticky;
   top: 0;
   background: white;
+  z-index: 999;
 }
 
 .mat-card-title {
@@ -62,11 +63,11 @@ mat-cell {
 }
 
 .card-title {
-    flex: 5;
+  flex: 5;
 }
 
 .context-menu {
-    float: right;
+  float: right;
 }
 
 .action-menu {
@@ -74,11 +75,11 @@ mat-cell {
 }
 
 .item-selected {
-    background-color: rgba(170, 202, 204, 0.3);
-    color: #6C88B7;
-    font-size: small;
+  background-color: rgba(170, 202, 204, 0.3);
+  color: #6C88B7;
+  font-size: small;
 }
 
 .item-selected p {
-    margin: 10px;
+  margin: 10px;
 }

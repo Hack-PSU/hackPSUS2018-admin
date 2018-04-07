@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { HttpAdminService } from '../http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -21,7 +21,7 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) table: MatSort;
 
 
-  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth) {}
+  constructor(public adminService: HttpAdminService, public afAuth: AngularFireAuth, public snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
@@ -30,6 +30,7 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
         this.onPreRegistrationClick();
       } else {
         console.error('NO USER');
+        this.openSnackBar("Error: No User", "");
       }
     });
   }
@@ -53,6 +54,13 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
       this.dataSource.data = data;
     },                                                         (error) => {
       console.error(error);
+      this.openSnackBar("Error: Failed to load data", "");
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 
