@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { EmailListService } from '../email-list.service';
-import { htmlTemplate } from '../../assets/hackpsu_email_template';
+import { htmlTemplate } from '../../assets/email_template';
 import { HttpAdminService } from '../http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
