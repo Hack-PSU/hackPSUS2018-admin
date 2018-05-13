@@ -2,10 +2,10 @@
 This webapp was built with hackathon organizers in mind. The app provides a clean interface to manage all the functionality that organizers need.
 View current registrations, manage the live event, and more!
 
-#Features
+# Features
 
 
-#Setup
+# Setup
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.4.
 
@@ -34,12 +34,12 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-#Customizing for your event
+# Customizing for your event
 
-#Deploying
+# Deploying
 
-#Contributing
+# Contributing
 
-#Feedback / Questions
+# Feedback / Questions
 
-#License
+# License
