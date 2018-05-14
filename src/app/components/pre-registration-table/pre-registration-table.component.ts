@@ -1,3 +1,6 @@
+/**
+ * TODO: Add docstring explaining component
+ */
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
@@ -13,10 +16,18 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./pre-registration-table.component.css'],
 })
 export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
+  get user(): firebase.User {
+    return this._user;
+  }
+
+  set user(value: firebase.User) {
+    this._user = value;
+  }
   private static preRegCols = ['email', 'uid'];
-  displayedColumns = PreRegistrationTableComponent.preRegCols;
+  private _user: firebase.User;
+
+  public displayedColumns = PreRegistrationTableComponent.preRegCols;
   public dataSource = new MatTableDataSource<any>([]);
-  private user: firebase.User;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
 
@@ -26,11 +37,11 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
-        this.user = user;
+        this._user = user;
         this.onPreRegistrationClick();
       } else {
         console.error('NO USER');
-        this.openSnackBar("Error: No User", "");
+        this.openSnackBar('Error: No User', '');
       }
     });
   }
@@ -49,12 +60,12 @@ export class PreRegistrationTableComponent implements OnInit, AfterViewInit {
   onPreRegistrationClick() {
     this.displayedColumns = [];
     this.dataSource.data = [];
-    this.adminService.getPreRegistrations(this.user).subscribe((data) => {
+    this.adminService.getPreRegistrations(this._user).subscribe((data) => {
       this.displayedColumns = PreRegistrationTableComponent.preRegCols;
       this.dataSource.data = data;
-    },                                                         (error) => {
+    },                                                          (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to load data", "");
+      this.openSnackBar('Error: Failed to load data', '');
     });
   }
 

@@ -1,11 +1,15 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+/**
+ * TODO: Add docstring explaining component
+ */
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { EmailListService } from '../../services/email-list/email-list.service';
 import { htmlTemplate } from '../../../assets/email_template';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AddEmailDialogComponent } from './add-email-dialog';
 
 @Component({
   selector: 'app-send-email',
@@ -114,24 +118,9 @@ export class SendEmailComponent implements OnInit {
     };
     fileReader.readAsText(fileToLoad, 'UTF-8');
   }
-  
+
   noop() {
     return;
   }
 }
 
-@Component({
-  selector: 'app-add-email-dialog',
-  templateUrl: './add-email-dialog.html',
-  styleUrls: ['./add-email-dialog.css'],
-})
-export class AddEmailDialogComponent {
-
-  public outData: any;
-
-  constructor(public dialogRef: MatDialogRef<AddEmailDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.outData = {};
-    data.forEach(d => this.outData[d] = '');
-  }
-}

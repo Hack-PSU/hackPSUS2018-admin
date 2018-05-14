@@ -1,3 +1,6 @@
+/**
+ * TODO: Add docstring explaining component
+ */
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 
@@ -6,7 +9,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { AppConstants } from '../../helpers/AppConstants';
 
 @Component({
   selector: 'app-manage-rsvp',
@@ -14,38 +16,55 @@ import { AppConstants } from '../../helpers/AppConstants';
     HttpAdminService,
   ],
   templateUrl: './manage-rsvp.component.html',
-  styleUrls: ['./manage-rsvp.component.css']
+  styleUrls: ['./manage-rsvp.component.css'],
 })
 
 
 export class ManageRsvpComponent implements OnInit, AfterViewInit {
-  private static regCols = [/*'select',*/ 'firstname', 'lastname', 'email','pin', 'uid', 'rsvp_time'];
-  displayedColumns = ManageRsvpComponent.regCols;
+  get user(): firebase.User {
+    return this._user;
+  }
+
+  set user(value: firebase.User) {
+    this._user = value;
+  }
+  private static regCols = [/*'select',*/ 'firstname', 'lastname', 'email', 'pin', 'uid', 'rsvp_time'];
+  private _user: firebase.User;
+
+  public displayedColumns = ManageRsvpComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
-  private user: firebase.User;
-  selection = new SelectionModel<any>(true, []);
+  public selection = new SelectionModel<any>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
+
+  static getDateString(time: string) {
+    return new Date(parseInt(time, 10)).toLocaleString()
+  }
+
+  static convertFromBaseToBase(str, fromBase, toBase) {
+    const num = parseInt(str, fromBase); // convert from one base to another
+    return num.toString(toBase);
+  }
 
   constructor(
     public adminService: HttpAdminService,
     public afAuth: AngularFireAuth,
     private router: Router,
-    private snackBar: MatSnackBar, ) {
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
-        this.user = user;
+        this._user = user;
         this.onRSVPClick();
       } else {
         console.error('NO USER');
       }
     });
   }
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.table;
   }
@@ -71,12 +90,12 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
   }
 
   onRSVPClick() {
-    this.adminService.getRSVP(this.user).subscribe((data) => {
+    this.adminService.getRSVP(this._user).subscribe((data) => {
       this.displayedColumns = ManageRsvpComponent.regCols;
       this.dataSource.data = data;
-    },                                                      (error) => {
+    },                                              (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to load data", "");
+      this.openSnackBar('Error: Failed to load data', '');
     });
   }
 
@@ -84,14 +103,6 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
     this.onRSVPClick();
   }
 
-  getDateString(time: string) {
-    return new Date(parseInt(time, 10)).toLocaleString()
-  }
-
-  convertFromBaseToBase(str, fromBase, toBase) {
-    var num = parseInt(str, fromBase); //convert from one base to another
-    return num.toString(toBase);
-  }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {

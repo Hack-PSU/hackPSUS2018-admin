@@ -1,3 +1,6 @@
+/**
+ * TODO: Add docstring explaining component
+ */
 import { Component, OnInit } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -8,7 +11,7 @@ import { MatSelectChange, MatGridListModule } from '@angular/material';
   templateUrl: './vis.component.html',
   styleUrls: ['./vis.component.css'],
 })
-
+// TODO: Add public/private labels for all properties
 export class VisComponent implements OnInit {
   multi = [];
     // options
@@ -95,6 +98,7 @@ export class VisComponent implements OnInit {
   }
 
   onOptionChange($event: MatSelectChange) {
+    // TODO: Possbily migrate this giant chunk of code to a service
     switch (this.selected) {
       case 'referral':
         const mlh = this.data.filter(value => value.referral && value.referral.match(/mlh|major\sleague/i));

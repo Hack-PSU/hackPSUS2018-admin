@@ -1,13 +1,11 @@
+/**
+ * TODO: Add docstring explaning component
+ */
 import { Component, OnInit } from '@angular/core';
 import { LiveUpdatesService } from '../../services/live-updates/live-updates.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
-
-class UpdateModel {
-  public idLIVE_UPDATES: string;
-  public update_text: string;
-  public update_title: string;
-}
+import { UpdateModel } from '../../models/update-model';
 
 @Component({
   selector: 'app-live-update',
@@ -20,7 +18,7 @@ export class LiveUpdateComponent implements OnInit {
   updates: UpdateModel[];
   message: string;
   title: string;
-  //image: File;
+  // image: File;
   idtoken: Observable<string>;
   progress: { uploaded, total };
   error: any;

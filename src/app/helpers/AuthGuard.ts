@@ -21,10 +21,7 @@ export class AuthGuard implements CanActivate {
         .pipe(
           map((adminData) => {
             if (adminData.admin) {
-              if (adminData.privilege >= privilegeLevel) {
-                return true;
-              }
-              return false;
+              return adminData.privilege >= privilegeLevel;
             }
             this.authService.auth.signOut();
             this.router.navigate([AppConstants.LOGIN_ENDPOINT]);

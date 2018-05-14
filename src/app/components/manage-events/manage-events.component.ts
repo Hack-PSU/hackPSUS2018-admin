@@ -1,13 +1,16 @@
-import { Component, Inject, OnInit } from '@angular/core';
+/**
+ * TODO: Add docstring explaining component
+ */
+import { Component, OnInit } from '@angular/core';
 import { EventModel } from '../../models/event-model';
 import { EventsService } from '../../services/events/events.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
 import * as uuid from 'uuid/v4';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import { AppConstants } from '../../helpers/AppConstants';
-import { ManageLocationsComponent } from '../manage-locations/manage-locations.component';
+import { AddEventDialogComponent } from './add-event-dialog';
 
 @Component({
   selector: 'app-manage-events',
@@ -19,12 +22,43 @@ import { ManageLocationsComponent } from '../manage-locations/manage-locations.c
   ],
 })
 export class ManageEventsComponent implements OnInit {
-  private static regCols = ['location_name', 'uid', 'event_start_time', 'event_end_time', 'event_title', 'event_description', 'event_type', 'button'];
-  displayedColumns = ManageEventsComponent.regCols;
-  newEvent: EventModel;
+  get idtokenString(): string {
+    return this._idtokenString;
+  }
+
+  set idtokenString(value: string) {
+    this._idtokenString = value;
+  }
+  get idtoken(): Observable<string> {
+    return this._idtoken;
+  }
+
+  set idtoken(value: Observable<string>) {
+    this._idtoken = value;
+  }
+  static get regCols(): string[] {
+    return this._regCols;
+  }
+
+  static set regCols(value: string[]) {
+    this._regCols = value;
+  }
+  private static _regCols =
+    ['location_name',
+      'uid',
+      'event_start_time',
+      'event_end_time',
+      'event_title',
+      'event_description',
+      'event_type',
+      'button'];
+  private _idtoken: Observable<string>;
+  private _idtokenString = '';
+
+
+  public displayedColumns = ManageEventsComponent._regCols;
+  public newEvent: EventModel;
   public dataSource = new MatTableDataSource<EventModel>([]);
-  private idtoken: Observable<string>;
-  private idtokenString = '';
 
 
   constructor(private eventsService: EventsService,
@@ -47,13 +81,13 @@ export class ManageEventsComponent implements OnInit {
       });
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
-        this.idtoken = Observable.fromPromise(user.getIdToken(true));
-        this.idtoken.subscribe((value) => {
-          this.idtokenString = value;
+        this._idtoken = Observable.fromPromise(user.getIdToken(true));
+        this._idtoken.subscribe((value) => {
+          this._idtokenString = value;
           this.eventsService.getEvents(value).subscribe((events: EventModel[]) => {
             this.dataSource.data = this.dataSource.data.concat(events);
           });
-        },                     (error) => {
+        },                      (error) => {
           this.snackBar.open(error.body, null, {
             duration: 2000,
           });
@@ -65,7 +99,7 @@ export class ManageEventsComponent implements OnInit {
   }
 
   refreshData() {
-    this.eventsService.getEvents(this.idtokenString).subscribe((events: EventModel[]) => {
+    this.eventsService.getEvents(this._idtokenString).subscribe((events: EventModel[]) => {
       this.dataSource.data = this.dataSource.data.concat(events);
     });
   }
@@ -100,18 +134,3 @@ export class ManageEventsComponent implements OnInit {
   }
 }
 
-@Component({
-  selector: 'app-add-event-dialog',
-  templateUrl: './add-event-dialog.html',
-  styleUrls: ['./add-event-dialog.css'],
-})
-export class AddEventDialogComponent {
-
-  public outData: any;
-
-  constructor(public dialogRef: MatDialogRef<AddEventDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.outData = {};
-    data.forEach(d => this.outData[d] = '');
-  }
-}

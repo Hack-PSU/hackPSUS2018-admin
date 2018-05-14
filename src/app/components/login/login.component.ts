@@ -1,3 +1,6 @@
+/**
+ * TODO: Add docstring explaining component
+ */
 import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';

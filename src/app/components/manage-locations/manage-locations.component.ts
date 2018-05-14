@@ -1,13 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject } from '@angular/core';
+/**
+ * TODO: Add docstring explaining component
+ */
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AddLocationDialogComponent } from './add-location-dialog';
+import { UpdateLocationDialogComponent } from './update-location-dialog';
 
 @Component({
   selector: 'app-manage-locations',
@@ -33,7 +36,7 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
     public afAuth: AngularFireAuth,
     private router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar, ) {
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -76,68 +79,68 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
     this.adminService.getLocations(this.user).subscribe((data) => {
       this.displayedColumns = ManageLocationsComponent.regCols;
       this.dataSource.data = data;
-    },                                                      (error) => {
+    },                                                  (error) => {
       console.error(error);
     });
   }
 
   showInsertDialog() {
-    let dialogRef = this.dialog.open(AddLocationDialogComponent, {
+    const dialogRef = this.dialog.open(AddLocationDialogComponent, {
       height: '240px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      //console.log(result);
+      // console.log(result);
       this.insertLocation(result);
-    },                                                      (error) => {
-      this.openSnackBar("Error: Failed to record location", "");
+    },                                (error) => {
+      this.openSnackBar('Error: Failed to record location', '');
     });
   }
 
   insertLocation(locationValue: string) {
-  	let mLocationValue = locationValue.trim();
-  	//console.log(mLocationValue);
+    const mLocationValue = locationValue.trim();
+    // console.log(mLocationValue);
     this.adminService.addNewLocation(this.user, mLocationValue).subscribe((resp) => {
       this.refreshData();
-      this.openSnackBar("Success: Inserted new location", "");
-    },                                                      (error) => {
+      this.openSnackBar('Success: Inserted new location', '');
+    },                                                                    (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to insert location", "");
+      this.openSnackBar('Error: Failed to insert location', '');
     });
   }
 
-  removeLocation(uid: string ) {
-  	//console.log(uid);
+  removeLocation(uid: string) {
+    // console.log(uid);
     this.adminService.removeLocation(this.user, uid).subscribe((resp) => {
       this.refreshData();
-      this.openSnackBar("Success: Removed location", "");
-    },                                                      (error) => {
+      this.openSnackBar('Success: Removed location', '');
+    },                                                         (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to remove location", "");
+      this.openSnackBar('Error: Failed to remove location', '');
     });
   }
 
   showUpdateDialog(uid: string) {
-    let dialogRef = this.dialog.open(UpdateLocationDialogComponent, {
+    const dialogRef = this.dialog.open(UpdateLocationDialogComponent, {
       height: '240px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
         this.updateLocation(result, uid);
       }
-    },                                                      (error) => {
-      this.openSnackBar("Error: Failed to record location", "");
+    },                                (error) => {
+      this.openSnackBar('Error: Failed to record location', '');
     });
   }
 
   updateLocation(locationValue: string, uid: string) {
-    let mLocationValue = locationValue.trim();
+    const mLocationValue = locationValue.trim();
     console.log(mLocationValue);
     this.adminService.updateLocation(this.user, uid, mLocationValue).subscribe((resp) => {
       this.refreshData();
-      this.openSnackBar("Success: Updated location", "");
-    },                                                      (error) => {
+      this.openSnackBar('Success: Updated location', '');
+    },                                                                         (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to update location", "");
+      this.openSnackBar('Error: Failed to update location', '');
     });
   }
 
@@ -149,38 +152,6 @@ export class ManageLocationsComponent implements OnInit, AfterViewInit {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
-  }
-}
-
-@Component({
-  selector: 'app-add-location-dialog',
-  templateUrl: './add-location-dialog.html',
-  styleUrls: ['./add-location-dialog.css'],
-})
-export class AddLocationDialogComponent {
-
-  constructor( public dialogRef: MatDialogRef<AddLocationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
-  selector: 'app-update-location-dialog',
-  templateUrl: './update-location-dialog.html',
-  styleUrls: ['./update-location-dialog.css'],
-})
-export class UpdateLocationDialogComponent {
-
-  constructor( public dialogRef: MatDialogRef<UpdateLocationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }
 

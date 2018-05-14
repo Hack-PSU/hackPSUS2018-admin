@@ -16,20 +16,23 @@ import { RegistrationTableComponent } from './components/registration-table/regi
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { PreRegistrationTableComponent } from './components/pre-registration-table/pre-registration-table.component';
 import { LiveUpdateComponent } from './components/live-update/live-update.component';
-import { AddEmailDialogComponent, SendEmailComponent } from './components/send-email/send-email.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
 import { EmailListService } from './services/email-list/email-list.service';
 import { HttpAdminService } from './services/http-admin/http-admin.service';
-import { AddEventDialogComponent, ManageEventsComponent } from './components/manage-events/manage-events.component';
+import { ManageEventsComponent } from './components/manage-events/manage-events.component';
 import { ManageRsvpComponent } from './components/manage-rsvp/manage-rsvp.component';
 import {
-  AddLocationDialogComponent,
-  UpdateLocationDialogComponent,
   ManageLocationsComponent,
 } from './components/manage-locations/manage-locations.component';
-import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './components/extra-credit-classes/extra-credit-classes.component';
+import { ExtraCreditClassesComponent } from './components/extra-credit-classes/extra-credit-classes.component';
 import { ChartsModule } from 'ng2-charts';
 import { VisComponent } from './components/vis/vis.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AddEventDialogComponent } from './components/manage-events/add-event-dialog';
+import { AddUserClassDialogComponent } from './components/extra-credit-classes/add-user-class-dialog';
+import { AddLocationDialogComponent } from './components/manage-locations/add-location-dialog';
+import { UpdateLocationDialogComponent } from './components/manage-locations/update-location-dialog';
+import { AddEmailDialogComponent } from './components/send-email/add-email-dialog';
 
 @NgModule({
   declarations: [

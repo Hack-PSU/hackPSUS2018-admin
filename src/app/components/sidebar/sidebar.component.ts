@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+/**
+ * TODO: Add docstring explaining component
+ */
+import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-sidebar',

@@ -1,3 +1,6 @@
+/**
+ * TODO: Add docstring explaining component
+ */
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 
@@ -19,14 +22,22 @@ import { EmailListService } from '../../services/email-list/email-list.service';
 })
 
 export class RegistrationTableComponent implements OnInit, AfterViewInit {
+  get user(): firebase.User {
+    return this._user;
+  }
+
+  set user(value: firebase.User) {
+    this._user = value;
+  }
   private static regCols = ['select', 'firstname', 'lastname', 'email', 'university', 'academic_year',
     'gender', 'coding_experience',
     'major', 'shirt_size', 'dietary_restriction', 'allergies', 'travel_reimbursement', 'veteran',
     'first_hackathon', 'race', 'expectations', 'project', 'referral', 'resume', 'pin', 'uid'];
-  displayedColumns = RegistrationTableComponent.regCols;
+  private _user: firebase.User;
+
+  public displayedColumns = RegistrationTableComponent.regCols;
   public dataSource = new MatTableDataSource<any>([]);
-  private user: firebase.User;
-  selection = new SelectionModel<any>(true, []);
+  public selection = new SelectionModel<any>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) table: MatSort;
@@ -36,13 +47,13 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
     public afAuth: AngularFireAuth,
     public emailListService: EmailListService,
     private router: Router,
-    private snackBar: MatSnackBar, ) {
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged((user) => {
       if (user) {
-        this.user = user;
+        this._user = user;
         this.onRegistrationClick();
       } else {
         console.error('NO USER');
@@ -76,12 +87,12 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
   }
 
   onRegistrationClick() {
-    this.adminService.getRegistrations(this.user).subscribe((data) => {
+    this.adminService.getRegistrations(this._user).subscribe((data) => {
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
-    },                                                      (error) => {
+    },                                                       (error) => {
       console.error(error);
-      this.openSnackBar("Error: Failed to load data", "");
+      this.openSnackBar('Error: Failed to load data', '');
     });
   }
 

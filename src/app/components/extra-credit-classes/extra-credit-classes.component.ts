@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject } from '@angular/core';
+/**
+ * TODO: Add docstring explaining component
+ */
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatDialog, MatPaginator, MatSnackBar, MatSort, MatTableDataSource } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { AppConstants } from '../../helpers/AppConstants';
-
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { AddUserClassDialogComponent } from './add-user-class-dialog';
 
 @Component({
   selector: 'app-extra-credit-classes',
@@ -134,18 +135,3 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'app-add-user-class-dialog',
-  templateUrl: './add-user-class-dialog.html',
-  styleUrls: ['./add-user-class-dialog.css'],
-})
-export class AddUserClassDialogComponent {
-
-  constructor(public dialogRef: MatDialogRef<AddUserClassDialogComponent>,
-               @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
