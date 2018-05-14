@@ -4,31 +4,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './components/login/login.component';
+import { AppRoutingModule } from './helpers/app-routing.module';
 import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { UserViewComponent } from './user-view/user-view.component';
-import { CustomMaterialModule } from './custom.materials'
-import { RegistrationTableComponent } from './registration-table/registration-table.component';
-import { ManageUsersComponent } from './manage-users/manage-users.component';
-import { PreRegistrationTableComponent } from './pre-registration-table/pre-registration-table.component';
-import { LiveUpdateComponent } from './live-update/live-update.component';
-import { AddEmailDialogComponent, SendEmailComponent } from './send-email/send-email.component';
-import { EmailListService } from './email-list.service';
-import { HttpAdminService } from './http-admin.service';
-import { AddEventDialogComponent, ManageEventsComponent } from './manage-events/manage-events.component';
-import { ManageRsvpComponent } from './manage-rsvp/manage-rsvp.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
+import { CustomMaterialModule } from './helpers/custom.materials'
+import { RegistrationTableComponent } from './components/registration-table/registration-table.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { PreRegistrationTableComponent } from './components/pre-registration-table/pre-registration-table.component';
+import { LiveUpdateComponent } from './components/live-update/live-update.component';
+import { AddEmailDialogComponent, SendEmailComponent } from './components/send-email/send-email.component';
+import { EmailListService } from './services/email-list/email-list.service';
+import { HttpAdminService } from './services/http-admin/http-admin.service';
+import { AddEventDialogComponent, ManageEventsComponent } from './components/manage-events/manage-events.component';
+import { ManageRsvpComponent } from './components/manage-rsvp/manage-rsvp.component';
 import {
   AddLocationDialogComponent,
   UpdateLocationDialogComponent,
   ManageLocationsComponent,
-} from './manage-locations/manage-locations.component';
-import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './extra-credit-classes/extra-credit-classes.component';
+} from './components/manage-locations/manage-locations.component';
+import { AddUserClassDialogComponent, ExtraCreditClassesComponent } from './components/extra-credit-classes/extra-credit-classes.component';
 import { ChartsModule } from 'ng2-charts';
-import { VisComponent } from './vis/vis.component';
+import { VisComponent } from './components/vis/vis.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
