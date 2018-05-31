@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  /*background-color: #fafafa; */
+  /*border: 1px gray solid; */
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px;
+  /*background-color: tomato;
+  border: 1px black solid;*/
+}
+
+.section-title-letter {
+    display: inline-block;
+    font-size: 2.5em;
+}
+
+.section-title-word {
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 1.5%;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  /*background-color: cyan;*/
+  /*border: 1px lightgray solid;
+  border-radius: 5px;*/
+}
+
+.latest-container {
+  margin: 10px;
+}
+
+.table-container {
+  margin: 10px;
+}
+
+.table-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /*background-color: yellow;
+  border: 1px lightgray solid;*/
+}
+
+.latest-container mat-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /*background-color: lightblue;
+  border: 1px black solid;*/
+}
+
+.stat-container {
+  margin: 10px !important;
+  height: 100px;
+  width: 200px;
+  /*background-color: tomato;
+  border: 1px black solid;*/
+}
+
+.stat-container h3 {
+  text-align: center;
+}
+
+mat-header-cell.master-select, mat-cell.select-box {
+  max-width: 100px;
+}
+
+mat-cell {
+  /*background-color: lightblue;
+  border: 1px black solid;*/
+}
+
+.card-title {
+  font-size: large;
+  flex-basis: 25%;
+  /*background-color: lightblue;
+  border: 1px black solid;*/
+}
+
+.card-title p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-basis: 25%;
+}
+
+.item-selected {
+  background-color: rgba(170, 202, 204, 0.3);
+  color: #6C88B7;
+  font-size: large;
+  /*width: 25%;*/
+}
+
+.item-selected p {
+    margin: 10px;
+}
+
+mat-icon.check-circle-green {
+  color: green;
+}
+
+.email-filter {
+  margin: 10px;
+  font-size: small;
+  flex-basis: 50%;
+  /*border: 1px black solid;*/
+}
+
+.table-title-container mat-slide-toggle {
+  /*border: 1px solid black;
+  background-color: tomato;*/
+}
+
+.title-button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 25%;
+  /*background-color: lime;
+  border: 1px black solid;*/
+}
+
+mat-cell a {
+  text-decoration: none;
+  color: black;
+}
+
+mat-cell a:hover {
+  color: #6C88B7;
+}

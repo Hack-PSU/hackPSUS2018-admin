@@ -13,9 +13,15 @@ import { ManageLocationsComponent } from '../components/manage-locations/manage-
 import { ExtraCreditClassesComponent } from '../components/extra-credit-classes/extra-credit-classes.component';
 import { ManageEventsComponent } from '../components/manage-events/manage-events.component';
 import { VisComponent } from '../components/vis/vis.component';
+import { UserDataComponent } from '../components/user-data/user-data.component';
+import { DashboardComponent } from '../components/dashboard/dashboard.component';
+import { ManageAdminComponent } from '../components/manage-admin/manage-admin.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '1' } },
+  { path: 'userdata', component: UserDataComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '2' }},
+  { path: 'admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '4' }},
   { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
   { path: 'live', component: LiveUpdateComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '1' } },
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '2' } },
@@ -26,7 +32,7 @@ const routes: Routes = [
   { path: 'events', component: ManageEventsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: 'locations', component: ManageLocationsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
   { path: 'vis', component: VisComponent, canActivate: [AuthGuard], data: { privilegeLevel: '3' } },
-  { path: '**', component: LiveUpdateComponent },
+  { path: '**', component: LoginComponent }
 ];
 
 @NgModule({
@@ -38,5 +44,6 @@ const routes: Routes = [
   ],
   declarations: [],
 })
+
 export class AppRoutingModule {
 }

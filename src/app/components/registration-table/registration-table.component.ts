@@ -111,4 +111,9 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
       duration: 2000,
     });
   }
+
+  convertFromBaseToBase(str, fromBase, toBase) {
+    const num = parseInt(str, fromBase); // convert from one base to another
+    return num.toString(toBase);
+  }
 }

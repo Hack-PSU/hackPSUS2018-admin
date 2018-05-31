@@ -25,7 +25,7 @@ import {
   ManageLocationsComponent,
 } from './components/manage-locations/manage-locations.component';
 import { ExtraCreditClassesComponent } from './components/extra-credit-classes/extra-credit-classes.component';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { VisComponent } from './components/vis/vis.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AddEventDialogComponent } from './components/manage-events/add-event-dialog';
@@ -33,6 +33,11 @@ import { AddUserClassDialogComponent } from './components/extra-credit-classes/a
 import { AddLocationDialogComponent } from './components/manage-locations/add-location-dialog';
 import { UpdateLocationDialogComponent } from './components/manage-locations/update-location-dialog';
 import { AddEmailDialogComponent } from './components/send-email/add-email-dialog';
+import { UserDataComponent } from './components/user-data/user-data.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ViewUserDataDialogComponent } from './components/user-data/view-user-data-dialog';
+import { ManageAdminComponent } from './components/manage-admin/manage-admin.component';
+import { LocationDialogComponent } from './components/manage-admin/location-dialog';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,11 @@ import { AddEmailDialogComponent } from './components/send-email/add-email-dialo
     ExtraCreditClassesComponent,
     AddUserClassDialogComponent,
     VisComponent,
+    UserDataComponent,
+    DashboardComponent,
+    ViewUserDataDialogComponent,
+    ManageAdminComponent,
+    LocationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +78,7 @@ import { AddEmailDialogComponent } from './components/send-email/add-email-dialo
     CustomMaterialModule,
     NgxChartsModule,
   ],
-  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent],
+  entryComponents: [AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent, AddLocationDialogComponent, UpdateLocationDialogComponent, ViewUserDataDialogComponent, LocationDialogComponent],
   providers: [EmailListService, HttpAdminService, AngularFireAuth],
   bootstrap: [AppComponent],
 })

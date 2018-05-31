@@ -9,6 +9,7 @@ import { RegistrationModel } from '../../models/registration-model';
 import { RSVPModel } from '../../models/rsvp-model';
 import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
+import { CountModel } from '../../models/count-model';
 
 @Injectable()
 export class HttpAdminService {
@@ -126,6 +127,7 @@ export class HttpAdminService {
       .switchMap((idToken: string) => {
         let myHeader = new HttpHeaders();
         let params = new HttpParams();
+        //console.log(idToken);
         myHeader = myHeader.set('idtoken', idToken);
         if (limit) {
           params = params.set('limit', limit.toString());
@@ -152,12 +154,13 @@ export class HttpAdminService {
       .switchMap((idToken: string) => {
         let myHeader = new HttpHeaders();
         const params = new HttpParams();
+        console.log(idToken);
         myHeader = myHeader.set('idtoken', idToken);
         return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid }, { headers: myHeader });
       });
   }
 
-  updateLocation(user: firebase.User, uid: string, name: string) {
+  updateLocation(user: firebase.User, uid: string, location_name: string) {
     uid = uid.toString();
     const API_ENDPOINT = 'admin/update_location';
     return Observable.fromPromise(user.getIdToken(true))
@@ -165,7 +168,7 @@ export class HttpAdminService {
         let myHeader = new HttpHeaders();
         const params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
-        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, name }, { headers: myHeader });
+        return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, location_name }, { headers: myHeader });
       });
   }
 
@@ -191,6 +194,62 @@ export class HttpAdminService {
         const params = new HttpParams();
         myHeader = myHeader.set('idtoken', idToken);
         return this.http.post(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { uid, cid }, { headers: myHeader });
+      });
+  }
+
+  getAllUsers(user: firebase.User, limit?: number): Observable<PreRegistrationModel[]> {
+    const API_ENDPOINT = 'admin/user_data';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<PreRegistrationModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  getPreRegCount(user: firebase.User, limit?: number): Observable<CountModel[]> {
+    const API_ENDPOINT = 'admin/prereg_count';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<CountModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  getRegCount(user: firebase.User, limit?: number): Observable<CountModel[]> {
+    const API_ENDPOINT = 'admin/reg_count';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<CountModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  getAllUserCount(user: firebase.User, limit?: number): Observable<CountModel[]> {
+    const API_ENDPOINT = 'admin/user_count';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<CountModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 }

@@ -72,7 +72,7 @@ export class LoginComponent {
       listener();
       if (user) {
         this.adminService.getAdminStatus(user).subscribe((response) => {
-          this.router.navigate(['/users']);
+          this.router.navigate(['/dashboard']);
         },                                               (error) => {
           this.errors = error;
           console.error(error);
