@@ -213,7 +213,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    * @param: user  User from the datasource
    */
   isPreRegistered(user) {
-    if(user.id) {
+    if(user.uid) {
       return true;
     } else {
       return false;

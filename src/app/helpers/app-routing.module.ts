@@ -16,12 +16,14 @@ import { VisComponent } from '../components/vis/vis.component';
 import { UserDataComponent } from '../components/user-data/user-data.component';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { ManageAdminComponent } from '../components/manage-admin/manage-admin.component';
+import { StatisticsComponent } from '../components/statistics/statistics.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '1' } },
   { path: 'userdata', component: UserDataComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '2' }},
   { path: 'admin', component: ManageAdminComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '4' }},
+  { path: 'stats', component: StatisticsComponent, canActivate: [AuthGuard], data: { privilegeLevel: '1'}},
   { path: 'preregistrations', component: PreRegistrationTableComponent, canActivate: [AuthGuard] },
   { path: 'live', component: LiveUpdateComponent, canActivate: [AuthGuard], data: {  privilegeLevel: '1' } },
   { path: 'registrations', component: RegistrationTableComponent, canActivate: [AuthGuard], data: { privilegeLevel: '2' } },

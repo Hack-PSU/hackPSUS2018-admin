@@ -10,6 +10,7 @@ import { RSVPModel } from '../../models/rsvp-model';
 import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
 import { CountModel } from '../../models/count-model';
+import { StatisticsModel } from '../../models/statistics-model';
 
 @Injectable()
 export class HttpAdminService {
@@ -245,11 +246,27 @@ export class HttpAdminService {
       .switchMap((idToken: string) => {
         let myHeader = new HttpHeaders();
         let params = new HttpParams();
+        console.log(idToken);
         myHeader = myHeader.set('idtoken', idToken);
         if (limit) {
           params = params.set('limit', limit.toString());
         }
         return this.http.get<CountModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
+      });
+  }
+
+  getStatistics(user: firebase.User, limit?: number): Observable<StatisticsModel[]> {
+    const API_ENDPOINT = 'admin/statistics';
+    return Observable.fromPromise(user.getIdToken(true))
+      .switchMap((idToken: string) => {
+        let myHeader = new HttpHeaders();
+        let params = new HttpParams();
+        console.log(idToken);
+        myHeader = myHeader.set('idtoken', idToken);
+        if (limit) {
+          params = params.set('limit', limit.toString());
+        }
+        return this.http.get<StatisticsModel[]>(AppConstants.API_BASE_URL.concat(API_ENDPOINT), { params, headers: myHeader });
       });
   }
 }

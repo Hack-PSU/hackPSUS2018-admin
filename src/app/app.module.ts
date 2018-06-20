@@ -38,6 +38,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewUserDataDialogComponent } from './components/user-data/view-user-data-dialog';
 import { ManageAdminComponent } from './components/manage-admin/manage-admin.component';
 import { LocationDialogComponent } from './components/manage-admin/location-dialog';
+import { StatisticsComponent } from './components/statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { LocationDialogComponent } from './components/manage-admin/location-dial
     ViewUserDataDialogComponent,
     ManageAdminComponent,
     LocationDialogComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,
