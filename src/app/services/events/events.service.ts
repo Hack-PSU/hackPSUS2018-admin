@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
 import { AppConstants } from '../../helpers/AppConstants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +9,7 @@ import { EventModel } from '../../models/event-model';
 export class EventsService {
 
   private url = `${AppConstants.SOCKET_BASE_URL}/events`;
-  private socket;
+  // private socket;
 
   private broadcastSubject: BehaviorSubject<Event> = new BehaviorSubject<Event>(new Event(''));
 
@@ -26,35 +25,35 @@ export class EventsService {
 
   getEvents(idtoken: string) {
     return new Observable((observer) => {
-      this.socket = io(this.url, {
-        path: '/v1/live',
-        transportOptions: {
-          polling: { extraHeaders: { idtoken } },
-        },
-      });
-      this.socket.on('connect', () => {
-        console.log('CONNECTED');
-        this.next(new Event('connected'));
-      });
-
-      this.socket.on('disconnect', () => {
-        console.log('DISCONNECTED');
-        this.next(new Event('disconnected'));
-      });
-      this.socket.on('event', (data) => {
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
+      // this.socket = io(this.url, {
+      //   path: '/v1/live',
+      //   transportOptions: {
+      //     polling: { extraHeaders: { idtoken } },
+      //   },
+      // });
+      // this.socket.on('connect', () => {
+      //   console.log('CONNECTED');
+      //   this.next(new Event('connected'));
+      // });
+      //
+      // this.socket.on('disconnect', () => {
+      //   console.log('DISCONNECTED');
+      //   this.next(new Event('disconnected'));
+      // });
+      // this.socket.on('event', (data) => {
+      //   observer.next(data);
+      // });
+      // return () => {
+      //   this.socket.disconnect();
+      // };
     });
   }
 
   addEvent(event: EventModel) {
     return new Observable((observer) => {
-      this.socket.emit('upstream-event', event);
-      this.socket.on('event-updated', data => observer.next(data));
-      this.socket.on('error', err => observer.error(err));
+      // this.socket.emit('upstream-event', event);
+      // this.socket.on('event-updated', data => observer.next(data));
+      // this.socket.on('error', err => observer.error(err));
     });
   }
 }

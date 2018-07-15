@@ -6,7 +6,6 @@ import 'rxjs/add/observable/throw';
 import * as firebase from 'firebase';
 import { PreRegistrationModel } from '../../models/pre-registration-model';
 import { RegistrationModel } from '../../models/registration-model';
-import { RSVPModel } from '../../models/rsvp-model';
 import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
 import { CountModel } from '../../models/count-model';

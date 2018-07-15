@@ -5,7 +5,7 @@ import { HttpAdminService } from './http-admin.service';
 describe('HttpAdminService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HttpAdminService]
+      providers: [HttpAdminService],
     });
   });
 
