@@ -1,0 +1,17 @@
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px;
+}
+
+.section-title-letter {
+  display: inline-block;
+  font-size: 2.5em;
+}
+
+.section-title-word {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 1.5%;
+}

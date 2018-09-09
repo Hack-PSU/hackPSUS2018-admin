@@ -1,15 +1,15 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { UserViewComponent } from './user-view/user-view.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { RegistrationTableComponent } from './registration-table/registration-table.component';
-import { LoginComponent } from './login/login.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { RegistrationTableComponent } from './components/registration-table/registration-table.component';
+import { LoginComponent } from './components/login/login.component';
 import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
-import { CustomMaterialModule } from './custom.materials';
+import { CustomMaterialModule } from './helpers/custom.materials';
 import { BrowserModule } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './helpers/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { HttpModule } from '@angular/http';

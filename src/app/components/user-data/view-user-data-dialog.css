@@ -1,0 +1,30 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    max-width: 200px;
+    overflow: auto;
+}
+
+tr:nth-child(even) {
+    /*background-color: #;*/
+}
+
+a href {
+	text-decoration: none;
+}
+
+.title-container p {
+	margin-top: 10px;
+}
+
+.title-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
