@@ -79,6 +79,7 @@ export class RegistrationTableComponent implements OnInit, AfterViewInit {
 
   onRegistrationClick() {
     this.adminService.getRegistrations().subscribe((data) => {
+      console.log(data)
       this.displayedColumns = RegistrationTableComponent.regCols;
       this.dataSource.data = data;
     },                                                       (error) => {

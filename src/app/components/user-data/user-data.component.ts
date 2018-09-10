@@ -157,6 +157,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   loadTableData() {
     this.adminService.getAllUsers().subscribe((data) => {
+      console.log(data);
       this.displayedColumns = UserDataComponent.tableCols;
       this.dataSource.data = data;
       this.progressService.complete();
@@ -289,6 +290,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   updateStatHeader() {
     this.adminService.getAllUserCount().subscribe((data) => {
+      console.log(data);
       const countArray: CountModel[] = data;
       this.preRegStatNumber = parseInt(countArray[0].pre_count, 10);
       this.regStatNumber = parseInt(countArray[1].pre_count, 10);
