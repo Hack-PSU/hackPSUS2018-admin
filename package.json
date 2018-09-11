@@ -39,7 +39,7 @@
     "ng2-charts": "^1.6.0",
     "ngx-alerts": "latest",
     "rxjs": "^6.2.2",
-    "rxjs-compat": "^6.2.2",
+    "rxjs-compat": "^6.0.0-rc.0",
     "tslint-config-airbnb": "5.7.0",
     "uuid": "latest",
     "zone.js": "^0.8.4"

@@ -1,13 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppConstants } from '../../helpers/AppConstants';
-
-import { StatisticsModel } from '../../models/statistics-model';
 
 @Component({
   selector: 'app-statistics',
@@ -22,11 +20,6 @@ export class StatisticsComponent implements OnInit {
    * Error array used to display error messages
    */
   public errors: Error = null;
-
-  public dataSource = new MatTableDataSource<any>([]);
-  private static regCols = ['category', 'option', 'count']
-
-  public displayedColumns = StatisticsComponent.regCols;
 
   /*
    *  Index of array represents the Academic Year
@@ -133,7 +126,6 @@ export class StatisticsComponent implements OnInit {
   getStatData() {
     this.adminService.getStatistics().subscribe((data) => {
       console.log(data);
-      this.dataSource.data = data;
     },                                                    (error) => {
       this.errors = new Error('Error: Issue with getting the number of users');
       console.error(error);

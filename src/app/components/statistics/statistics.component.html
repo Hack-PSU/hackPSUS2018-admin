@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="title-container">
+	<div class = "title-container">
         <div class="section-title-word">
             <div class="section-title-letter white-text">S</div>
             <div class="section-title-letter white-text">T</div>
@@ -8,28 +8,6 @@
             <div class="section-title-letter white-text">S</div>
         </div>
     </div>
-    <div class="container">
-        <mat-table [dataSource]="dataSource">
-            <!-- Category Column -->
-            <ng-container matColumnDef="category">
-                <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
-                <mat-cell *matCellDef="let object"> {{object.CATEGORY}}</mat-cell>
-            </ng-container>
-
-            <!-- Option Column -->
-            <ng-container matColumnDef="option">
-                <mat-header-cell *matHeaderCellDef>Option</mat-header-cell>
-                <mat-cell *matCellDef="let object">{{object.OPTION}}</mat-cell>
-            </ng-container>
-
-            <!-- Count Column -->
-            <ng-container matColumnDef="count">
-                <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
-                <mat-cell *matCellDef="let object"> {{object.COUNT}}</mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
+    <div class = "body-container">
     </div>
 </div>
