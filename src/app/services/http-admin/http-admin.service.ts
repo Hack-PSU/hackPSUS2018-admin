@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import * as uuid from 'uuid/v4';
 import 'rxjs/add/observable/throw';
+import { map } from 'rxjs/operators';
+import { CheckoutInstanceModel } from '../../models/checkout-instance-model';
+import { ItemCheckoutModel } from '../../models/item-checkout-model';
 import { PreRegistrationModel } from '../../models/pre-registration-model';
 import { RegistrationModel } from '../../models/registration-model';
+import { CheckInModel } from '../../models/check-in-model'
 import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
 import { CountModel } from '../../models/count-model';
@@ -13,6 +18,7 @@ import { ApiRoute } from '../../models/ApiRoute';
 import { CustomErrorHandlerService } from '../custom-error-handler/custom-error-handler.service';
 import { BaseHttpService } from '../base-http/base-http.service';
 import { AuthService } from '../AuthService/auth.service';
+import { EventModel } from '../../models/event-model';
 
 @Injectable()
 export class HttpAdminService extends BaseHttpService {
@@ -42,6 +48,23 @@ export class HttpAdminService extends BaseHttpService {
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
     return super.genericGet<RegistrationModel[]>(apiRoute);
+  }
+
+  getEvents(limit?: number): Observable<EventModel[]> {
+    const apiRoute = new ApiRoute(
+      'live/events',
+      true,
+      limit ? new Map<string, any>().set('limit', limit) : null,
+    );
+    return super.genericGet<EventModel[]>(apiRoute);
+  }
+
+  addEvent(event: EventModel): Observable<{}> {
+    const apiRoute = new ApiRoute(
+    'live/event',
+    true,
+    );
+    return super.genericPost<{}>(apiRoute, event.restRepr());
   }
 
   getUserUID(email: string) {
@@ -147,13 +170,25 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericPost<{}>(apiRoute, { uid, cid });
   }
 
-  getAllUsers(limit?: number): Observable<PreRegistrationModel[]> {
+  setUserCheckedIn(uid: string) {
+    const rfid: string = `NO_BAND_${uuid()}`
+    const time: number = new Date().getTime();
+
+    const apiRoute = new ApiRoute(
+      'admin/assignment',
+      true,
+
+    );
+    return super.genericPost<{}>(apiRoute, [{ uid, rfid, time }]);
+  }
+
+  getAllUsers(limit?: number): Observable<CheckInModel[]> {
     const apiRoute = new ApiRoute(
       'admin/user_data',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
-    return super.genericGet<PreRegistrationModel[]>(apiRoute);
+    return super.genericGet<CheckInModel[]>(apiRoute);
   }
 
   getPreRegCount(limit?: number): Observable<CountModel[]> {
@@ -190,5 +225,44 @@ export class HttpAdminService extends BaseHttpService {
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
     return super.genericGet<StatisticsModel[]>(apiRoute);
+  }
+
+  getAvailableCheckoutItems(): Observable<ItemCheckoutModel[]> {
+    const apiRoute = new ApiRoute(
+      'admin/checkout/items/availability',
+      true,
+      null,
+    );
+    return super.genericGet<{}[]>(apiRoute)
+      .pipe(
+        map(jsonArray => jsonArray.map(json => ItemCheckoutModel.parseFromJson(json))),
+      );
+  }
+
+  addCheckoutRequest(itemId: string, userId: string) {
+    const apiRoute = new ApiRoute(
+      'admin/checkout',
+      true,
+    );
+    return super.genericPost<{}>(apiRoute, { itemId, userId });
+  }
+
+  getCurrentCheckedOutItems(): Observable<CheckoutInstanceModel[]> {
+    const apiRoute = new ApiRoute(
+      'admin/checkout',
+      true,
+    );
+    return super.genericGet<{}[]>(apiRoute)
+      .pipe(
+        map(jsonArray => jsonArray.map(json => CheckoutInstanceModel.parseFromJson(json))),
+      );
+  }
+
+  returnCheckoutItem(data: CheckoutInstanceModel) {
+    const apiRoute = new ApiRoute(
+      'admin/checkout/return',
+      true,
+    );
+    return super.genericPost<{}>(apiRoute, { checkoutId: data.uid });
   }
 }
