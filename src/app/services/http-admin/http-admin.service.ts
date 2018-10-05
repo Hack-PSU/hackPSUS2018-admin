@@ -69,7 +69,7 @@ export class HttpAdminService extends BaseHttpService {
     'live/event',
     true,
     );
-    return super.genericPut<{}>(apiRoute, event.restRepr());
+    return super.genericPost<{}>(apiRoute, event.restRepr());
   }
 
   updateEvent(event: EventModel): Observable<{}> {
@@ -77,7 +77,7 @@ export class HttpAdminService extends BaseHttpService {
     'live/event',
     true,
     );
-    return super.genericPost<{}>(apiRoute, event.restRepr());
+    return super.genericPut<{}>(apiRoute, { event: event.restRepr() });
   }
 
   getUserUID(email: string) {
