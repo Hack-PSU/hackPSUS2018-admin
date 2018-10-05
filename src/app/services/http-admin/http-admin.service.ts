@@ -77,9 +77,9 @@ export class HttpAdminService extends BaseHttpService {
     'live/event',
     true,
     );
-    return super.genericPut<{}>(apiRoute, { event: event.restRepr() });
+    return super.genericPost<{}>(apiRoute, event.restRepr());
   }
-  
+
   getUserUID(email: string) {
     const apiRoute = new ApiRoute(
       'admin/userid',
