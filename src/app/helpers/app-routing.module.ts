@@ -103,7 +103,7 @@ const routes: Routes = [
     path: 'classes',
     component: ExtraCreditClassesComponent,
     canActivate: [AuthGuard],
-    data: { privilegeLevel: PRIVILEGE_LEVEL.DIRECTOR },
+    data: { privilegeLevel: PRIVILEGE_LEVEL.TEAM_MEMBER },
     resolve: { UserResolver },
   },
   {
