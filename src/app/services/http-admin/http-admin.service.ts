@@ -14,6 +14,7 @@ import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
 import { CountModel } from '../../models/count-model';
 import { StatisticsModel } from '../../models/statistics-model';
+import { AttendanceModel } from '../../models/attendance-model';
 import 'rxjs-compat/add/observable/from';
 import { ApiRoute } from '../../models/ApiRoute';
 import { CustomErrorHandlerService } from '../custom-error-handler/custom-error-handler.service';
@@ -270,6 +271,15 @@ export class HttpAdminService extends BaseHttpService {
       .pipe(
         map(jsonArray => jsonArray.map(json => CheckoutInstanceModel.parseFromJson(json))),
       );
+  }
+
+  getEventAttendance(limit?: number): Observable<AttendanceModel[]> {
+    const apiRoute = new ApiRoute(
+      'admin/attendance',
+      true,
+      limit ? new Map<string, any>().set('limit', limit) : null,
+    );
+    return super.genericGet<AttendanceModel[]>(apiRoute);
   }
 
   returnCheckoutItem(data: CheckoutInstanceModel) {

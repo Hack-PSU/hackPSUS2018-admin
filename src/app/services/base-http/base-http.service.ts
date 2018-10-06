@@ -35,6 +35,7 @@ export abstract class BaseHttpService {
                              }
                              let headers = new HttpHeaders();
                              headers = headers.set('idtoken', idToken);
+                             console.log(idToken);
                              let params = new HttpParams();
                              if (apiRoute.queryParams) {
                                apiRoute.queryParams.forEach((value, key) => {

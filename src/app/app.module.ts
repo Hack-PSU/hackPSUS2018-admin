@@ -48,6 +48,7 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { UserResolver } from './helpers/resolvers/UserResolver/user.resolver';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { ItemCheckoutComponent } from './components/item-checkout/item-checkout.component';
+import { EventStatsComponent } from './components/event-stats/event-stats.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ItemCheckoutComponent } from './components/item-checkout/item-checkout.
     LocationDialogComponent,
     StatisticsComponent,
     ItemCheckoutComponent,
+    EventStatsComponent,
   ],
   imports: [
     BrowserModule,

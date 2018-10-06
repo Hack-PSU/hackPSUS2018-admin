@@ -19,6 +19,7 @@ import { DashboardComponent } from '../components/dashboard/dashboard.component'
 import { ManageAdminComponent } from '../components/manage-admin/manage-admin.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { UserResolver } from './resolvers/UserResolver/user.resolver';
+import { EventStatsComponent } from '../components/event-stats/event-stats.component';
 import { PRIVILEGE_LEVEL } from '../models/privilege-model';
 
 const routes: Routes = [
@@ -125,6 +126,13 @@ const routes: Routes = [
     component: VisComponent,
     canActivate: [AuthGuard],
     data: { privilegeLevel: PRIVILEGE_LEVEL.DIRECTOR },
+    resolve: { UserResolver },
+  },
+  {
+    path: 'eventstats',
+    component: EventStatsComponent,
+    canActivate: [AuthGuard],
+    data: { privilegeLevel: PRIVILEGE_LEVEL.TEAM_MEMBER },
     resolve: { UserResolver },
   },
   { path: '**', component: LoginComponent },
