@@ -157,7 +157,7 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
   applyEmailFilter(value: any) {
     this.returnDataSource.filter = value;
   }
-
+  
   returnItem(item: CheckoutInstanceModel) {
     this.matSheet.open(ReturnCheckoutSheetComponent, {
       data: item,

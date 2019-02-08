@@ -66,6 +66,9 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   public errors: Error = null;
 
+  private searchFilterOptions = [];
+  private filterSelect = "";
+
   constructor(
     public emailListService: EmailListService,
     private router: Router,
@@ -122,7 +125,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    * set the filter property of the local datasource to the new filter value.
    *
    * @param: filterValue  String to filter the datasource
-   */
+   */mFilterValue
   applyFilter(filterValue: string) {
     let mFilterValue = filterValue.trim();
     mFilterValue = mFilterValue.toLowerCase();
@@ -160,6 +163,12 @@ export class UserDataComponent implements OnInit, AfterViewInit {
       this.displayedColumns = UserDataComponent.tableCols;
       this.dataSource.data = data;
       this.progressService.complete();
+      var dataNames = Object.getOwnPropertyNames(data[0]);
+      dataNames = dataNames.filter(option => !option.includes("id"));
+      dataNames.forEach((field) => {
+        var tempObj = { value: field, viewValue: field}
+        this.searchFilterOptions.push(tempObj);
+      });
     },                                        (error) => {
       this.errors = new Error('Error: Issue with loading the user table. Please refresh the page.');
       console.error(error);
@@ -254,7 +263,6 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   onClickCheckedIn(user) {
     user.check_in_status = true;
-    console.log(user);
     this.adminService.setUserCheckedIn(user.uid)
         .subscribe(() => {},
                (error) => {
@@ -281,24 +289,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
           console.error(error);
         });
   }
-
-  /**
-   * Updates the user table dependent on the toggle of the edit slide toggle.
-
-   displayEditColumn() {
-    if(this.displayEditCol == false) {
-      UserDataComponent.tableCols = UserDataComponent.tableCols.concat('edit');
-      this.displayEditCol = true;
-      this.onUserClick();
-    } else {
-      var new_len = UserDataComponent.tableCols.length - 1;
-      UserDataComponent.tableCols = UserDataComponent.tableCols.slice(0, new_len);
-      this.displayEditCol = false;
-      this.onUserClick();
-    }
-  }
-   */
-
+  
   /**
    * Updates the latest stats header with the current counts
    *

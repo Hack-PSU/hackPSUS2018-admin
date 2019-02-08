@@ -161,7 +161,6 @@ export class HttpAdminService extends BaseHttpService {
   }
 
   updateLocation(uid: string, location_name: string) {
-    console.log(location_name);
     const apiRoute = new ApiRoute(
       'admin/location/update',
       true,

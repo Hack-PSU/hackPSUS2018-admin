@@ -39,14 +39,14 @@ export class ManageEventsComponent implements OnInit, AfterViewInit {
 
   private static _regCols =
     [
+      'button',
       'location_name',
       // 'uid',
       'event_start_time',
       'event_end_time',
       'event_title',
       'event_description',
-      'event_type',
-      'button',
+      'event_type'
     ];
 
   public displayedColumns = ManageEventsComponent._regCols;
@@ -115,7 +115,7 @@ export class ManageEventsComponent implements OnInit, AfterViewInit {
         }),
       )
       .subscribe(() => {
-        this.snackBar.open('success', null, {
+        this.snackBar.open('Success, Event Added', null, {
           duration: 2000,
         });
       },         (error) => {
@@ -126,7 +126,6 @@ export class ManageEventsComponent implements OnInit, AfterViewInit {
   }
 
   updateEvent(event: EventModel) {
-    console.log(event);
     const dialogRef = this.dialog.open(UpdateEventDialogComponent, {
       width: '400px',
       data: event,
@@ -138,14 +137,14 @@ export class ManageEventsComponent implements OnInit, AfterViewInit {
           if (result) {
             result.event_start_time = new Date(result.event_start_time).getTime();
             result.event_end_time = new Date(result.event_end_time).getTime();
-            console.log(result);
+            //console.log(result);
             return this.httpService.updateEvent(result);
           }
           return of(new Error('Add a valid event'));
         }),
       )
       .subscribe(() => {
-        this.snackBar.open('success', null, {
+        this.snackBar.open('Success, Event Updated', null, {
           duration: 2000,
         });
       },         (error) => {

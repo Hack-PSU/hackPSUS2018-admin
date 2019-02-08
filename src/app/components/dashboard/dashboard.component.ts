@@ -25,6 +25,19 @@ export class DashboardComponent implements OnInit {
     private router: Router) {
   }
 
+  /*
+   * Local private integers representing the counts in the latest stats header.
+   */
+  public preRegStatNumber = -1;
+  public regStatNumber = -1;
+  public rsvpStatNumber = -1;
+  public checkInStatNumber = -1;
+    
+  /*
+   * Error array used to display error messages
+   */
+  public errors: Error = null;
+
   /**
    * On the initilization of all angular components, execute the functions
    *
@@ -37,8 +50,25 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data
       .subscribe((user) => {
-        
+        this.updateStatHeader();
       });
+  }
+
+  /**
+   * Updates the latest users card with the current counts
+   *
+   * @exception: Failure with the admin service with cause an error to be displayed on the /userdata/ route page
+   */
+  updateStatHeader() {
+    this.adminService.getAllUserCount().subscribe((data) => {
+      this.preRegStatNumber = data.pre_count;
+      this.regStatNumber = data.reg_count;
+      this.rsvpStatNumber = data.rsvp_count;
+      this.checkInStatNumber = data.checkin_count;
+    },                                            (error) => {
+      this.errors = new Error('Error: Issue with getting the number of users');
+      console.error(error);
+    });
   }
 }
 

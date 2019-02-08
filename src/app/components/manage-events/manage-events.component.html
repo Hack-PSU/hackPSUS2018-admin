@@ -29,7 +29,29 @@
     <mat-card-content>
         <mat-table #table [dataSource]="dataSource" matSort>
 
-            <!--  Location Name Column -->
+            <!-- Action Button Column-->
+                <ng-container matColumnDef="button">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Action</mat-header-cell>
+                        <mat-cell *matCellDef="let event">
+                            <div class="action-menu">
+                                <button mat-icon-button [matMenuTriggerFor]="crud_menu">
+                                    <mat-icon>settings</mat-icon>
+                                </button>
+                                <mat-menu #crud_menu="matMenu">
+                                    <button mat-menu-item (click)="updateEvent(event)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Update Event</span>
+                                    </button>
+                                    <button mat-menu-item (click)="removeEvent(event.uid)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Remove Event</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+
+            <!-- Location Name Column -->
             <ng-container matColumnDef="location_name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Location Name</mat-header-cell>
                 <mat-cell *matCellDef="let user"> {{user.location_name}}</mat-cell>
@@ -59,31 +81,10 @@
                 <mat-cell *matCellDef="let event"> {{event.event_description}}</mat-cell>
             </ng-container>
 
-            <!-- Event description Column -->
+            <!-- Event type Column -->
             <ng-container matColumnDef="event_type">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Event Type</mat-header-cell>
                 <mat-cell *matCellDef="let event"> {{event.event_type}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="button">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Action</mat-header-cell>
-                <mat-cell *matCellDef="let event">
-                    <div class="action-menu">
-                        <button mat-icon-button [matMenuTriggerFor]="crud_menu">
-                            <mat-icon>settings</mat-icon>
-                        </button>
-                        <mat-menu #crud_menu="matMenu">
-                            <button mat-menu-item (click)="updateEvent(event)">
-                                <mat-icon>edit</mat-icon>
-                                <span>Update Event</span>
-                            </button>
-                            <button mat-menu-item (click)="removeEvent(event.uid)">
-                                <mat-icon>delete</mat-icon>
-                                <span>Remove Event</span>
-                            </button>
-                        </mat-menu>
-                    </div>
-                </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
