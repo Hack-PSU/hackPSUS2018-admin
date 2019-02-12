@@ -9,7 +9,9 @@
 /**
   Primary color: Dark Imperial Blue: #004A68
   Secondary color: Tiffany Blue: #00AEBF
-  Warm Color: Orange-Yellow #fce06a
+  Deprecated:
+    Warm Color: Orange-Yellow #fce06a
+  Warm Color: Light Red Ochre #E5704C
   Other Colors:
     Teal: #007486
     Dartmouth Green: #00743C
@@ -82,6 +84,7 @@ $hackpsu-tiffany-blue: (
   )
 );
 
+/* Deprecated
 $hackpsu-orange-yellow: (
   50: #FFFBED,
   100: #FEF6D2,
@@ -114,16 +117,48 @@ $hackpsu-orange-yellow: (
     A700: rgba(255, 255, 255, 0.84),
   )
 );
+*/
+$hackpsu-red-ochre: (
+  50: #FCEEEA,
+  100: #F7D4C9,
+  200: #F2B8A6,
+  300: #ED9B82,
+  400: #E98567,
+  500: #E5704C, //Light Red Ochre- Warn Color
+  600: #E26845,
+  700: #DE5D3C,
+  800: #DA5333,
+  900: #D34124,
+  A100: #FFFFFF,
+  A200: #FFE0DA,
+  A400: #FFB4A7,
+  A700: #FF9F8E,
+  contrast: (
+    50: rgba(0, 0, 0, 0.55),
+    100: rgba(0, 0, 0, 0.59),
+    200: rgba(0, 0, 0, 0.66),
+    300: rgba(0, 0, 0, 0.59),
+    400: rgba(0, 0, 0, 0.90),
+    500: rgba(255, 255, 255, 1.00),
+    600: rgba(255, 255, 255, 0.57),
+    700: rgba(255, 255, 255, 0.54),
+    800: rgba(255, 255, 255, 0.52),
+    900: rgba(255, 255, 255, 0.48),
+    A100: rgba(0, 0, 0, 0.63),
+    A200: rgba(0, 0, 0, 0.74),
+    A400: rgba(255, 255, 255, 0.92),
+    A700: rgba(255, 255, 255, 0.84),
+  )
+);
 
 // Define the default theme (same as the example above).
 $admin-app-primary: mat-palette($hackpsu-dark-imperial-blue);
 $admin-app-accent:  mat-palette($hackpsu-tiffany-blue);
-$admin-app-warn:    mat-palette($hackpsu-orange-yellow);
+$admin-app-warn:    mat-palette($hackpsu-red-ochre);
 $admin-app-theme:   mat-light-theme($admin-app-primary, $admin-app-accent, $admin-app-warn);
 
 // Include the default theme styles.
 @include angular-material-theme($admin-app-theme);
-
 
 // Define an alternate dark theme.
 $dark-primary: mat-palette($mat-blue-grey);

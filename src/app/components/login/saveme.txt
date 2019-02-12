@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-
 <!-- LOGIN FORM -->
 <div class="container login-container">
-    <div class="header-text text-center">Login</div>
-    <!-- <div class="logo text-center">Login</div> -->
+    <div class="logo text-center">Login</div>
     <!-- Main Form -->
     <div class="row">
         <form id="login-form" class="col s12">
@@ -56,7 +49,3 @@
         </div>
     </div>
 </div>
-
-
-</body>
-</html>

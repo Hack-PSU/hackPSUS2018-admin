@@ -33,3 +33,5 @@ $my-blue: (
 );
 // below creates a primary palette with three shades of blue
 $my-primary: mat-palette($my-blue, 100, 50, 200);
+
+website: http://mcg.mbitson.com/#!?mcgpalette0=%23e5704c
