@@ -1,7 +1,7 @@
-.table-container {
+.table-title-container {
   display: flex;
-  flex-direction: column;
-  min-width: 300px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mat-table {
@@ -28,10 +28,9 @@
 }
 
 .email-filter {
-  display: block;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 10px;
+  font-size: small;
+  flex-basis: 75%;
 }
 
 .mat-column-select {
@@ -49,20 +48,13 @@ mat-cell {
   z-index: 999;
 }
 
-.mat-card-title {
-    display: flex;
-}
-
 .card-title {
   flex: 5;
 }
 
 .context-menu {
+  margin-left: 10%;
   float: right;
-}
-
-.action-menu {
-  
 }
 
 .item-selected {

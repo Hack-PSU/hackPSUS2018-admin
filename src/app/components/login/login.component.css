@@ -6,7 +6,7 @@ html {
 
 @font-face {
     font-family: 'Cornerstone';
-    src: url('assets/fonts/Cornerstone.ttf');
+    src: url('/assets/fonts/Cornerstone.ttf');
 }
 
 :host {
@@ -47,7 +47,7 @@ html {
 
 body {
     height: 100%;
-    background-image: url("assets/images/section-sep-1-mountain.svg");
+    background-image: url("/assets/images/section-sep-1-mountain.svg");
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: bottom center;

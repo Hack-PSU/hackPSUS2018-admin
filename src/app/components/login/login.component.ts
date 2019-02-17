@@ -1,5 +1,6 @@
 /**
- * TODO: Add docstring explaining component
+ * Component handles login or authorization to the application. Users have the ability to login
+ * via different options such as Local, Google, Facebook, and Github. 
  */
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,6 +46,9 @@ export class LoginComponent {
         });
   }
 
+  /**
+   * Login with Google
+   */
   login() {
     this.progressBar.start();
     this.loginHandler(this.authService.signInWithProvider(AuthProviders.GOOGLE_PROVIDER));

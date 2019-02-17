@@ -4,9 +4,6 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
-
-import { AngularFireAuth } from 'angularfire2/auth';
-
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -21,8 +18,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     public adminService: HttpAdminService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
+    private activatedRoute: ActivatedRoute
+    ) {
   }
 
   /*
