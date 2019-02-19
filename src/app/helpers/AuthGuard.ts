@@ -32,8 +32,10 @@ export class AuthGuard implements CanActivate {
     };
     return this.httpService.getAdminStatus()
       .pipe(
-        map((adminData: { admin: boolean, privilege: Number }) => {
-          if (!adminData || !adminData.admin) {
+        //map((adminData: { admin: boolean, privilege: Number }) => {
+          map((adminData) => {
+          console.log(adminData)
+          if (!adminData || !adminData.body.data.admin) {
             this.authService.signOut()
               .then(() => {
                 this.progress.complete();
@@ -42,9 +44,10 @@ export class AuthGuard implements CanActivate {
             return false;
           }
           this.progress.complete();
-          return adminData.privilege >= privilegeLevel;
+          return adminData.body.data.privilege >= privilegeLevel;
         }),
         catchError((error) => {
+          console.log(error);
           this.errorHandler.handleHttpError(error);
           this.authService.signOut();
           this.router.navigate([AppConstants.LOGIN_ENDPOINT], navExtras);

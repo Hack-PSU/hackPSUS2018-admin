@@ -281,7 +281,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
   checkUserPermissions() {
     this.adminService.getAdminStatus()
         .subscribe((resp) => {
-          if (resp.privilege > 3) {
+          if (resp.body.data.privilege > 3) {
             this.editToggleDisable = false;
           }
         },         (error) => {

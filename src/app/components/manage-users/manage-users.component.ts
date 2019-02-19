@@ -44,7 +44,7 @@ export class ManageUsersComponent implements OnInit {
       if (user) {
         this.adminService.getAdminStatus()
             .subscribe((adminData) => {
-              this.options = this._totalOptions.slice(0, adminData.privilege);
+              this.options = this._totalOptions.slice(0, adminData.body.data.privilege);
             },         (error) => { // TODO: Make better error handler
               console.error(error);
             });

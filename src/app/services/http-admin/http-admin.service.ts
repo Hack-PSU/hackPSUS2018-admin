@@ -15,6 +15,7 @@ import { ClassesModel } from '../../models/classes-model';
 import { CountModel } from '../../models/count-model';
 import { StatisticsModel } from '../../models/statistics-model';
 import { AttendanceModel } from '../../models/attendance-model';
+import { LoginResponseModel } from '../../models/login-response-model';
 import 'rxjs-compat/add/observable/from';
 import { ApiRoute } from '../../models/ApiRoute';
 import { CustomErrorHandlerService } from '../custom-error-handler/custom-error-handler.service';
@@ -30,9 +31,11 @@ export class HttpAdminService extends BaseHttpService {
     super(http, authService, errorHandler);
   }
 
-  getAdminStatus(): Observable<{ admin, privilege }> {
-    const apiRoute = new ApiRoute('users/', true);
-    return super.genericGet<{ admin, privilege }>(apiRoute);
+  getAdminStatus(): Observable<LoginResponseModel> {
+    //v1 - const apiRoute = new ApiRoute('users/', true);
+    const apiRoute = new ApiRoute('admin/', true);
+    //return super.genericGet<{ admin, privilege }>(apiRoute);
+    return super.genericGet<LoginResponseModel>(apiRoute);
   }
 
   getPreRegistrations(limit?: number): Observable<PreRegistrationModel[]> {

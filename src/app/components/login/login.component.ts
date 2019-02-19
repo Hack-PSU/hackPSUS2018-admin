@@ -94,7 +94,8 @@ export class LoginComponent {
     }
     this.httpService.getAdminStatus()
         .subscribe((result) => {
-          if (!result.admin) {
+          console.log(result);
+          if (!result.body.data.admin) {
             const error = Error(
               'You do not have the necessary permission to login here. Please contact an administrator.',
             );
