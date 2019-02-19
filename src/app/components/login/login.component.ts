@@ -1,6 +1,6 @@
 /**
  * Component handles login or authorization to the application. Users have the ability to login
- * via different options such as Local, Google, Facebook, and Github. 
+ * via different options such as Local, Google, Facebook, and Github.
  */
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -65,8 +65,8 @@ export class LoginComponent {
   }
 
   loginEmail() {
-    this.progressBar.start();
     if (this.model.email && this.model.password) {
+      this.progressBar.start();
       this.loginHandler(this.authService.signIn(this.model.email, this.model.password));
     }
   }

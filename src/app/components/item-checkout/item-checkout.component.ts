@@ -1,9 +1,4 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { CheckoutInstanceModel } from '../../models/checkout-instance-model';
-import { PRIVILEGE_LEVEL } from '../../models/privilege-model';
-import { HttpAdminService } from '../../services/services';
 import {
   MatBottomSheet,
   MatDialog,
@@ -13,8 +8,14 @@ import {
   MatTableDataSource,
 } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AppConstants } from '../../helpers/AppConstants';
+import { CheckoutInstanceModel } from '../../models/checkout-instance-model';
 import { ItemCheckoutModel } from '../../models/item-checkout-model';
+import { LoginResponseModel } from '../../models/login-response-model';
+import { PRIVILEGE_LEVEL } from '../../models/privilege-model';
+import { HttpAdminService } from '../../services/services';
 import { AddCheckoutRequestDialogComponent } from './add-checkout-request-dialog.component';
 import { ReturnCheckoutSheetComponent } from './return-checkout-sheet.component';
 
@@ -66,8 +67,8 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
     this.returnDataSource = new MatTableDataSource<CheckoutInstanceModel>([]);
     this.directorPermission = httpService.getAdminStatus()
       .pipe(
-        map((adminData: { admin: boolean, privilege: Number }) =>
-          (adminData.privilege >= PRIVILEGE_LEVEL.DIRECTOR
+        map((adminData: LoginResponseModel) =>
+          (adminData.body.data.privilege >= PRIVILEGE_LEVEL.DIRECTOR
           )),
         take(1),
       );
