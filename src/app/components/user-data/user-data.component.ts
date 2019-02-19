@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppConstants } from '../../helpers/AppConstants';
 import { EmailListService } from '../../services/email-list/email-list.service';
 
-import { CountModel } from '../../models/count-model';
+import { ICountModel } from '../../models/count-model';
 
 import { ViewUserDataDialogComponent } from './view-user-data-dialog';
 import { NgProgress } from '@ngx-progressbar/core';
@@ -297,8 +297,8 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   updateStatHeader() {
     this.adminService.getAllUserCount().subscribe((data) => {
-      this.preRegStatNumber = data.pre_count;
-      this.regStatNumber = data.reg_count;
+      this.preRegStatNumber = data.preregistration_count;
+      this.regStatNumber = data.registration_count;
       this.rsvpStatNumber = data.rsvp_count;
       this.checkInStatNumber = data.checkin_count;
     },                                            (error) => {

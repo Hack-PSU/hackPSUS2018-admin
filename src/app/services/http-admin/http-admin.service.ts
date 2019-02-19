@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import * as uuid from 'uuid/v4';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators';
+import { ApiReponseModel } from '../../models/api-reponse-model';
 import { CheckoutInstanceModel } from '../../models/checkout-instance-model';
 import { ItemCheckoutModel } from '../../models/item-checkout-model';
 import { PreRegistrationModel } from '../../models/pre-registration-model';
@@ -12,7 +13,7 @@ import { RegistrationModel } from '../../models/registration-model';
 import { CheckInModel } from '../../models/check-in-model'
 import { LocationModel } from '../../models/location-model';
 import { ClassesModel } from '../../models/classes-model';
-import { CountModel } from '../../models/count-model';
+import { ICountModel } from '../../models/count-model';
 import { StatisticsModel } from '../../models/statistics-model';
 import { AttendanceModel } from '../../models/attendance-model';
 import { LoginResponseModel } from '../../models/login-response-model';
@@ -32,9 +33,9 @@ export class HttpAdminService extends BaseHttpService {
   }
 
   getAdminStatus(): Observable<LoginResponseModel> {
-    //v1 - const apiRoute = new ApiRoute('users/', true);
+    // v1 - const apiRoute = new ApiRoute('users/', true);
     const apiRoute = new ApiRoute('admin/', true);
-    //return super.genericGet<{ admin, privilege }>(apiRoute);
+    // return super.genericGet<{ admin, privilege }>(apiRoute);
     return super.genericGet<LoginResponseModel>(apiRoute);
   }
 
@@ -42,14 +43,14 @@ export class HttpAdminService extends BaseHttpService {
     const apiRoute = new ApiRoute(
       'admin/preregistered',
       true,
-      limit ? new Map<string, any>().set('limit', limit) : null,
+      limit ? new Map<string, any>().set('limit', limit).set('byHackathon', true) : null,
     );
     return super.genericGet<PreRegistrationModel[]>(apiRoute);
   }
 
   getRegistrations(limit?: number): Observable<RegistrationModel[]> {
     const apiRoute = new ApiRoute(
-      'admin/registered',
+      'admin/register',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
@@ -83,7 +84,7 @@ export class HttpAdminService extends BaseHttpService {
     );
     return super.genericPut<{}>(apiRoute, { event: event.restRepr() });
   }
-  
+
   getUserUID(email: string) {
     const apiRoute = new ApiRoute(
       'admin/userid',
@@ -168,7 +169,7 @@ export class HttpAdminService extends BaseHttpService {
       'admin/location/update',
       true,
     );
-    return super.genericPost<{}>(apiRoute, { uid, location_name: location_name });
+    return super.genericPost<{}>(apiRoute, { uid, location_name });
   }
 
   getExtraCreditClasses(limit?: number): Observable<ClassesModel[]> {
@@ -189,7 +190,7 @@ export class HttpAdminService extends BaseHttpService {
   }
 
   setUserCheckedIn(uid: string) {
-    const rfid: string = `NO_BAND_${uuid()}`
+    const rfid = `NO_BAND_${uuid()}`;
     const time: number = new Date().getTime();
 
     const apiRoute = new ApiRoute(
@@ -197,47 +198,51 @@ export class HttpAdminService extends BaseHttpService {
       true,
 
     );
-    return super.genericPost<{}>(apiRoute, {assignments: [{ uid, rfid, time }]});
+    return super.genericPost<{}>(apiRoute, { assignments: [{ uid, rfid, time }] });
   }
 
   getAllUsers(limit?: number): Observable<CheckInModel[]> {
     const apiRoute = new ApiRoute(
-      'admin/user_data',
+      'admin/data/?type=registration_stats',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
-    return super.genericGet<CheckInModel[]>(apiRoute);
+    return super.genericGet<CheckInModel[]>(apiRoute)
   }
 
-  getPreRegCount(limit?: number): Observable<CountModel[]> {
+  getPreRegCount(limit?: number): Observable<ICountModel[]> {
     const apiRoute = new ApiRoute(
       'admin/prereg_count',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
-    return super.genericGet<CountModel[]>(apiRoute);
+    return super.genericGet<ICountModel[]>(apiRoute);
   }
 
-  getRegCount(limit?: number): Observable<CountModel[]> {
+  getRegCount(limit?: number): Observable<ICountModel[]> {
     const apiRoute = new ApiRoute(
       'admin/reg_count',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );
-    return super.genericGet<CountModel[]>(apiRoute);
+    return super.genericGet<ICountModel[]>(apiRoute);
   }
 
-  getAllUserCount(): Observable<CountModel> {
+  getAllUserCount(): Observable<ICountModel> {
     const apiRoute = new ApiRoute(
-      'admin/user_count',
+      'admin/data/?type=stats_count',
       true,
+      new Map<string, any>().set('byHackathon', true),
     );
-    return super.genericGet<CountModel>(apiRoute);
+    return super.genericGet<ApiReponseModel<ICountModel>>(apiRoute)
+      .pipe(
+        map(response => response.body.data[0]),
+      );
   }
 
   getStatistics(limit?: number): Observable<StatisticsModel[]> {
     const apiRoute = new ApiRoute(
-      'admin/statistics',
+      'admin/data/?type=registration_stats',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,
     );

@@ -3,6 +3,7 @@
  * easy access to different pages. Each link is protected by the router guard.
  */
 import { Component, OnInit } from '@angular/core';
+import { ICountModel } from '../../models/count-model';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
   public regStatNumber = -1;
   public rsvpStatNumber = -1;
   public checkInStatNumber = -1;
-    
+  
   /*
    * Error array used to display error messages
    */
@@ -57,9 +58,9 @@ export class DashboardComponent implements OnInit {
    * @exception: Failure with the admin service with cause an error to be displayed on the /userdata/ route page
    */
   updateStatHeader() {
-    this.adminService.getAllUserCount().subscribe((data) => {
-      this.preRegStatNumber = data.pre_count;
-      this.regStatNumber = data.reg_count;
+    this.adminService.getAllUserCount().subscribe((data: ICountModel) => {
+      this.preRegStatNumber = data.preregistration_count;
+      this.regStatNumber = data.registration_count;
       this.rsvpStatNumber = data.rsvp_count;
       this.checkInStatNumber = data.checkin_count;
     },                                            (error) => {
