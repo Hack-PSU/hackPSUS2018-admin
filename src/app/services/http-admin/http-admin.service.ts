@@ -16,8 +16,7 @@ import { ClassesModel } from '../../models/classes-model';
 import { ICountModel } from '../../models/count-model';
 import { StatisticsModel } from '../../models/statistics-model';
 import { AttendanceModel } from '../../models/attendance-model';
-import { LoginResponseModel } from '../../models/login-response-model';
-import 'rxjs-compat/add/observable/from';
+import { IResponseModel } from '../../models/response-model';
 import { ApiRoute } from '../../models/ApiRoute';
 import { CustomErrorHandlerService } from '../custom-error-handler/custom-error-handler.service';
 import { BaseHttpService } from '../base-http/base-http.service';
@@ -32,13 +31,22 @@ export class HttpAdminService extends BaseHttpService {
     super(http, authService, errorHandler);
   }
 
-  getAdminStatus(): Observable<LoginResponseModel> {
-    // v1 - const apiRoute = new ApiRoute('users/', true);
+  /**
+   * Gets the admin and privilege status of the current user denoted by the idtoken (found in local memory)
+   * 
+   * @returns IResponseModel containing admin, privilege properties
+   */
+  getAdminStatus(): Observable<IResponseModel<{admin: boolean, privilege: number}>> {
     const apiRoute = new ApiRoute('admin/', true);
-    // return super.genericGet<{ admin, privilege }>(apiRoute);
-    return super.genericGet<LoginResponseModel>(apiRoute);
+    return super.genericGet<IResponseModel<{admin: boolean, privilege: number}>>(apiRoute);
   }
 
+  /**
+   * Gets the current list of hackers who have preregistered for the hackathon
+   * 
+   * @param limit Maximun integer number of PreRegistraion entries to fetch
+   * @return Array of hackers who preregistered in PreRegistraitonModel format 
+   */
   getPreRegistrations(limit?: number): Observable<PreRegistrationModel[]> {
     const apiRoute = new ApiRoute(
       'admin/preregistered',
@@ -48,6 +56,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericGet<PreRegistrationModel[]>(apiRoute);
   }
 
+  /**
+   * Gets the current list of hackers who have registered for the hackathon
+   * 
+   * @param limit Maximun integer number of Registration entries to fetch
+   * @return Array of hackers who registered in RegistrationModel format 
+   */
   getRegistrations(limit?: number): Observable<RegistrationModel[]> {
     const apiRoute = new ApiRoute(
       'admin/register',
@@ -57,6 +71,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericGet<RegistrationModel[]>(apiRoute);
   }
 
+  /**
+   * Gets the current list of available events for the hackathon
+   * 
+   * @param limit Maximun integer number of Event entries to fetch
+   * @returns Array of events for the hackathon in the EventModel format
+   */
   getEvents(limit?: number): Observable<EventModel[]> {
     const apiRoute = new ApiRoute(
       'live/events',
@@ -69,6 +89,12 @@ export class HttpAdminService extends BaseHttpService {
       )
   }
 
+  /**
+   * Adds a new event to the list of available events for the hackathon
+   * 
+   * @param event New EvenModel format event to add
+   * @returns Response containing success message
+   */
   addEvent(event: EventModel): Observable<{}> {
     const apiRoute = new ApiRoute(
     'live/event',
@@ -77,6 +103,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericPut<{}>(apiRoute, event.restRepr());
   }
 
+  /**
+   * Updates a current event in the list of available events for the hackathon
+   * 
+   * @param event Current EvenModel format event to update
+   * @returns Response containing success message
+   */
   updateEvent(event: EventModel): Observable<{}> {
     const apiRoute = new ApiRoute(
     'live/event',
@@ -85,6 +117,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericPut<{}>(apiRoute, { event: event.restRepr() });
   }
 
+  /**
+   * Gets the firebase unique identifier (UID) for the user associated with the email
+   * 
+   * @param email Firebase user email address
+   * @returns 
+   */
   getUserUID(email: string) {
     const apiRoute = new ApiRoute(
       'admin/userid',
@@ -94,6 +132,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericGet<{ uid, displayName }>(apiRoute);
   }
 
+  /**
+   * Elevates the privilege of a user denoted by the unique identifier (UID)
+   * 
+   * @param uid Firebase unique identifier
+   * @param privilege Integer number corresponding to firebase privilege level
+   */
   elevateUser(uid: string, privilege: string) {
     const apiRoute = new ApiRoute(
       'admin/makeadmin',
@@ -102,6 +146,13 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericPost<{}>(apiRoute, { uid, privilege });
   }
 
+  /**
+   * Sends an email containing a custom subject and body
+   * 
+   * @param emailBody 
+   * @param emailSubject 
+   * @param emailObjects 
+   */
   sendEmail(emailBody: string, emailSubject: string, emailObjects: any[]): Observable<any> {
     const chunkedEmails = _.chunk(emailObjects, 100);
     const apiRoute = new ApiRoute(
@@ -130,6 +181,12 @@ export class HttpAdminService extends BaseHttpService {
     )));
   }
 
+  /**
+   * Gets the current list of hackers who have RSVP'd for the hackathon
+   * 
+   * @param limit Maximun integer number of RSVP entries to fetch
+   * @return Array of hackers who RSVP'd in RegistrationModel format 
+   */
   getRSVP(limit?: number): Observable<RegistrationModel[]> {
     const apiRoute = new ApiRoute(
       'admin/rsvp_list',
@@ -139,6 +196,12 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericGet<RegistrationModel[]>(apiRoute);
   }
 
+  /**
+   * Gets the current list of available events for the hackathon
+   * 
+   * @param limit Maximun integer number of Event entries to fetch
+   * @returns Array of events for the hackathon in the EventModel format
+   */
   getLocations(limit?: number): Observable<LocationModel[]> {
     const apiRoute = new ApiRoute(
       'admin/location_list',
