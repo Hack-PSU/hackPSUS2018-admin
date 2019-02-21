@@ -62,6 +62,7 @@
                         </ng-template>
                         <mat-form-field style="font-size: medium;">
                             <mat-select placeholder="Filter By" [(value)]="filterSelect">
+                                <mat-option>None</mat-option>
                                 <mat-option *ngFor="let option of searchFilterOptions" [value]='option.value'>
                                     {{option.viewValue}}
                                 </mat-option>

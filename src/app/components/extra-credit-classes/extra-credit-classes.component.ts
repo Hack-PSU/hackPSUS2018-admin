@@ -122,7 +122,7 @@ export class ExtraCreditClassesComponent implements OnInit, AfterViewInit {
         this.adminService.getUserUID(result)
             .subscribe((resp) => {
               this.selection.selected.forEach(({ uid }) => {
-                this.adminService.addUserToExtraClass(resp.uid, uid)
+                this.adminService.addHackerToExtraCreditClass(resp.body.data.uid, uid)
                 .subscribe((rest) => {
                   this.openSnackBar('Success: Added User', '');
                 },         (error) => {

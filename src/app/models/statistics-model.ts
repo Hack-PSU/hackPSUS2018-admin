@@ -1,7 +1,7 @@
 /**
  * TODO: Add docstring explaining model
  */
-export class StatisticsModel {
+export interface IStatisticsModel {
 	CATEGORY: string;
 	OPTION: string;
 	COUNT: string;

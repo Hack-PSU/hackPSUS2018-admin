@@ -21,10 +21,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppConstants } from '../../helpers/AppConstants';
 import { EmailListService } from '../../services/email-list/email-list.service';
 
-import { ICountModel } from '../../models/count-model';
+import { IHackerDataModel } from '../../models/hacker-model';
 
 import { ViewUserDataDialogComponent } from './view-user-data-dialog';
 import { NgProgress } from '@ngx-progressbar/core';
+import { map } from 'd3';
 
 @Component({
   selector: 'app-user-data',
@@ -66,6 +67,9 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   public errors: Error = null;
 
+  /*
+   * Table Filtering - array of categorys to filter by and currently selected category
+   */
   private searchFilterOptions = [];
   private filterSelect = "";
 
@@ -111,7 +115,6 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    *
    * After the component view has been initialized, set the local data source paginiator property
    * to the new instance of pagninator. Similar effect with sort.
-   *
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -125,11 +128,20 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    * set the filter property of the local datasource to the new filter value.
    *
    * @param: filterValue  String to filter the datasource
-   */mFilterValue
+   */
   applyFilter(filterValue: string) {
-    let mFilterValue = filterValue.trim();
-    mFilterValue = mFilterValue.toLowerCase();
-    this.dataSource.filter = mFilterValue;
+    console.log(this.filterSelect);
+    let mFilterValue = filterValue.trim().toLowerCase();
+    if(this.filterSelect) {
+      console.log("Hit the predicate");
+      console.log("This is my filterSelect" + this.filterSelect);
+      this.dataSource.filterPredicate = 
+        (data: IHackerDataModel, filter: string) => data ? data[this.filterSelect].toString().trim().toLowerCase().indexOf(filter) != -1 : false;
+      this.dataSource.filter = mFilterValue;
+    }
+    else {
+      this.dataSource.filter = mFilterValue;
+    }
   }
 
   /**
@@ -159,16 +171,18 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    * @exception: Failure with the admin service will cause an error to be displayed on the /userdata/ route page
    */
   loadTableData() {
-    this.adminService.getAllUsers().subscribe((data) => {
+    this.adminService.getAllHackers().subscribe((resp) => {
       this.displayedColumns = UserDataComponent.tableCols;
-      this.dataSource.data = data;
+      this.dataSource.data = resp.body.data;
       this.progressService.complete();
-      var dataNames = Object.getOwnPropertyNames(data[0]);
+      var dataNames = Object.getOwnPropertyNames(resp.body.data[0]);
       dataNames = dataNames.filter(option => !option.includes("id"));
+      //this.searchFilterOptions.push({value: "None"});
       dataNames.forEach((field) => {
         var tempObj = { value: field, viewValue: field}
         this.searchFilterOptions.push(tempObj);
       });
+      
     },                                        (error) => {
       this.errors = new Error('Error: Issue with loading the user table. Please refresh the page.');
       console.error(error);
@@ -263,7 +277,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   onClickCheckedIn(user) {
     user.check_in_status = true;
-    this.adminService.setUserCheckedIn(user.uid)
+    this.adminService.setHackerCheckedIn(user.uid)
         .subscribe(() => {},
                (error) => {
           user.check_in_status = false;
@@ -316,6 +330,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
     user['admin_edit_permission'] = this.editToggleDisable;
     const dialogRef = this.dialog.open(ViewUserDataDialogComponent, {
       height: '600px',
+      width: '750px',
       data: user,
       autoFocus: false,
     });

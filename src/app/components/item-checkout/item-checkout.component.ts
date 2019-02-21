@@ -18,7 +18,7 @@ import { PRIVILEGE_LEVEL } from '../../models/privilege-model';
 import { HttpAdminService } from '../../services/services';
 import { AddCheckoutRequestDialogComponent } from './add-checkout-request-dialog.component';
 import { ReturnCheckoutSheetComponent } from './return-checkout-sheet.component';
-import { IResponseModel } from '../../models/response-model';
+import { IApiResponseModel } from '../../models/api-response-model';
 
 @Component({
   selector: 'app-item-checkout',
@@ -68,7 +68,7 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
     this.returnDataSource = new MatTableDataSource<CheckoutInstanceModel>([]);
     this.directorPermission = httpService.getAdminStatus()
       .pipe(
-        map((adminData: IResponseModel<{admin: boolean, privilege: number}>) =>
+        map((adminData: IApiResponseModel<{admin: boolean, privilege: number}>) =>
           (adminData.body.data.privilege >= PRIVILEGE_LEVEL.DIRECTOR
           )),
         take(1),

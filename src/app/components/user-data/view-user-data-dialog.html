@@ -2,29 +2,38 @@
 	<mat-card-title>
 		<div class = 'title-container'>
 			<p>{{user_data.firstname}} {{user_data.lastname}}</p>
-			<mat-slide-toggle [disabled] = "editToggleDisable">Edit</mat-slide-toggle>
+			<button mat-stroked-button color="primary" (click)="onSubmitButtonClick()">Submit Registration Changes</button>
+			<mat-slide-toggle color="accent" (change)="onChange($event)" [disabled]="editToggleDisable">Edit</mat-slide-toggle>
 		</div>
 	</mat-card-title>
 	<mat-card-content>
+		{{toggleState}}
 		<table>
 		  <tr>
 		    <th>User Property</th>
 		    <th>User Response</th>
 		  </tr>
 		  <tr>
-		    <td>First Name</td>
+				<td>First Name</td>
 		    <td>
-		    	<ng-template [ngIf]="user_data.firstname" [ngIfElse]="NA">
-					<div>
-						{{user_data.firstname}}
-					</div>
-				</ng-template>
-
-				<ng-template #NA>
-					<div>
-						N/A
-					</div>
-				</ng-template>
+					<ng-container *ngIf="toggleState; else second"></ng-container>
+					<ng-template #second>
+							<ng-template [ngIf]="user_data.firstname" [ngIfElse]="NA">
+									<div>
+										{{user_data.firstname}}
+									</div>
+							</ng-template>
+							<ng-template #NA>
+									<div>
+										N/A
+									</div>
+								</ng-template>
+					</ng-template>
+					<ng-template [ngIf]="toggleState" >
+							<mat-form-field color="primary" appearance="outline">
+									<input matInput [(ngModel)]="hacker.firstname" placeholder={{user_data.firstname}}>
+							</mat-form-field>
+					</ng-template>
 		    </td>
 		  </tr>
 		  <tr>

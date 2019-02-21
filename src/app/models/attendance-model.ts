@@ -14,5 +14,5 @@ export class AttendanceModel {
 	hackathon_start_time: string;
 	hackathon_end_time: string;
 	hackathon_base_pin: number;
-	hackathon_active: number
+	hackathon_active: number;
 }

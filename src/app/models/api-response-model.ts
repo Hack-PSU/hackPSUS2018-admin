@@ -1,4 +1,4 @@
-export interface IResponseModel<T> {
+export interface IApiResponseModel<T> {
   api_response: string;
   status: number;
   body: {

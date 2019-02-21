@@ -4,7 +4,8 @@
  * page.
  */
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSlideToggleChange, MatSlideToggle, MatButton} from '@angular/material';
+import { IHackerDataModel } from 'app/models/hacker-model';
 
 @Component({
   selector: 'app-view-user-data-dialog',
@@ -15,12 +16,15 @@ export class ViewUserDataDialogComponent implements OnInit {
 
   public user_data: any;
   public editToggleDisable = true;
+  public toggleState = false;
+  public hacker: IHackerDataModel;
 
   constructor(
     public dialogRef: MatDialogRef<ViewUserDataDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.user_data = data;
+    this.hacker = this.user_data;
   }
 
   ngOnInit() {
@@ -29,8 +33,18 @@ export class ViewUserDataDialogComponent implements OnInit {
     ).admin_edit_permission;
   }
 
+  onChange(ob: MatSlideToggleChange) {
+    let matSlideToggle: MatSlideToggle = ob.source;	
+    this.toggleState = matSlideToggle.checked;
+  } 
+
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmitButtonClick() {
+    console.log(this.hacker.firstname);
+    this.onNoClick();
   }
 
   /**

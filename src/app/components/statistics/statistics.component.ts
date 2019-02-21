@@ -1,12 +1,8 @@
 import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
-import { StatisticsModel } from '../../models/statistics-model';
-
+import { IStatisticsModel } from '../../models/statistics-model';
 import * as firebase from 'firebase';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -39,7 +35,7 @@ export class StatisticsComponent implements OnInit {
     this._user = value;
   }
 
-  public StatData = new MatTableDataSource<StatisticsModel>([]); // [] = array
+  public StatData = new MatTableDataSource<IStatisticsModel>([]); // [] = array
 
   private _user: firebase.User;
     /*
@@ -150,7 +146,7 @@ export class StatisticsComponent implements OnInit {
         });
   }
 
-//calls the https://staging-dot-hackpsu18.appspot.com/v1/admin/statistics
+  //calls the https://staging-dot-hackpsu18.appspot.com/v1/admin/statistics
   getStatData() {
     this.adminService.getStatistics()
             .subscribe((data) => {

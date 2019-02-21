@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../services/AuthService/auth.service';
 import { NgProgress } from '@ngx-progressbar/core';
 import { CustomErrorHandlerService } from '../services/services';
-import { IResponseModel } from '../models/response-model';
+import { IApiResponseModel } from '../models/api-response-model';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
     };
     return this.httpService.getAdminStatus()
       .pipe(
-          map((adminData: IResponseModel<{admin: boolean, privilege: number}>) => {
+          map((adminData: IApiResponseModel<{admin: boolean, privilege: number}>) => {
           if (!adminData || !adminData.body.data.admin) {
             this.authService.signOut()
               .then(() => {
