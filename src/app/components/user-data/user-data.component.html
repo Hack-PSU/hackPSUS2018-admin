@@ -61,7 +61,7 @@
                             </div>
                         </ng-template>
                         <mat-form-field style="font-size: medium;">
-                            <mat-select placeholder="Filter By" [(value)]="filterSelect">
+                            <mat-select placeholder="Filter By" (selectionChange)="onFilterSelection()" [(value)]="filterSelect">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let option of searchFilterOptions" [value]='option.value'>
                                     {{option.viewValue}}
@@ -69,7 +69,7 @@
                             </mat-select>
                             </mat-form-field>
                         <mat-form-field class="email-filter">
-                            <input matInput (keydown)="applyFilter($event.target.value)" placeholder="Search" id="email-filter">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" id="email-filter">
                         </mat-form-field>
                         <div class = "title-button-group">
                             <div class="context-menu">

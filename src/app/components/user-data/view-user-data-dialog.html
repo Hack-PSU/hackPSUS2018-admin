@@ -2,12 +2,11 @@
 	<mat-card-title>
 		<div class = 'title-container'>
 			<p>{{user_data.firstname}} {{user_data.lastname}}</p>
-			<button mat-stroked-button color="primary" (click)="onSubmitButtonClick()">Submit Registration Changes</button>
 			<mat-slide-toggle color="accent" (change)="onChange($event)" [disabled]="editToggleDisable">Edit</mat-slide-toggle>
 		</div>
+		<button mat-stroked-button color="primary" (click)="onSubmitButtonClick()">Submit Registration Changes</button>
 	</mat-card-title>
 	<mat-card-content>
-		{{toggleState}}
 		<table>
 		  <tr>
 		    <th>User Property</th>

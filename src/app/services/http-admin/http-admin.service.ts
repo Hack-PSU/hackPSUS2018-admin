@@ -372,7 +372,6 @@ export class HttpAdminService extends BaseHttpService {
    */
   getStatistics(limit?: number): Observable<IStatisticsModel[]> {
     const apiRoute = new ApiRoute(
-      //This route is incorrect
       'admin/data/?type=registration_category_count',
       true,
       limit ? new Map<string, any>().set('limit', limit) : null,

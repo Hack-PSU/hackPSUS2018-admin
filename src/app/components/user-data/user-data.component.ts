@@ -71,7 +71,8 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    * Table Filtering - array of categorys to filter by and currently selected category
    */
   private searchFilterOptions = [];
-  private filterSelect = "";
+  private filterSelect = '';
+  private orgFilterPredicate: (data: IHackerDataModel, filter: string) => boolean;
 
   constructor(
     public emailListService: EmailListService,
@@ -100,6 +101,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
         this.checkUserPermissions();
         this.updateStatHeader();
         this.loadTableData();
+        this.orgFilterPredicate = this.dataSource.filterPredicate
       } else {
         this.errors = new Error('Error: No user');
         console.error('No User');
@@ -131,16 +133,22 @@ export class UserDataComponent implements OnInit, AfterViewInit {
    */
   applyFilter(filterValue: string) {
     console.log(this.filterSelect);
-    let mFilterValue = filterValue.trim().toLowerCase();
-    if(this.filterSelect) {
-      console.log("Hit the predicate");
-      console.log("This is my filterSelect" + this.filterSelect);
-      this.dataSource.filterPredicate = 
-        (data: IHackerDataModel, filter: string) => data ? data[this.filterSelect].toString().trim().toLowerCase().indexOf(filter) != -1 : false;
-      this.dataSource.filter = mFilterValue;
-    }
-    else {
-      this.dataSource.filter = mFilterValue;
+    const mFilterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = mFilterValue;
+  }
+
+  onFilterSelection() {
+    console.log('Before is my filterSelect: ' + this.filterSelect);
+    if (this.filterSelect) {
+      const filterProperty = this.filterSelect;
+      console.log('Hit the predicate');
+      console.log('After is my filterSelect: ' + filterProperty);
+      this.dataSource.filterPredicate =
+        (data: IHackerDataModel, filter: string) =>
+        data ? data[filterProperty].toString().trim().toLowerCase().indexOf(filter) !== -1 : false;
+    } else {
+      //On Selection - None
+      this.dataSource.filterPredicate = this.orgFilterPredicate;
     }
   }
 
@@ -175,15 +183,15 @@ export class UserDataComponent implements OnInit, AfterViewInit {
       this.displayedColumns = UserDataComponent.tableCols;
       this.dataSource.data = resp.body.data;
       this.progressService.complete();
-      var dataNames = Object.getOwnPropertyNames(resp.body.data[0]);
-      dataNames = dataNames.filter(option => !option.includes("id"));
+      let dataNames = Object.getOwnPropertyNames(resp.body.data[0]);
+      dataNames = dataNames.filter(option => !option.includes('id'));
       //this.searchFilterOptions.push({value: "None"});
       dataNames.forEach((field) => {
-        var tempObj = { value: field, viewValue: field}
+        let tempObj = { value: field, viewValue: field }
         this.searchFilterOptions.push(tempObj);
       });
-      
-    },                                        (error) => {
+
+    },                                          (error) => {
       this.errors = new Error('Error: Issue with loading the user table. Please refresh the page.');
       console.error(error);
     });
@@ -279,11 +287,11 @@ export class UserDataComponent implements OnInit, AfterViewInit {
     user.check_in_status = true;
     this.adminService.setHackerCheckedIn(user.uid)
         .subscribe(() => {},
-               (error) => {
-          user.check_in_status = false;
-          this.errors = new Error('Error: Issue with manually checking user in');
-          console.error(error);
-        });
+                   (error) => {
+                 user.check_in_status = false;
+                 this.errors = new Error('Error: Issue with manually checking user in');
+                 console.error(error);
+               });
   }
 
   /**
@@ -303,7 +311,7 @@ export class UserDataComponent implements OnInit, AfterViewInit {
           console.error(error);
         });
   }
-  
+
   /**
    * Updates the latest stats header with the current counts
    *
