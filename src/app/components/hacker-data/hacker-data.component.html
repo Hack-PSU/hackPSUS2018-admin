@@ -1,25 +1,21 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<div class = "container">
-    <div class = "title-container">
-        <div class="section-title-word">
-            <div class="section-title-letter white-text">U</div>
-            <div class="section-title-letter white-text">S</div>
-            <div class="section-title-letter white-text">E</div>
-            <div class="section-title-letter white-text">R</div>
-        </div>
-        <div class="section-title-word">
-            <div class="section-title-letter white-text">D</div>
-            <div class="section-title-letter white-text">A</div>
-            <div class="section-title-letter white-text">T</div>
-            <div class="section-title-letter white-text">A</div>
-        </div>
+<div class="main-container">
+    <div class="title-container">
+        <div class="header-text text-center">Hacker Data</div>
     </div>
-    <div class = "body-container">
+    <div class='change-hackathon-container'>
+        <mat-form-field color="primary">
+            <mat-select placeholder="View hackathon" (selectionChange)="changeSelectedHackathon()" [(ngModel)]="selectedHackathon" name="hackathon">
+                <mat-option *ngFor="let hackathon of hackathonOptions" [value]="hackathon">
+                    {{hackathon.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="body-container">
             <div *ngIf="errors" class="alert alert-danger">
                 {{ errors.message }}
             </div>
-        <div class = "latest-container">
+        <div class="latest-container">
             <mat-card>
                 <mat-card-title>
                     <b>Latest Stats</b>
@@ -44,11 +40,11 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <div class = "table-container">
+        <div class="table-container">
             <mat-card>
                 <mat-card-title>
-                    <b>Users</b>
-                    <div class = "table-title-container">
+                    <b>Hackers</b>
+                    <div class="table-title-container">
                         <div *ngIf="selection.isEmpty(); else showSelection" class="card-title">
                             <p> Registration Data </p>
                         </div>
@@ -95,7 +91,6 @@
                     </div>
                 </mat-card-title>
                 <mat-card-content>
-
                     <mat-table #table [dataSource]="dataSource" matSort>
                         <!-- Select Column -->
                         <ng-container matColumnDef="select">
@@ -116,8 +111,8 @@
                          <!-- Full Name Column -->
                         <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef>Hacker</mat-header-cell>
-                            <mat-cell *matCellDef="let user"> 
-                                <a (click)='viewAdditionalUserData(user)'>{{user.firstname}} {{user.lastname}}</a>
+                            <mat-cell *matCellDef="let hacker"> 
+                                <a (click)='viewAdditionalHackerData(hacker)'>{{hacker.firstname}} {{hacker.lastname}}</a>
                             </mat-cell>
                         </ng-container>
                         
@@ -157,7 +152,7 @@
                             <mat-cell *matCellDef="let user" class = "display-cell">
 
                                 <!-- Pre-Registered -->
-                                <ng-template [ngIf]="isPreRegistered(user)" [ngIfElse] = "preRegisterEmpty">
+                                <ng-template [ngIf]="checkHackerStatus(user, 'PreReg')" [ngIfElse] = "preRegisterEmpty">
                                     <mat-icon class="check-circle-green">check_circle</mat-icon>
                                 </ng-template>
                                 <ng-template #preRegisterEmpty>
@@ -165,7 +160,7 @@
                                 </ng-template>
 
                                 <!-- Registered -->
-                                <ng-template [ngIf]="isRegistered(user)" [ngIfElse] = "registerEmpty">
+                                <ng-template [ngIf]="checkHackerStatus(user, 'Reg')" [ngIfElse] = "registerEmpty">
                                     <mat-icon class="check-circle-green">check_circle</mat-icon>
                                 </ng-template>
                                 <ng-template #registerEmpty>
@@ -173,7 +168,7 @@
                                 </ng-template>
 
                                 <!-- RSVP --> 
-                                <ng-template [ngIf]="isRSVP(user)" [ngIfElse] = "rsvpEmpty">
+                                <ng-template [ngIf]="checkHackerStatus(user, 'RSVP')" [ngIfElse] = "rsvpEmpty">
                                     <mat-icon class="check-circle-green">check_circle</mat-icon>
                                 </ng-template>
                                 <ng-template #rsvpEmpty>
@@ -181,7 +176,7 @@
                                 </ng-template>
 
                                 <!-- Check-In -->
-                                <ng-template [ngIf]="isCheckedIn(user)" [ngIfElse] = "checkinEmpty">
+                                <ng-template [ngIf]="checkHackerStatus(user, 'CheckIn')" [ngIfElse] = "checkinEmpty">
                                     <mat-icon class="check-circle-green">check_circle</mat-icon>
                                 </ng-template>
                                 <ng-template #checkinEmpty>

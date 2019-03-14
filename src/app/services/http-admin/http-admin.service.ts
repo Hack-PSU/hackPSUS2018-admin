@@ -18,7 +18,6 @@ import { ItemCheckoutModel } from '../../models/item-checkout-model';
 import { LocationModel } from '../../models/location-model';
 import { PreRegistrationModel } from '../../models/pre-registration-model';
 import { RegistrationModel } from '../../models/registration-model';
-//import { CheckInModel } from '../../models/check-in-model'
 
 import { ApiRoute } from '../../models/ApiRoute';
 import { AuthService } from '../AuthService/auth.service';
@@ -27,6 +26,8 @@ import { CustomErrorHandlerService } from '../custom-error-handler/custom-error-
 
 import * as _ from 'lodash';
 import { IHackerRegistrationModel } from 'app/models/hacker-registration-model';
+import { query } from '@angular/animations';
+import { UpdateModel } from 'app/models/update-model';
 
 
 @Injectable()
@@ -41,9 +42,12 @@ export class HttpAdminService extends BaseHttpService {
    * 
    * @returns IResponseModel containing admin, privilege properties
    */
-  getAdminStatus(): Observable<IApiResponseModel<{admin: boolean, privilege: number}>> {
+  getAdminStatus(): Observable<{admin: boolean, privilege: number}> {
     const apiRoute = new ApiRoute('admin/', true);
-    return super.genericGet<IApiResponseModel<{admin: boolean, privilege: number}>>(apiRoute);
+    return super.genericGet<IApiResponseModel<{admin: boolean, privilege: number}>>(apiRoute)
+      .pipe(
+        map(response => response.body.data),
+      );
   }
 
   /**
@@ -83,29 +87,34 @@ export class HttpAdminService extends BaseHttpService {
    * @returns Array of events for the hackathon in the EventModel format
    */
   getEvents(limit?: number): Observable<EventModel[]> {
+    const apiParams = new Map<string, any>();
+    apiParams.set('ignoreCache', true);
+    if (limit != null) { apiParams.set('limit', limit); }
     const apiRoute = new ApiRoute(
       'live/events',
       true,
-      limit ? new Map<string, any>().set('limit', limit) : null,
+      apiParams,
     );
-    return super.genericGet<{}[]>(apiRoute)
+    return super.genericGet<IApiResponseModel<EventModel[]>>(apiRoute)
       .pipe(
-        map(events => events.map(event => EventModel.parseJSON(event))),
-      )
+        map(response => response.body.data),
+      );
   }
 
   /**
    * Adds a new event to the list of available events for the hackathon
    * 
-   * @param event New EvenModel format event to add
+   * @param event New EventModel format event to add
    * @returns Response containing success message
    */
   addEvent(event: EventModel): Observable<{}> {
+
+
     const apiRoute = new ApiRoute(
-    'live/event',
-    true,
+      'live/events',
+      true,
     );
-    return super.genericPut<{}>(apiRoute, event.restRepr());
+    return super.genericPost<IApiResponseModel<{}>>(apiRoute, event.restRepr());
   }
 
   /**
@@ -116,25 +125,28 @@ export class HttpAdminService extends BaseHttpService {
    */
   updateEvent(event: EventModel): Observable<{}> {
     const apiRoute = new ApiRoute(
-    'live/event',
-    true,
+      'live/events/update',
+      true,
     );
-    return super.genericPut<{}>(apiRoute, { event: event.restRepr() });
+    return super.genericPost<{}>(apiRoute, event.restRepr());
   }
 
   /**
    * Gets the firebase unique identifier (UID) for the user associated with the email
    * 
    * @param email Firebase user email address
-   * @returns 
+   * @returns Firebase user profile
    */
-  getUserUID(email: string): Observable<IApiResponseModel<{uid}>> {
+  getUserUID(email: string): Observable<{uid: string}> {
     const apiRoute = new ApiRoute(
       'admin/userid',
       true,
       new Map().set('email', email),
     );
-    return super.genericGet<IApiResponseModel<{uid}>>(apiRoute);
+    return super.genericGet<IApiResponseModel<{uid: string}>>(apiRoute)
+      .pipe(
+        map(response => response.body.data),
+      );
   }
 
   /**
@@ -208,12 +220,17 @@ export class HttpAdminService extends BaseHttpService {
    * @returns Array of events for the hackathon in the EventModel format
    */
   getLocations(limit?: number): Observable<LocationModel[]> {
+    const apiParams = new Map<string, any>();
+    if (limit > 0) { apiParams.set('limit', limit); }
     const apiRoute = new ApiRoute(
-      'admin/location_list',
+      'admin/location',
       true,
-      limit ? new Map<string, any>().set('limit', limit) : null,
+      apiParams,
     );
-    return super.genericGet<LocationModel[]>(apiRoute);
+    return super.genericGet<IApiResponseModel<LocationModel[]>>(apiRoute)
+    .pipe(
+      map(response => response.body.data),
+    );
   }
 
   /**
@@ -223,7 +240,7 @@ export class HttpAdminService extends BaseHttpService {
    */
   addNewLocation(locationName: string) {
     const apiRoute = new ApiRoute(
-      'admin/create_location',
+      'admin/location',
       true,
     );
     return super.genericPost<{}>(apiRoute, { locationName });
@@ -236,7 +253,7 @@ export class HttpAdminService extends BaseHttpService {
    */
   removeLocation(uid: string) {
     const apiRoute = new ApiRoute(
-      'admin/remove_location',
+      'admin/location/delete',
       true,
     );
     return super.genericPost<{}>(apiRoute, { uid });
@@ -249,12 +266,12 @@ export class HttpAdminService extends BaseHttpService {
    * @param uid Unique identifier (UID) for the location
    * @param location_name New name for the location
    */
-  updateLocation(uid: string, location_name: string) {
+  updateLocation(uid: string, locationName: string) {
     const apiRoute = new ApiRoute(
       'admin/location/update',
       true,
     );
-    return super.genericPost<{}>(apiRoute, { uid, location_name });
+    return super.genericPost<{}>(apiRoute, { uid, locationName });
   }
 
   /**
@@ -265,11 +282,14 @@ export class HttpAdminService extends BaseHttpService {
    */
   getExtraCreditClasses(limit?: number): Observable<ClassesModel[]> {
     const apiRoute = new ApiRoute(
-      'admin/extra_credit_list',
+      'users/extra-credit',
       true,
       limit ? new Map<string, number>().set('limit', limit) : null,
     );
-    return super.genericGet<ClassesModel[]>(apiRoute);
+    return super.genericGet<IApiResponseModel<ClassesModel[]>>(apiRoute)
+    .pipe(
+      map(response => response.body.data),
+    );
   }
 
   /**
@@ -278,12 +298,12 @@ export class HttpAdminService extends BaseHttpService {
    * @param uid Hacker unique identifier
    * @param cid Class unique identifier
    */
-  addHackerToExtraCreditClass(uid: string, cid: string) {
+  addHackerToExtraCreditClass(uid: string, cid: string): Observable<{}>  {
     const apiRoute = new ApiRoute(
-      'admin/assign_extra_credit',
+      'users/extra-credit',
       true,
     );
-    return super.genericPost<{}>(apiRoute, { uid, cid });
+    return super.genericPost<IApiResponseModel<{}>>(apiRoute, { uid, cid });
   }
 
   /**
@@ -292,7 +312,7 @@ export class HttpAdminService extends BaseHttpService {
    * @param uid Hacker unique indentifier
    */
   setHackerCheckedIn(uid: string) {
-    const rfid = `NO_BAND_${uuid()}`;
+    const wid = `NO_BAND_${uuid()}`;
     const time: number = new Date().getTime();
 
     const apiRoute = new ApiRoute(
@@ -300,7 +320,7 @@ export class HttpAdminService extends BaseHttpService {
       true,
 
     );
-    return super.genericPost<{}>(apiRoute, { assignments: [{ uid, rfid, time }] });
+    return super.genericPost<{}>(apiRoute, { assignments: [{ uid, wid, time }] });
   }
 
   /**
@@ -309,11 +329,15 @@ export class HttpAdminService extends BaseHttpService {
    * @param limit Maximun integer number of hacker entries to fetch
    * @returns Array of extra credit classes for the hackathon in the ClassesModel format
    */
-  getAllHackers(limit?: number): Observable<IApiResponseModel<IHackerDataModel[]>> {
+  getAllHackers(limit?: number, hackathon?: string): Observable<IApiResponseModel<IHackerDataModel[]>> {
+    const queryParams = new Map<string, any>();
+    queryParams.set('ignoreCache', true);
+    if (limit) { queryParams.set('limit', limit); };
+    if (hackathon) { queryParams.set('hackathon', hackathon); };
     const apiRoute = new ApiRoute(
       'admin/data/?type=registration_stats',
       true,
-      limit ? new Map<string, any>().set('limit', limit) : null,
+      queryParams,
     );
     return super.genericGet<IApiResponseModel<IHackerDataModel[]>>(apiRoute)
   }
@@ -352,11 +376,13 @@ export class HttpAdminService extends BaseHttpService {
    * @param limit Maximun integer number Pre/Reg/RSVP/CheckedIn Count entries to fetch
    * @returns Integer number count of hackers who have Pre/Reg/RSVP/CheckedIn in the ICountModel format
    */
-  getAllUserCount(): Observable<ICountModel> {
+  getAllHackerCount(hackathon?: string): Observable<ICountModel> {
+    const queryParams = new Map<string, any>();
+    if (hackathon) { queryParams.set('hackathon', hackathon); }
     const apiRoute = new ApiRoute(
       'admin/data/?type=stats_count',
       true,
-      new Map<string, any>().set('byHackathon', true),
+      queryParams,
     );
     return super.genericGet<IApiResponseModel<ICountModel>>(apiRoute)
       .pipe(
@@ -378,7 +404,7 @@ export class HttpAdminService extends BaseHttpService {
     );
     return super.genericGet<IStatisticsModel[]>(apiRoute);
   }
-  
+
   /**
    * Gets the list of available items to checkout for Item Checkout during the hackathon
    * 
@@ -432,19 +458,36 @@ export class HttpAdminService extends BaseHttpService {
     return super.genericPost<{}>(apiRoute, { checkoutId: data.uid });
   }
 
-  sendLiveUpdate(message: string, title: string, pushNotification: boolean) {
+  sendLiveUpdate(liveUpdate: UpdateModel): Observable<{}> {
     const apiRoute = new ApiRoute(
       'live/updates',
       true,
     );
-    return super.genericPost<{}>(apiRoute, { pushNotification, updateTitle: title, updateText: message });
+    console.log(liveUpdate);
+    return super.genericPost<IApiResponseModel<{}>>(apiRoute, liveUpdate);
   }
 
+  /**
+   * Updates the Hacker's Registration Data
+   * 
+   * @param data Updated Registration data for a Hacker
+   */
   updateHackerRegistration(data: IHackerRegistrationModel) {
     const apiRoute = new ApiRoute(
       'admin/register/update',
       true,
     );
-    return super.genericPost<{}>(apiRoute, data);
+    return super.genericPost<{}>(apiRoute, { registration: data });
+  }
+
+  getHackathons() {
+    const apiRoute = new ApiRoute(
+      'admin/hackathon',
+      true,
+    );
+    return super.genericGet<IApiResponseModel<{}>>(apiRoute)
+    .pipe(
+      map(response => response.body.data),
+    );
   }
 }

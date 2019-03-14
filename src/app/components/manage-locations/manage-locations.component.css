@@ -13,6 +13,13 @@
   color: black;
 }
 
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 999;
+}
+
 .h4 {
   display: block;
   width: 80%;
@@ -27,10 +34,10 @@
   margin-right: auto;
 }
 
-.email-filter {
+.location-filter {
   margin: 10px;
   font-size: small;
-  flex-basis: 75%;
+  flex-basis: 60%;
 }
 
 .mat-column-select {
