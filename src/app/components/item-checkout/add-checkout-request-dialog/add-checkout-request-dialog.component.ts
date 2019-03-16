@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
-import { ItemCheckoutModel } from '../../models/item-checkout-model';
-import { HttpAdminService } from '../../services/services';
+import { ItemCheckoutModel } from '../../../models/item-checkout-model';
+import { HttpAdminService } from '../../../services/services';
 import { Observable, Subject } from 'rxjs';
 
 @Component({
@@ -35,6 +35,6 @@ export class AddCheckoutRequestDialogComponent {
   }
 
   submitCheckoutRequest(result) {
-
+    this.dialogRef.close(result);
   }
 }

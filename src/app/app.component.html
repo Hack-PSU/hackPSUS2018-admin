@@ -3,7 +3,7 @@
         <mat-icon>menu</mat-icon>
     </button>
     <div class="logo item" style="flex: 5; height: 100%; display:flex;">
-        <a href="https://hackpsu.org" style="height: 90%;">
+        <a href="https://admin.hackpsu.org/" style="height: 90%;">
             <img src="../assets/images/logo.svg" class="hoverable" style="height: 100%;">
         </a>
         <h1 class="example-app-name">HackPSU Admin App</h1>
@@ -13,14 +13,14 @@
     </div>
 </mat-toolbar>
 
-<mat-sidenav-container class="example-sidenav-container"
+<mat-sidenav-container class="example-sidenav-container" 
                        [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+    <mat-sidenav role="navigation" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
         <app-sidebar></app-sidebar>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content role="navigation">
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

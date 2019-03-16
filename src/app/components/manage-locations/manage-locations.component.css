@@ -1,7 +1,7 @@
-.table-container {
+.table-title-container {
   display: flex;
-  flex-direction: column;
-  min-width: 300px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mat-table {
@@ -11,6 +11,13 @@
 
 .mat-header-cell.mat-sort-header-sorted {
   color: black;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 999;
 }
 
 .h4 {
@@ -27,11 +34,10 @@
   margin-right: auto;
 }
 
-.email-filter {
-  display: block;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+.location-filter {
+  margin: 10px;
+  font-size: small;
+  flex-basis: 60%;
 }
 
 .mat-column-select {
@@ -49,20 +55,13 @@ mat-cell {
   z-index: 999;
 }
 
-.mat-card-title {
-    display: flex;
-}
-
 .card-title {
   flex: 5;
 }
 
 .context-menu {
+  margin-left: 10%;
   float: right;
-}
-
-.action-menu {
-  
 }
 
 .item-selected {

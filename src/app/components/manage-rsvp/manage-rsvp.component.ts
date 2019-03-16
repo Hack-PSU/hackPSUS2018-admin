@@ -81,7 +81,7 @@ export class ManageRsvpComponent implements OnInit, AfterViewInit {
   }
 
   onRSVPClick() {
-    this.adminService.getRSVP().subscribe((data) => {
+    this.adminService.getRSVPs().subscribe((data) => {
       this.displayedColumns = ManageRsvpComponent.regCols;
       this.dataSource.data = data;
     },                                              (error) => {

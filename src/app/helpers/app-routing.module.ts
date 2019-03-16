@@ -14,11 +14,12 @@ import { ManageLocationsComponent } from '../components/manage-locations/manage-
 import { ExtraCreditClassesComponent } from '../components/extra-credit-classes/extra-credit-classes.component';
 import { ManageEventsComponent } from '../components/manage-events/manage-events.component';
 import { VisComponent } from '../components/vis/vis.component';
-import { UserDataComponent } from '../components/user-data/user-data.component';
+import { HackerDataComponent } from '../components/hacker-data/hacker-data.component';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { ManageAdminComponent } from '../components/manage-admin/manage-admin.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { UserResolver } from './resolvers/UserResolver/user.resolver';
+import { EventStatsComponent } from '../components/event-stats/event-stats.component';
 import { PRIVILEGE_LEVEL } from '../models/privilege-model';
 
 const routes: Routes = [
@@ -31,8 +32,8 @@ const routes: Routes = [
     resolve: { UserResolver },
   },
   {
-    path: 'userdata',
-    component: UserDataComponent,
+    path: 'hackerdata',
+    component: HackerDataComponent,
     canActivate: [AuthGuard],
     data: { privilegeLevel: PRIVILEGE_LEVEL.TEAM_MEMBER },
     resolve: { UserResolver },
@@ -125,6 +126,13 @@ const routes: Routes = [
     component: VisComponent,
     canActivate: [AuthGuard],
     data: { privilegeLevel: PRIVILEGE_LEVEL.DIRECTOR },
+    resolve: { UserResolver },
+  },
+  {
+    path: 'eventstats',
+    component: EventStatsComponent,
+    canActivate: [AuthGuard],
+    data: { privilegeLevel: PRIVILEGE_LEVEL.TEAM_MEMBER },
     resolve: { UserResolver },
   },
   { path: '**', component: LoginComponent },

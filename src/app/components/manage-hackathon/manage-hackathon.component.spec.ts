@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserDataComponent } from './user-data.component';
+import { ManageHackathonComponent } from './manage-hackathon.component';
 
-describe('UserDataComponent', () => {
-  let component: UserDataComponent;
-  let fixture: ComponentFixture<UserDataComponent>;
+describe('ManageHackathonComponent', () => {
+  let component: ManageHackathonComponent;
+  let fixture: ComponentFixture<ManageHackathonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserDataComponent ]
+      declarations: [ ManageHackathonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserDataComponent);
+    fixture = TestBed.createComponent(ManageHackathonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

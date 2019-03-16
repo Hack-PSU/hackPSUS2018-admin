@@ -1,4 +1,4 @@
-export class PreRegistrationModel {
+export interface PreRegistrationModel {
 	email: string;
 	id: string;
 }
