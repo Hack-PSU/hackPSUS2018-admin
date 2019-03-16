@@ -1,51 +1,54 @@
-    <!-- LOGIN FORM -->
-    <div class="container-fluid login-container">
-        <div class="logo text-center">Login</div>
-        <!-- Main Form -->
-        <div class="row">
-            <form id="login-form" class="col s12">
-                <div class="row">
-                    <div class="login-group">
-                        <mat-form-field class="col-sm-12">
-                            <input matInput type="email"
-                                   id="lg_username" autocomplete="email" name="lg_username"
-                                   placeholder="email"
-                                   [(ngModel)]="model.email"
-                                   [formControl]="email" required>
-                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="col-sm-12">
-                            <input matInput required class="form-control" id="lg_password"
-                                   autocomplete="current-password" name="lg_password"
-                                   type="password"
-                                   placeholder="password" [(ngModel)]="model.password">
-                        </mat-form-field>
-                    </div>
-                    <button type="submit" (click)="loginEmail()" class="login-button btn">Submit<i class="fa fa-chevron-right"></i></button>
+<body>
+<!-- LOGIN FORM -->
+<div class="container login-container">
+    <div class="header-text text-center">Login</div>
+    <!-- <div class="logo text-center">Login</div> -->
+    <!-- Main Form -->
+    <div class="row">
+        <form id="login-form" class="col s12">
+            <div class="row">
+                <div class="login-group">
+                    <mat-form-field class="col-sm-12">
+                        <input matInput type="email"
+                               id="lg_username" autocomplete="email" name="lg_username"
+                               placeholder="email"
+                               [(ngModel)]="model.email"
+                               [formControl]="email" required>
+                        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-12">
+                        <input matInput required class="form-control" id="lg_password"
+                               autocomplete="current-password" name="lg_password"
+                               type="password"
+                               placeholder="password" [(ngModel)]="model.password">
+                    </mat-form-field>
                 </div>
-                <div class="etc-login-form">
-                    <p>forgot your password? <a href="#">click here</a></p>
-                </div>
-            </form>
-            <div *ngIf="errors" class="alert alert-danger">
-                {{ errors.message }}
+                <button type="submit" (click)="loginEmail()" class="login-button btn">Submit<i class="fa fa-chevron-right"></i></button>
             </div>
-        </div>
-        <!-- end:Main Form -->
-        <div class="row">
-            <div class="col-offset-2 col-8">
-                <a class="btn btn-block btn-social btn-google" (click)="login()">
-                    <span class="fa fa-google"></span> Sign in with Google
-                </a>
-                <a class="btn btn-block btn-social btn-facebook" (click)="loginFacebook()">
-                    <span class="fa fa-facebook"></span> Continue with Facebook
-                </a>
-                <a class="btn btn-block btn-social btn-github" (click)="loginGithub()">
-                    <span class="fa fa-github"></span> Sign in with Github
-                </a>
-                <a class="btn btn-block btn-social btn-email" (click)="signUp()">
-                    <span class="fa fa-envelope"></span> Sign up with email
-                </a>
+            <div class="etc-login-form">
+                <p>forgot your password? <a href="#">click here</a></p>
             </div>
+        </form>
+        <div *ngIf="errors" class="alert alert-danger">
+            {{ errors.message }}
         </div>
     </div>
+    <!-- end:Main Form -->
+    <div class="row">
+        <div class="col-offset-2 col-8">
+            <a class="btn btn-block btn-social btn-google" (click)="login()">
+                <span class="fa fa-google"></span> Sign in with Google
+            </a>
+            <a class="btn btn-block btn-social btn-facebook" (click)="loginFacebook()">
+                <span class="fa fa-facebook"></span> Continue with Facebook
+            </a>
+            <a class="btn btn-block btn-social btn-github" (click)="loginGithub()">
+                <span class="fa fa-github"></span> Sign in with Github
+            </a>
+            <a class="btn btn-block btn-social btn-email" (click)="signUp()">
+                <span class="fa fa-envelope"></span> Sign up with email
+            </a>
+        </div>
+    </div>
+</div>
+</body>

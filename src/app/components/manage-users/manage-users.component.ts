@@ -1,11 +1,14 @@
 /**
- * TODO: Add docstring explaining component
+ * Manager users components provides an interface to elevate/demote users for the application.
+ * Users are able to input an email associated to a Firebase account and change that the user role
+ * linked to that account. Users are only able to elevate a user to their current user role. 
  */
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { HttpAdminService } from '../../services/http-admin/http-admin.service';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-manage-users',
@@ -36,34 +39,41 @@ export class ManageUsersComponent implements OnInit {
   public emailControl = new FormControl('', [Validators.required, Validators.email]);
   public options: { text, value }[]; // TODO: Refactor into proper model
 
-  constructor(public adminService: HttpAdminService, public activatedRoute: ActivatedRoute) {
+  constructor(
+    public adminService: HttpAdminService,
+    public activatedRoute: ActivatedRoute,
+    public alertsService: AlertService,
+  ) {
   }
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((user) => {
       if (user) {
         this.adminService.getAdminStatus()
-            .subscribe((adminData) => {
+            .subscribe((adminData: {admin: boolean, privilege: number}) => {
               this.options = this._totalOptions.slice(0, adminData.privilege);
             },         (error) => { // TODO: Make better error handler
               console.error(error);
             });
       } else {
+        this.alertsService.danger('Error: No user!');
         console.error('NO USER');
       }
     });
   }
 
-  makeAdmin(email: string) {
+  changeUserRole(email: string) {
     if (email != null) {
-      this.adminService.getUserUID(email).subscribe((user) => {
-        console.log(user);
-        this.adminService.elevateUser(user.uid, this.level.toString())
-            .subscribe((resp) => {
+      this.adminService.getUserUID(email).subscribe((resp) => {
+        this.adminService.elevateUser(resp.uid, this.level.toString())
+            .subscribe(() => {
+              this.alertsService.success('Successfully elevated user!');
             },         (error) => {
+              this.alertsService.warning('Error: Issue with elevating user!');
               console.error(error);
             });
       },                                            (error) => {
+        this.alertsService.warning('Error: Issue with getting user UID!');
         console.error(error);
       });
     }

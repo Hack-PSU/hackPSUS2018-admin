@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AuthService, CustomErrorHandlerService } from '../services';
-import { AppConstants } from '../../helpers/AppConstants';
 import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap, take, takeUntil } from 'rxjs/operators';
+import { AppConstants } from '../../helpers/AppConstants';
 import { ApiRoute } from '../../models/ApiRoute';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { AuthService, CustomErrorHandlerService } from '../services';
 
 export abstract class BaseHttpService {
   private static readonly BASE_URL = AppConstants.API_BASE_URL;

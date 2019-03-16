@@ -32,25 +32,26 @@ export class AuthGuard implements CanActivate {
     };
     return this.httpService.getAdminStatus()
       .pipe(
-        map((adminData: { admin: boolean, privilege: Number }) => {
-          if (!adminData || !adminData.admin) {
-            this.authService.signOut()
+          map((adminData: {admin: boolean, privilege: number} ) => {
+            if (!adminData || !adminData.admin) {
+              this.authService.signOut()
               .then(() => {
                 this.progress.complete();
                 this.router.navigate([AppConstants.LOGIN_ENDPOINT]);
               });
-            return false;
-          }
-          this.progress.complete();
-          return adminData.privilege >= privilegeLevel;
-        }),
-        catchError((error) => {
-          this.errorHandler.handleHttpError(error);
-          this.authService.signOut();
-          this.router.navigate([AppConstants.LOGIN_ENDPOINT], navExtras);
-          this.progress.complete();
-          return Observable.of(false);
-        }),
+              return false;
+            }
+            this.progress.complete();
+            return adminData.privilege >= privilegeLevel;
+          }),
+          catchError((error) => {
+            console.log(error);
+            this.errorHandler.handleHttpError(error);
+            this.authService.signOut();
+            this.router.navigate([AppConstants.LOGIN_ENDPOINT], navExtras);
+            this.progress.complete();
+            return Observable.of(false);
+          }),
       );
   }
 }

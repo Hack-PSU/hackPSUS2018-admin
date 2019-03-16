@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { AddCheckoutRequestDialogComponent } from './components/item-checkout/add-checkout-request-dialog.component';
+import {
+  AddCheckoutRequestDialogComponent,
+ } from './components/item-checkout/add-checkout-request-dialog/add-checkout-request-dialog.component';
 import { ReturnCheckoutSheetComponent } from './components/item-checkout/return-checkout-sheet.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppRoutingModule } from './helpers/app-routing.module';
@@ -30,15 +32,16 @@ import { ExtraCreditClassesComponent } from './components/extra-credit-classes/e
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { VisComponent } from './components/vis/vis.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { AddEventDialogComponent } from './components/manage-events/add-event-dialog';
-import { UpdateEventDialogComponent } from './components/manage-events/update-event-dialog';
-import { AddUserClassDialogComponent } from './components/extra-credit-classes/add-user-class-dialog';
-import { AddLocationDialogComponent } from './components/manage-locations/add-location-dialog';
-import { UpdateLocationDialogComponent } from './components/manage-locations/update-location-dialog';
+import { AddEventDialogComponent } from './components/manage-events/add-event-dialog/add-event-dialog';
+import { UpdateEventDialogComponent } from './components/manage-events/update-event-dialog/update-event-dialog';
+import { AddUserClassDialogComponent } from './components/extra-credit-classes/add-user-class-dialog/add-user-class-dialog';
+import { AddLocationDialogComponent } from './components/manage-locations/add-location-dialog/add-location-dialog';
+import { UpdateLocationDialogComponent } from './components/manage-locations/update-location-dialog/update-location-dialog';
+import { RemoveLocationDialogComponent } from './components/manage-locations/remove-location-dialog/remove-location-dialog';
 import { AddEmailDialogComponent } from './components/send-email/add-email-dialog';
-import { UserDataComponent } from './components/user-data/user-data.component';
+import { HackerDataComponent } from './components/hacker-data/hacker-data.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ViewUserDataDialogComponent } from './components/user-data/view-user-data-dialog';
+import { ViewHackerDataDialogComponent } from './components/hacker-data/view-hacker-data-dialog/view-hacker-data-dialog';
 import { ManageAdminComponent } from './components/manage-admin/manage-admin.component';
 import { LocationDialogComponent } from './components/manage-admin/location-dialog';
 import { StatisticsComponent } from './components/statistics/statistics.component';
@@ -48,6 +51,8 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { UserResolver } from './helpers/resolvers/UserResolver/user.resolver';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { ItemCheckoutComponent } from './components/item-checkout/item-checkout.component';
+import { EventStatsComponent } from './components/event-stats/event-stats.component';
+import { ManageHackathonComponent } from './components/manage-hackathon/manage-hackathon.component';
 
 @NgModule({
   declarations: [
@@ -68,18 +73,21 @@ import { ItemCheckoutComponent } from './components/item-checkout/item-checkout.
     ManageLocationsComponent,
     AddLocationDialogComponent,
     UpdateLocationDialogComponent,
+    RemoveLocationDialogComponent,
     ExtraCreditClassesComponent,
     AddUserClassDialogComponent,
     AddCheckoutRequestDialogComponent,
     VisComponent,
     ReturnCheckoutSheetComponent,
-    UserDataComponent,
+    HackerDataComponent,
     DashboardComponent,
-    ViewUserDataDialogComponent,
+    ViewHackerDataDialogComponent,
     ManageAdminComponent,
     LocationDialogComponent,
     StatisticsComponent,
     ItemCheckoutComponent,
+    EventStatsComponent,
+    ManageHackathonComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,8 +106,8 @@ import { ItemCheckoutComponent } from './components/item-checkout/item-checkout.
   ],
   entryComponents: [
     AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent,
-    AddLocationDialogComponent, UpdateLocationDialogComponent,
-    ViewUserDataDialogComponent, LocationDialogComponent,
+    AddLocationDialogComponent, UpdateLocationDialogComponent, RemoveLocationDialogComponent,
+    ViewHackerDataDialogComponent, LocationDialogComponent,
     AddCheckoutRequestDialogComponent, ReturnCheckoutSheetComponent,
     UpdateEventDialogComponent,
   ],

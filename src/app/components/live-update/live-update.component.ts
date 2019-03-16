@@ -5,9 +5,9 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'ngx-alerts';
 import { LiveUpdatesService } from '../../services/live-updates/live-updates.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
 import { UpdateModel } from '../../models/update-model';
 import { HttpAdminService } from '../../services/services';
+import { IApiResponseModel } from 'app/models/api-response-model';
 
 @Component({
   selector: 'app-live-update',
@@ -15,33 +15,38 @@ import { HttpAdminService } from '../../services/services';
   providers: [LiveUpdatesService],
   styleUrls: ['./live-update.component.css'],
 })
-// TODO: Revamp to match new update model
+
 export class LiveUpdateComponent implements OnInit {
 
-  update: UpdateModel[];
-  message: string;
-  title: string;
-  push_notification = false;
+  private message: string;
+  private title: string;
+  private push_notification = false;
 
-  constructor(public httpService: HttpAdminService, private alersService: AlertService) {
+  constructor(public httpService: HttpAdminService, private alertsService: AlertService) {
     this.message = '';
     this.title = '';
   }
 
   sendMessage() {
-    this.httpService.sendLiveUpdate(this.message, this.title, this.push_notification)
-      .subscribe(() => {
-        this.message = '';
-        this.title = '';
-        this.push_notification = false;
-        this.alersService.success('Live update sent!');
-      })
+    const liveUpdate = new UpdateModel(this.message, this.title, null, this.push_notification);
+    this.httpService.sendLiveUpdate(liveUpdate)
+      .subscribe((resp: IApiResponseModel<{}>) => {
+        if (resp.status === 200) {
+          this.message = '';
+          this.title = '';
+          this.push_notification = false;
+          this.alertsService.success('Live update sent!');
+        }
+      },         (error) => {
+        console.error(error);
+        this.alertsService.danger('Error: Issue with sending live update.');
+      });
   }
 
   ngOnInit() {
   }
 
   showError(error: any) {
-    this.alersService.danger(error.toString());
+    this.alertsService.danger(error.toString());
   }
 }

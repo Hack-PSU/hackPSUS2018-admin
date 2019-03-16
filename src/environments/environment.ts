@@ -13,6 +13,6 @@ export const environment = {
     storageBucket: 'hackpsu18-staging.appspot.com',
     messagingSenderId: '614592542726',
   },
-  //apiUrl: 'http://localhost:5000/v1/',
-  apiUrl: 'https://staging-dot-hackpsu18.appspot.com/v1/',
+  apiUrl: 'http://localhost:5000/v2/',
+  // apiUrl: 'http://staging.hackpsu18.appspot.com/v2/',
 };
