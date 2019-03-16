@@ -411,18 +411,22 @@ export class HttpAdminService extends BaseHttpService {
    * @returns Array of items that are available in the ItemCheckoutModel format
    */
   getAvailableCheckoutItems(): Observable<ItemCheckoutModel[]> {
+    const queryParams = new Map<string, any>();
+    queryParams.set('ignoreCache', true);
     const apiRoute = new ApiRoute(
       'admin/checkout/items/availability',
       true,
-      null,
+      queryParams,
     );
-    return super.genericGet<{}[]>(apiRoute)
-      .pipe(
-        map(jsonArray => jsonArray.map(json => ItemCheckoutModel.parseFromJson(json))),
-      );
+    return super.genericGet<IApiResponseModel<ItemCheckoutModel[]>>(apiRoute)
+    .pipe(
+      map(response => response.body.data),
+    );
   }
 
-  addCheckoutRequest(itemId: string, userId: string) {
+  addCheckoutRequest(itemId: number, userId: string) {
+    console.log(itemId);
+    console.log(userId);
     const apiRoute = new ApiRoute(
       'admin/checkout',
       true,
@@ -431,14 +435,17 @@ export class HttpAdminService extends BaseHttpService {
   }
 
   getCurrentCheckedOutItems(): Observable<CheckoutInstanceModel[]> {
+    const queryParams = new Map<string, any>();
+    queryParams.set('ignoreCache', true);
     const apiRoute = new ApiRoute(
       'admin/checkout',
       true,
+      queryParams,
     );
-    return super.genericGet<{}[]>(apiRoute)
-      .pipe(
-        map(jsonArray => jsonArray.map(json => CheckoutInstanceModel.parseFromJson(json))),
-      );
+    return super.genericGet<IApiResponseModel<CheckoutInstanceModel[]>>(apiRoute)
+    .pipe(
+      map(response => response.body.data),
+    );
   }
 
   getEventAttendance(limit?: number): Observable<AttendanceModel[]> {

@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, QueryList } from '@angular/core';
 import {
   MatBottomSheet,
   MatDialog,
   MatPaginator,
-  MatSnackBar,
   MatSort,
   MatTableDataSource,
 } from '@angular/material';
@@ -16,8 +15,10 @@ import { ItemCheckoutModel } from '../../models/item-checkout-model';
 import { LoginResponseModel } from '../../models/deprecated-login-response-model';
 import { PRIVILEGE_LEVEL } from '../../models/privilege-model';
 import { HttpAdminService } from '../../services/services';
-import { AddCheckoutRequestDialogComponent } from './add-checkout-request-dialog.component';
+import { AddCheckoutRequestDialogComponent } from './add-checkout-request-dialog/add-checkout-request-dialog.component'
 import { ReturnCheckoutSheetComponent } from './return-checkout-sheet.component';
+import { IHackerRegistrationModel } from 'app/models/hacker-registration-model';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-item-checkout',
@@ -43,27 +44,27 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
       'button',
     ];
 
-  public dataSource: MatTableDataSource<ItemCheckoutModel>;
+  public itemDataSource: MatTableDataSource<ItemCheckoutModel>;
   public returnDataSource: MatTableDataSource<CheckoutInstanceModel>;
 
   public directorPermission: Observable<boolean>;
   public displayedColumns = ItemCheckoutComponent._regCols;
   public displayedReturnColumns = ItemCheckoutComponent._returnCols;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) table: MatSort;
-  @ViewChild(MatPaginator) returnPaginator: MatPaginator;
-  @ViewChild(MatSort) returnTable: MatSort;
+  @ViewChild('itemPaginator') itemPaginator: MatPaginator;
+  @ViewChild(MatSort) itemTableSort: MatSort;
+  @ViewChild('returnPaginator') returnPaginator: MatPaginator;
+  @ViewChild(MatSort) returnTableSort: MatSort;
 
   constructor(
     private httpService: HttpAdminService,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private matSheet: MatBottomSheet,
     private _router: Router,
+    public alertsService: AlertService,
   ) {
-    this.dataSource = new MatTableDataSource([]);
+    this.itemDataSource = new MatTableDataSource([]);
     this.returnDataSource = new MatTableDataSource<CheckoutInstanceModel>([]);
     this.directorPermission = httpService.getAdminStatus()
       .pipe(
@@ -80,11 +81,17 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
         if (user) {
           this.httpService.getAvailableCheckoutItems()
             .subscribe((items: ItemCheckoutModel[]) => {
-              this.dataSource.data = this.dataSource.data.concat(items);
+              this.itemDataSource.data = items;
+            },         (error) => {
+              console.log(error);
+              this.alertsService.danger('Error: Issue with getting the available checkout items.')
             });
           this.httpService.getCurrentCheckedOutItems()
             .subscribe((items: CheckoutInstanceModel[]) => {
               this.returnDataSource.data = items;
+            },         (error) => {
+              console.log(error);
+              this.alertsService.danger('Error: Issue with getting the current checked out items.')
             })
         } else {
           this._router.navigate([AppConstants.LOGIN_ENDPOINT]);
@@ -97,20 +104,22 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
    *
    * After the component view has been initialized, set the local data source paginiator property
    * to the new instance of pagninator. Similar effect with sort.
-   *
    */
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.table;
+    this.itemDataSource.paginator = this.itemPaginator;
+    this.itemDataSource.sort = this.itemTableSort;
 
     this.returnDataSource.paginator = this.returnPaginator;
-    this.returnDataSource.sort = this.returnTable;
+    this.returnDataSource.sort = this.returnTableSort;
   }
 
   refreshData() {
     this.httpService.getAvailableCheckoutItems()
       .subscribe((items: ItemCheckoutModel[]) => {
-        this.dataSource.data = items;
+        this.itemDataSource.data = items;
+      },         (error) => {
+        console.log(error);
+        this.alertsService.danger('Error: Issue with getting the available checkout items.')
       });
   }
 
@@ -118,6 +127,9 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
     this.httpService.getCurrentCheckedOutItems()
       .subscribe((items: CheckoutInstanceModel[]) => {
         this.returnDataSource.data = items;
+      },         (error) => {
+        console.log(error);
+        this.alertsService.danger('Error: Issue with getting the current checked out items.')
       });
   }
 
@@ -133,29 +145,27 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
     dialogRef
       .afterClosed()
       .pipe(
-        switchMap((result: string) => {
+        switchMap((result: IHackerRegistrationModel) => {
           if (result) {
-            return this.httpService.addCheckoutRequest(item.uid.toString(), result);
+            return this.httpService.addCheckoutRequest(parseInt(item.uid, 10), result.uid);
           }
           return of(null);
         }),
       )
       .subscribe(() => {
-        this.snackBar.open('success', null, {
-          duration: 2000,
-        });
+        this.refreshData();
+        this.alertsService.success('Success! The item has been checked out.');
       },         (error) => {
-        this.snackBar.open(error.body, null, {
-          duration: 2000,
-        });
+        console.error(error);
+        this.alertsService.danger('Error: There was a problem with checking out the item');
       });
   }
 
-  applyFilter(value) {
-    this.dataSource.filter = value;
+  applyItemFilter(value) {
+    this.itemDataSource.filter = value;
   }
 
-  applyEmailFilter(value: any) {
+  applyReturnFilter(value: any) {
     this.returnDataSource.filter = value;
   }
 
@@ -164,11 +174,19 @@ export class ItemCheckoutComponent implements OnInit, AfterViewInit {
       data: item,
     })
       .afterDismissed()
-      .subscribe(() => {
+      .subscribe((resp) => {
         this.refreshReturnData();
-        this.snackBar.open('success', null, {
-          duration: 2000,
-        });
+        this.alertsService.success('Success! The item has been returned.');
+      },         (error) => {
+        console.error(error);
+        this.alertsService.danger('Error: There was a problem with returning the item');
       });
+  }
+
+  formatTime(time?: string) {
+    if (time) {
+      return new Date(parseInt(time, 10)).toLocaleTimeString('nu', { month: 'short', day: 'numeric' });
+    }
+    return 'N/A';
   }
 }

@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { AddCheckoutRequestDialogComponent } from './components/item-checkout/add-checkout-request-dialog.component';
+import {
+  AddCheckoutRequestDialogComponent,
+ } from './components/item-checkout/add-checkout-request-dialog/add-checkout-request-dialog.component';
 import { ReturnCheckoutSheetComponent } from './components/item-checkout/return-checkout-sheet.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppRoutingModule } from './helpers/app-routing.module';

@@ -4,7 +4,7 @@
     min-width: 300px;
 }
 
-.email-filter {
+.item-filter, .return-filter {
     display: block;
     width: 80%;
     margin-left: auto;
@@ -27,10 +27,6 @@
 
 .context-menu {
     float: right;
-}
-
-.action-menu {
-
 }
 
 .item-selected {

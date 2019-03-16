@@ -3,9 +3,9 @@
       <!--Item checkout tab-->
       <mat-tab label="Items">
         <div class="col s12">
-          <mat-form-field class="email-filter">
-            <input matInput (keydown)="applyFilter($event.target.value)" placeholder="Search"
-                   id="email-filter">
+          <mat-form-field class="item-filter">
+            <input matInput (keydown)="applyItemFilter($event.target.value)" placeholder="Search"
+                   id="item-filter">
           </mat-form-field>
         </div>
         <mat-card-title>
@@ -31,7 +31,7 @@
           </div>
         </mat-card-title>
         <mat-card-content>
-          <mat-table #table [dataSource]="dataSource" matSort>
+          <mat-table #table [dataSource]="itemDataSource" matSort>
   
             <!--  Item Name Column -->
             <ng-container matColumnDef="item_name">
@@ -42,7 +42,7 @@
             <!-- Item availability-->
             <ng-container matColumnDef="item_availability">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Availability</mat-header-cell>
-              <mat-cell *matCellDef="let item"> {{item.availability}}</mat-cell>
+              <mat-cell *matCellDef="let item"> {{item.available}}</mat-cell>
             </ng-container>
   
             <!-- Item Quantity -->
@@ -70,14 +70,19 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
+          <mat-paginator #itemPaginator
+            [pageSize]="10"
+            [pageSizeOptions]="[10,50,100]"
+            [showFirstLastButtons]="true">
+          </mat-paginator>
           
         </mat-card-content>
       </mat-tab>
       <!--Returns tab-->
       <mat-tab label="Returns">
         <div class="col s12">
-          <mat-form-field class="email-filter">
-            <input matInput (keydown)="applyEmailFilter($event.target.value)" placeholder="Search"
+          <mat-form-field class="return-filter">
+            <input matInput (keydown)="applyReturnFilter($event.target.value)" placeholder="Search"
                    id="returns-filter">
           </mat-form-field>
         </div>
@@ -105,25 +110,25 @@
             <!--Checkout item name-->
             <ng-container matColumnDef="user_name">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Hacker </mat-header-cell>
-              <mat-cell *matCellDef="let item"> {{item.user?.name}}</mat-cell>
+              <mat-cell *matCellDef="let item"> {{item.firstname}} {{item.lastname}}</mat-cell>
             </ng-container>
   
             <!--  Item Name Column -->
             <ng-container matColumnDef="item_name">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Item Name</mat-header-cell>
-              <mat-cell *matCellDef="let item"> {{item.checkoutItem?.name}}</mat-cell>
+              <mat-cell *matCellDef="let item"> {{item.name}}</mat-cell>
             </ng-container>
   
             <!-- Checkout time -->
             <ng-container matColumnDef="checkout_time">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Check out time</mat-header-cell>
-              <mat-cell *matCellDef="let item"> {{item.checkout_time.toLocaleTimeString('nu', { month: 'short', day: 'numeric' })}}</mat-cell>
+              <mat-cell *matCellDef="let item"> {{formatTime(item.checkout_time)}}</mat-cell>
             </ng-container>
   
             <!-- Return time -->
             <ng-container matColumnDef="return_time">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Return time</mat-header-cell>
-              <mat-cell *matCellDef="let item"> {{item.return_time?.toLocaleTimeString('nu', { month: 'short', day: 'numeric' })}}</mat-cell>
+              <mat-cell *matCellDef="let item"> {{formatTime(item.return_time)}}</mat-cell>
             </ng-container>
   
             <!-- Total quantity -->

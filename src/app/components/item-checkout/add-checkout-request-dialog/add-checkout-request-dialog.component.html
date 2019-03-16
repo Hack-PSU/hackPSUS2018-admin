@@ -1,9 +1,13 @@
 <h1 mat-dialog-title>Add Checkout Request</h1>
 <div mat-dialog-content>
+    <p>Please type a User email in the form below</p>
     <mat-form-field>
         <input matInput [(ngModel)]="searchEmail" placeholder="User email" (keyup)="searchTerm$.next($event.target.value)">
     </mat-form-field>
-    <button mat-raised-button color="primary" *ngIf="searchResults | async as user" (click)="submitCheckoutRequest(result)" [mat-dialog-close]="user.uid">
+    <div *ngIf="!(searchResults | async)">
+        A button will appear here if the email corresponds to a User. Click that button to continue.
+    </div>
+    <button mat-raised-button color="primary" *ngIf="searchResults | async as user" (click)="submitCheckoutRequest(user)" [mat-dialog-close]="user.uid">
       {{user.displayName || user.uid}}
     </button>
 </div>
