@@ -1,3 +1,22 @@
-<p>
-  manage-hackathon works!
-</p>
+<div class="top-container">
+  <mat-card>
+      <mat-card-title>
+          <div class="header-text">Manage Hackathons</div>
+      </mat-card-title>
+      <mat-card-content>
+          <form (submit)="addHackathon(hackathon)">
+          <div class="form-container">
+              <div class="form-field-container">
+                  <mat-form-field appearance="outline">
+                      <input matInput [(ngModel)]="hackathon" placeholder="Hackathon Name" id="hackathon-adder"
+                              required>
+                  </mat-form-field>
+              </div>
+              <div>
+                  <button mat-raised-button color='primary' type="submit">Submit</button>
+              </div>
+          </div>
+          </form>
+      </mat-card-content>
+  </mat-card>
+</div>

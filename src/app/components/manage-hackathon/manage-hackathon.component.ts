@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertService } from 'ngx-alerts';
+
 @Component({
   selector: 'app-manage-hackathon',
   templateUrl: './manage-hackathon.component.html',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageHackathonComponent implements OnInit {
 
-  constructor() { }
+  public hackathon: string;
+
+  constructor(
+    public alertsService: AlertService,
+  ) {
+  }
 
   ngOnInit() {
   }
 
+  addHackathon(name: string) {
+    if (name != null) {
+      this.alertsService.success('You clicked the button!');
+      console.log(name);
+    }
+  }
 }
