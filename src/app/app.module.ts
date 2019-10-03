@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { CustomMaterialModule } from './helpers/custom.materials';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { LiveUpdateComponent } from './components/live-update/live-update.component';
 import { SendEmailComponent } from './components/send-email/send-email.component';
@@ -95,6 +96,8 @@ import { ManageHackathonComponent } from './components/manage-hackathon/manage-h
     AlertModule.forRoot({ maxMessages: 5, timeout: 5000 }),
     NgProgressModule.forRoot(),
     NgProgressHttpModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   entryComponents: [
     AddEmailDialogComponent, AddUserClassDialogComponent, AddEventDialogComponent,
