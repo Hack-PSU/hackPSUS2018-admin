@@ -504,4 +504,12 @@ export class HttpAdminService extends BaseHttpService {
       map(response => response.body.data),
     );
   }
+
+  addHackathon(name: string, startTime: number, endTime: number): Observable<{}> {
+    const apiRoute = new ApiRoute(
+      'admin/hackathon',
+      true,
+    );
+    return super.genericPost<IApiResponseModel<{}>>(apiRoute, { name, startTime, endTime });
+  }
 }
