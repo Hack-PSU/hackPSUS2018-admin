@@ -16,6 +16,7 @@ import { DashboardComponent } from '../components/dashboard/dashboard.component'
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { UserResolver } from './resolvers/UserResolver/user.resolver';
 import { EventStatsComponent } from '../components/event-stats/event-stats.component';
+import { ManageHackathonComponent } from 'app/components/manage-hackathon/manage-hackathon.component';
 import { PRIVILEGE_LEVEL } from '../models/privilege-model';
 
 const routes: Routes = [
@@ -101,6 +102,13 @@ const routes: Routes = [
     component: EventStatsComponent,
     canActivate: [AuthGuard],
     data: { privilegeLevel: PRIVILEGE_LEVEL.TEAM_MEMBER },
+    resolve: { UserResolver },
+  },
+  {
+    path: 'hackathons',
+    component: ManageHackathonComponent,
+    canActivate: [AuthGuard],
+    data: { privilegeLevel: PRIVILEGE_LEVEL.DIRECTOR },
     resolve: { UserResolver },
   },
   { path: '**', component: LoginComponent },

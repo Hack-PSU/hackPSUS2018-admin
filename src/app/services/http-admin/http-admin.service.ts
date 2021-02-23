@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import * as uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import 'rxjs/add/observable/throw';
 import { map } from 'rxjs/operators';
 import { AttendanceModel } from '../../models/attendance-model';
@@ -503,5 +503,13 @@ export class HttpAdminService extends BaseHttpService {
     .pipe(
       map(response => response.body.data),
     );
+  }
+
+  addHackathon(name: string, startTime: number, endTime: number): Observable<{}> {
+    const apiRoute = new ApiRoute(
+      'admin/hackathon',
+      true,
+    );
+    return super.genericPost<IApiResponseModel<{}>>(apiRoute, { name, startTime, endTime });
   }
 }
