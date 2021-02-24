@@ -1,3 +1,33 @@
-<p>
-  manage-hackathon works!
-</p>
+<div class="top-container">
+  <mat-card>
+      <mat-card-title>
+          <div class="header-text">Manage Hackathons</div>
+          <b><br>Add Hackathon</b>
+      </mat-card-title>
+      <mat-card-content>
+          <form (submit)="addHackathon(hackathon)">
+          <div class="form-container">
+              <div class="form-field-container">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="hackathon" name = "New Hackathon" placeholder="Hackathon Name" id="hackathon-adder"
+                                required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="pickerStart" placeholder="Start date" name="eventStartDate" [(ngModel)]="startDate" #eventStartDate="ngModel">
+                        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerStart></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field>
+                            <input matInput [matDatepicker]="pickerEnd" placeholder="End date" name="eventEndDate" [(ngModel)]="endDate" #eventEndDate="ngModel">
+                            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerEnd></mat-datepicker>
+                    </mat-form-field>
+              </div>
+              <div>
+                  <button mat-raised-button color='primary' type="submit">Add Hackathon</button>
+              </div>
+          </div>
+          </form>
+      </mat-card-content>
+  </mat-card>
+</div>
